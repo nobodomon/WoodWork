@@ -21,6 +21,19 @@ class LoginState extends State<Login>{
   );
   super.initState();
   }
+  bool visible = false;
+  Icon visibilityIcon = new Icon(Icons.visibility_off);
+  void toggleVisibility(){
+    setState(() {
+      if(visible){
+        visibilityIcon = new Icon(Icons.visibility);
+        visible =false;
+      }else{
+        visibilityIcon = new Icon(Icons.visibility_off);
+        visible = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +64,7 @@ class LoginState extends State<Login>{
           padding: const EdgeInsets.all(20),
           alignment: childAlignment,
           child: new Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
             margin: new EdgeInsets.all(50),
             child: new Column(
               mainAxisSize: MainAxisSize.min,
@@ -66,12 +80,27 @@ class LoginState extends State<Login>{
                     textAlign: TextAlign.justify,
                   ),
                 ),
+                new Divider(),
                 new ListTile(
                   leading: new Icon(Icons.email),
-                  title: new TextFormField()),
+                  title: new TextFormField(
+                    decoration: new InputDecoration(
+                      hintText: "E-Mail"
+                    ),
+                  )),
                 new ListTile(
                   leading: new Icon(Icons.lock),
-                  title: new TextFormField()),
+                  title: new TextFormField(
+                    decoration: new InputDecoration(
+                      hintText: "Password"
+                      
+                    ),
+                    obscureText: !visible,
+                  ),
+                  trailing: new IconButton(
+                    icon: visibilityIcon,
+                    onPressed: ()=>toggleVisibility(),
+                  )),
                 new RaisedButton(child: new Text("Submit"),onPressed: ()=> null,)
               ],
             ),
