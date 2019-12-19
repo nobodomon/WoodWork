@@ -13,6 +13,8 @@ class Login extends StatefulWidget{
 }
 
 class LoginState extends State<Login>{
+  String errorMsg = "";
+  bool errorPopped = false;
   final emailController = TextEditingController();
   Alignment childAlignment = Alignment.center;
   double topPadding = 20;
@@ -146,7 +148,27 @@ class LoginState extends State<Login>{
                           icon: visibilityIcon,
                           onPressed: ()=>toggleVisibility(),
                         )),
-                      Padding(
+                      new Visibility(
+                        visible: errorPopped,
+                        child: new ListTile(
+                          enabled: errorPopped,
+                          title: new Text(
+                            errorMsg,
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(
+                              color: Colors.red[500]
+                            )),
+                          dense: true,
+                          trailing: new IconButton(
+                            icon: Icon(Icons.highlight_off),
+                            onPressed: ()=>setState(() {
+                              errorMsg = "";
+                              errorPopped = false;
+                            }),
+                          ),
+                        ),
+                      ),
+                      new Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: new GradientButton(
                           child: new Text("Submit"),
@@ -173,6 +195,13 @@ class LoginState extends State<Login>{
                                   MaterialPageRoute(builder: (context) => ProductionHome()),
                                 );
                               }break;
+
+                              default: {
+                                setState((){
+                                  errorMsg = "Invalid Email!";
+                                  errorPopped = true;
+                                });
+                              }
                             }
                           },
                           gradient: Gradients.taitanum,),
