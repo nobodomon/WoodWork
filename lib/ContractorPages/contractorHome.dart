@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
+import 'package:woodwork/ContractorPages/callService.dart';
+import 'package:woodwork/ContractorPages/home.dart';
 import 'package:woodwork/ContractorPages/scan.dart';
 
 class ContractorHome extends StatefulWidget{
@@ -16,17 +18,14 @@ class _ContractorHomeState extends State<ContractorHome>{
    });
   }
   final List<Widget> children = [
-    new Scan("Scan"),
-    new Scan("Home"),
+    new callService(),
+    new cHome(),
     new Scan("Orders")
   ];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text("ContractorHome"),
-      ),
       body: children[_currentIndex],
       bottomNavigationBar: TitledBottomNavigationBar(
         curve: Curves.easeInOut,

@@ -181,7 +181,6 @@ class LoginState extends State<Login>{
                                   context,
                                   MaterialPageRoute(builder: (context) => AdminHome()),
                                 );
-                                print("Admin");
                               }break;
                               case "Contractor": {
                                 Navigator.push(
@@ -195,7 +194,12 @@ class LoginState extends State<Login>{
                                   MaterialPageRoute(builder: (context) => ProductionHome()),
                                 );
                               }break;
-
+                              case "Delivery": {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ContractorHome()),
+                                );
+                              }break;
                               default: {
                                 setState((){
                                   errorMsg = "Invalid Email!";
