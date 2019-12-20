@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'package:woodwork/ContractorPages/callService.dart';
 import 'package:woodwork/ContractorPages/home.dart';
-import 'package:woodwork/ContractorPages/scan.dart';
+import 'package:woodwork/ContractorPages/orders.dart';
 
 class ContractorHome extends StatefulWidget{
   @override
@@ -20,7 +20,7 @@ class _ContractorHomeState extends State<ContractorHome>{
   final List<Widget> children = [
     new callService(),
     new cHome(),
-    new Scan("Orders")
+    new Orders(),
   ];
   @override
   Widget build(BuildContext context) {

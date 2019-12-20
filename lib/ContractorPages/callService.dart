@@ -20,6 +20,7 @@ class callServiceState extends State<callService>{
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               new ListTile(
+                leading: Icon(Icons.phone, color: Colors.blueGrey[700],),
                 title: new Text("Call for service"),
               ),
               new Divider(),
@@ -52,7 +53,7 @@ class callServiceState extends State<callService>{
                                   ),
                                   new FlatButton(
                                     child: new Text("Cancel"),
-                                    onPressed: (){},
+                                    onPressed: ()=>{Navigator.of(context).pop()}
                                   )
                                 ],
                               )

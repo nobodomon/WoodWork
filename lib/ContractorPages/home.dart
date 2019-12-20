@@ -44,7 +44,6 @@ class cHomeState extends State<cHome>{
           new ExpansionTile(
             title: new Text("Orders"),
             leading: new Icon(Icons.list),
-            trailing: new Text("#"),
             children: <Widget>[
               new ListTile(
                 title: new Text("Complete Orders"),

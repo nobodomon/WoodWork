@@ -69,7 +69,6 @@ class LoginState extends State<Login>{
       body: new Stack(
         children: <Widget>[
         new Image.asset(
-              
               'assets/images/WoodGrain.jpeg',
               height: 400,
               fit: BoxFit.fill
@@ -212,7 +211,6 @@ class LoginState extends State<Login>{
                       )
                     ],
                   ),
-                  
                 ),
               ],
             ),
