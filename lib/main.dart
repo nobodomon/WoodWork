@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/login.dart';
+import 'package:woodwork/rootPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
           title: new TextStyle(color: Colors.black)
           )
       ),
-      home: new Login()
+      home: new RootPage(auth: new Auth())
     );
   }
 }

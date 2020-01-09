@@ -7,15 +7,27 @@ import 'package:woodwork/AdminPages/adminHome.dart';
 import 'package:woodwork/ContractorPages/contractorHome.dart';
 import 'package:woodwork/ProductionPages/productionHome.dart';
 
+import 'Authentication/Authentication.dart';
+import 'Authentication/UserProfile.dart';
+
 class Login extends StatefulWidget{
+  Login({this.auth, this.loginCallback});
+
+  final BaseAuth auth;
+  final VoidCallback loginCallback;
   @override
   State<StatefulWidget> createState() => LoginState();
 }
 
 class LoginState extends State<Login>{
   String errorMsg = "";
+  String _email;
+  String _password;
+  bool _isLoading;
+  final _formKey = new GlobalKey<FormState>();
   bool errorPopped = false;
   final emailController = TextEditingController();
+  final passwordController = new TextEditingController();
   Alignment childAlignment = Alignment.center;
   double topPadding = 20;
   @override
@@ -38,6 +50,44 @@ class LoginState extends State<Login>{
     emailController.dispose();
     super.dispose();
   }
+  bool validateAndSave(){
+    _email = emailController.text;
+    _password = passwordController.text;
+    if(_email != null && _password != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  void validateAndSubmit() async {
+    setState(() {
+      errorMsg = "";
+      _isLoading = true;
+    });
+    if (validateAndSave()) {
+      UserProfile user = null;
+      try {
+        user = await widget.auth.signIn(_email, _password);
+        print('Signed in: $_email');
+      
+        setState(() {
+          _isLoading = false;
+        });
+
+        if (user.fbUser.uid.length > 0 && user.fbUser.uid.length != null) {
+          widget.loginCallback();
+        }
+      } catch (e) {
+        print('Error: $e');
+        setState(() {
+          _isLoading = false;
+          errorMsg = e.message;
+          errorPopped = true;
+          _formKey.currentState.reset();
+        });
+      }
+    }
+  }
 
   bool visible = false;
   Icon visibilityIcon = new Icon(Icons.visibility);
@@ -55,17 +105,8 @@ class LoginState extends State<Login>{
   String emailInput;
   @override
   Widget build(BuildContext context) {
+    
     return new Scaffold(
-      /* appBar: new AppBar(
-        title: new GradientText(
-          "WoodWork", 
-          gradient: Gradients.taitanum,
-          style: new TextStyle(
-            color: Theme.of(context).primaryTextTheme.title.color),
-          ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ), */
       body: new Stack(
         children: <Widget>[
         new Image.asset(
@@ -115,6 +156,7 @@ class LoginState extends State<Login>{
                 ),
                 new Divider(),
                 new Form(
+                  key: _formKey,
                   child:Column(
                     children: <Widget>[
                       new ListTile(
@@ -136,6 +178,7 @@ class LoginState extends State<Login>{
                           color: Colors.blueGrey[600],
                         ),
                         title: new TextFormField(
+                          controller: passwordController,
                           decoration: new InputDecoration(
                             focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
                             hintText: "Password"
@@ -173,39 +216,7 @@ class LoginState extends State<Login>{
                           child: new Text("Submit"),
                           increaseWidthBy: double.infinity,
                           callback: (){
-
-                            switch(emailController.text){
-                              case "Admin": {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => AdminHome()),
-                                );
-                              }break;
-                              case "Contractor": {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ContractorHome()),
-                                );
-                              }break;
-                              case "Production": {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ProductionHome()),
-                                );
-                              }break;
-                              case "Delivery": {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ContractorHome()),
-                                );
-                              }break;
-                              default: {
-                                setState((){
-                                  errorMsg = "Invalid Email!";
-                                  errorPopped = true;
-                                });
-                              }
-                            }
+                            validateAndSubmit();
                           },
                           gradient: Gradients.taitanum,),
                       )

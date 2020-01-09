@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:woodwork/Authentication/Authentication.dart';
+import 'package:woodwork/Authentication/UserProfile.dart';
+import 'package:woodwork/rootPage.dart';
 
 class cHome extends StatefulWidget{
+  cHome({this.auth});
+  BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> cHomeState();
 }
@@ -9,8 +15,23 @@ class cHome extends StatefulWidget{
 class cHomeState extends State<cHome>{
   @override
   Widget build(BuildContext context) {
+    return new FutureBuilder(
+      future: Auth().getCurrentUser(),
+      builder: (BuildContext context, AsyncSnapshot<UserProfile> user){
     // TODO: implement build
-    return new Scaffold(
+      if(!user.hasData){
+        return  new Scaffold(
+          body: Center(
+            child: new Container(
+              width: 100,
+              height: 100,
+              child: CircularProgressIndicator(),
+              color: Colors.white,
+            ),
+          ),
+        );
+      }else{
+      return new Scaffold(
       body: new Column(
         children: <Widget>[
           new Stack(
@@ -39,7 +60,7 @@ class cHomeState extends State<cHome>{
           ),
           new ListTile(
             leading: new Icon(Icons.person),
-            title: new Text("Welcome" + "user"),
+            title: new Text("Welcome " + user.data.fsUser.data["Name"]),
           ),
           new ExpansionTile(
             title: new Text("Orders"),
@@ -58,5 +79,7 @@ class cHomeState extends State<cHome>{
         ],
       ),
     );
+      }
+  });
   }
 }
