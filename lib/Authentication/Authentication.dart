@@ -29,7 +29,7 @@ class Auth implements BaseAuth {
   }
 
   Future<UserProfile> signUp(String email, String password, int userType) async {
-    //Usertypes, 99 -> Admin, 1 -> Contractor, 2 -> Production, 3 -> Delivery
+    //Usertypes, 99 -> Admin, 999 -> S.Admin, 1 -> Contractor, 2 -> Production, 3 -> Delivery
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     Firestore.instance.collection(email).document().setData({'Name': email.split('@')[0]});
