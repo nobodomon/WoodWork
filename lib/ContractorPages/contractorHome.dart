@@ -16,6 +16,8 @@ class ContractorHome extends StatefulWidget{
 }
 
 class _ContractorHomeState extends State<ContractorHome>{
+  PageController pageController = new PageController(keepPage: true);
+
   @override
   void initState(){
     super.initState();
@@ -24,6 +26,7 @@ class _ContractorHomeState extends State<ContractorHome>{
   void onTabTapped(int index) {
    setState(() {
      _currentIndex = index;
+     pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.ease);
    });
   }
   final List<Widget> children = [
@@ -36,7 +39,7 @@ class _ContractorHomeState extends State<ContractorHome>{
     // TODO: implement build
     return Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.blueGrey[700],
+        backgroundColor: Colors.blueGrey[600],
         elevation: 0,
         actions: <Widget>[
           new IconButton(
@@ -45,7 +48,15 @@ class _ContractorHomeState extends State<ContractorHome>{
           )
         ],
       ),
-      body: children[_currentIndex],
+      body: new PageView(
+        controller: pageController,
+        children: children,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
       bottomNavigationBar: TitledBottomNavigationBar(
         curve: Curves.easeInOut,
         activeColor: Colors.blueGrey[700],

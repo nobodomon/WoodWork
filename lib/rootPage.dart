@@ -63,6 +63,7 @@ class RootPageState extends State<RootPage>{
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
       currUser = null;
+      widget.auth.signOut();
     });
   }
 
@@ -79,28 +80,45 @@ class RootPageState extends State<RootPage>{
         );
         break;
       case AuthStatus.LOGGED_IN:
-        if (currUser.fbUser.uid.length > 0 && currUser != null) {
-          switch(currUser.fsUser.data["Usertype"]){
-            case 1: return new ContractorHome(
-                auth: widget.auth,
-                logoutCallback: logoutCallback,
-              );
-              break;
+        return FutureBuilder(
+          future: widget.auth.getCurrentUser(),
+          builder: (BuildContext context, AsyncSnapshot<UserProfile> user){
+          if(user.hasData){
+            if (currUser.fbUser.uid.length > 0 && currUser != null) {
+              switch(currUser.fsUser.data["Usertype"]){
+                case 1: return new ContractorHome(
+                    auth: widget.auth,
+                    logoutCallback: logoutCallback,
+                  );
+                  break;
 
-            case 99: return new AdminHome(
-              );
-              break;
-            case 999: return new AdminHome(
-              );
-              break;
-            default: break;
+                case 99: return new AdminHome(
+                    auth:widget.auth,
+                    logoutCallback: logoutCallback,
+                  );
+                  break;
+                case 999: return new AdminHome(
+                    auth:widget.auth,
+                    logoutCallback: logoutCallback,
+                  );
+                  break;
+                default: {
+                  logoutCallback();
+                  return new Login(auth: widget.auth, loginCallback:  loginCallback);
+                }
+                break;
+              }
+              
+            } else{
+              return buildWaitingScreen();
+            }
+          }else{
+            return buildWaitingScreen();
           }
-          
-        } else
-          return buildWaitingScreen();
-        break;
-      default:
-        return buildWaitingScreen();
+        }
+      );
+     default: return buildWaitingScreen();
+              break;
     }
   }
   

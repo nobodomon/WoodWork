@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:woodwork/AdminPages/adminHome.dart';
@@ -79,9 +80,16 @@ class LoginState extends State<Login>{
         }
       } catch (e) {
         print('Error: $e');
+
         setState(() {
           _isLoading = false;
           errorMsg = e.message;
+          if(e.message == "There is no user record corresponding to this identifier. The user may have been deleted."){
+            errorMsg = "Email or password is incorrect. Please try again.";
+          }else if(e.message == "The password is invalid or the user does not have a password."){
+            errorMsg = "Email or password is incorrect. Please try again.";
+          }
+          
           errorPopped = true;
           _formKey.currentState.reset();
         });
@@ -192,21 +200,24 @@ class LoginState extends State<Login>{
                         )),
                       new Visibility(
                         visible: errorPopped,
-                        child: new ListTile(
-                          enabled: errorPopped,
-                          title: new Text(
-                            errorMsg,
-                            textAlign: TextAlign.center,
-                            style: new TextStyle(
-                              color: Colors.red[500]
-                            )),
-                          dense: true,
-                          trailing: new IconButton(
-                            icon: Icon(Icons.highlight_off),
-                            onPressed: ()=>setState(() {
-                              errorMsg = "";
-                              errorPopped = false;
-                            }),
+                        child: Container(
+                          color: Colors.red[500],
+                          child: new ListTile(
+                            enabled: errorPopped,
+                            title: new Text(
+                              errorMsg,
+                              textAlign: TextAlign.center,
+                              style: new TextStyle(
+                                color: Colors.black
+                              )),
+                            dense: true,
+                            trailing: new IconButton(
+                              icon: Icon(Icons.highlight_off),
+                              onPressed: ()=>setState(() {
+                                errorMsg = "";
+                                errorPopped = false;
+                              }),
+                            ),
                           ),
                         ),
                       ),
