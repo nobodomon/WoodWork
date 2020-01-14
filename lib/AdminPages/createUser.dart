@@ -17,16 +17,16 @@ class _CreateUserState extends State<CreateUser>{
   String errorMsg = "";
   bool successPopped = false;
   String successMsg = "";
-  bool visible = false;
+  bool obscureText = true;
   Icon visibilityIcon = new Icon(Icons.visibility);
   void toggleVisibility(){
     setState(() {
-      if(visible){
+      if(obscureText){
         visibilityIcon = new Icon(Icons.visibility);
-        visible =false;
+        obscureText =false;
       }else{
         visibilityIcon = new Icon(Icons.visibility_off);
-        visible = true;
+        obscureText = true;
       }
     });
   }
@@ -77,12 +77,14 @@ class _CreateUserState extends State<CreateUser>{
       visible: isLoading,
         child: new Scaffold(
           backgroundColor:Colors.black54,
-          body: new Container(
-            padding: EdgeInsets.all(15),
-            alignment: Alignment.center,
-            width: 175,
-            height: 175,
-            child: new CircularProgressIndicator(),
+          body: Center(
+            child: new Container(
+              padding: EdgeInsets.all(15),
+              alignment: Alignment.center,
+              width: 175,
+              height: 175,
+              child: new CircularProgressIndicator(),
+            ),
           )
         ),
     );
@@ -165,7 +167,7 @@ class _CreateUserState extends State<CreateUser>{
         color: Colors.blueGrey[600],
       ),
       title: new TextFormField(
-        obscureText: visible,
+        obscureText: obscureText,
         controller: passwordController,
         decoration: new InputDecoration(
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),

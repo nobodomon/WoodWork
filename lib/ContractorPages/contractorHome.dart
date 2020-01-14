@@ -44,7 +44,40 @@ class _ContractorHomeState extends State<ContractorHome>{
         actions: <Widget>[
           new IconButton(
             icon: Icon(Icons.exit_to_app),
-            onPressed: widget.logoutCallback,
+            onPressed: ()=> showDialog(
+              context: context,
+              child: Center(
+                child: Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
+                  margin: new EdgeInsets.all(75),
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new ListTile(
+                        title: new Text("Log-out"),
+                        subtitle: new Text("Are you sure you want to log out?")
+                      ),
+                      new Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          new FlatButton(
+                            child: new Text("Confirm"),
+                            onPressed: (){
+                              widget.logoutCallback();
+                              Navigator.of(context).pop();
+                            }
+                          ),
+                          new FlatButton(
+                            child: new Text("Cancel"),
+                            onPressed: ()=>{Navigator.of(context).pop()}
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            )
           )
         ],
       ),

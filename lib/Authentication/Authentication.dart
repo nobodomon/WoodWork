@@ -25,6 +25,7 @@ class Auth implements BaseAuth {
         email: email, password: password);
     FirebaseUser user = result.user;
     DocumentSnapshot fsUser = await Firestore.instance.collection("Users").document(email).get();
+    Firestore.instance.collection("Users").document(email).setData({'Last-login':DateTime.now()}, merge: true);
     return new UserProfile(fbUser: user, fsUser: fsUser);
   }
 
@@ -48,6 +49,11 @@ class Auth implements BaseAuth {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentSnapshot fsUser = await Firestore.instance.collection("Users").document(user.email).get();
     return new UserProfile(fbUser: user, fsUser: fsUser);
+  }
+
+  Future<QuerySnapshot> getAllUsers() async{
+    QuerySnapshot users = await Firestore.instance.collection("Users").getDocuments();
+    return users;
   }
 
   Future<void> signOut() async {

@@ -4,12 +4,14 @@ import 'package:woodwork/AdminPages/createUser.dart';
 import 'package:woodwork/AdminPages/home.dart';
 import 'package:woodwork/AdminPages/manageUser.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
+import 'package:woodwork/Authentication/UserProfile.dart';
 
 class AdminHome extends StatefulWidget{
-  AdminHome({this.auth, this.logoutCallback});
+  AdminHome({this.auth, this.logoutCallback, this.currUser});
   
   final BaseAuth auth;
   final VoidCallback logoutCallback;
+  UserProfile currUser;
   @override
   State<StatefulWidget> createState() => _AdminHomeState();
 
@@ -32,8 +34,8 @@ class _AdminHomeState extends State<AdminHome>{
 
   final List<Widget> children = [
     new CreateUser(auth: new Auth()),
-    new aHome(),
-    new ManageUser(),
+    new aHome(auth: new Auth()),
+    new ManageUser(auth: new Auth()),
   ];
   @override
   Widget build(BuildContext context) {
@@ -42,11 +44,45 @@ class _AdminHomeState extends State<AdminHome>{
       backgroundColor: Colors.blueGrey[700],
       appBar: new AppBar(
         backgroundColor: Colors.blueGrey[700],
+        elevation: 0,
         title: new Text("AdminHome"),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.exit_to_app),
-            onPressed: widget.logoutCallback
+            onPressed: ()=> showDialog(
+              context: context,
+              child: Center(
+                child: Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
+                  margin: new EdgeInsets.all(75),
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new ListTile(
+                        title: new Text("Log-out"),
+                        subtitle: new Text("Are you sure you want to log out?")
+                      ),
+                      new Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          new FlatButton(
+                            child: new Text("Confirm"),
+                            onPressed: (){
+                              widget.logoutCallback();
+                              Navigator.of(context).pop();
+                            }
+                          ),
+                          new FlatButton(
+                            child: new Text("Cancel"),
+                            onPressed: ()=>{Navigator.of(context).pop()}
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            )
           )
         ],
       ),

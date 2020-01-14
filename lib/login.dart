@@ -24,7 +24,7 @@ class LoginState extends State<Login>{
   String errorMsg = "";
   String _email;
   String _password;
-  bool _isLoading;
+  bool _isLoading = false;
   final _formKey = new GlobalKey<FormState>();
   bool errorPopped = false;
   final emailController = TextEditingController();
@@ -150,19 +150,20 @@ class LoginState extends State<Login>{
             child: new Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                new Padding(
-                  padding: new EdgeInsets.all(15),
-                  child: new GradientText(
-                    "Login",
-                    gradient: Gradients.taitanum,
-                    style: new TextStyle(
-                      fontSize: 21,
-                      color: Theme.of(context).primaryTextTheme.title.color
+                Container(
+                  color:Colors.blueGrey[700],
+                  child: ListTile(
+                    leading: new GradientText(
+                      "Login",
+                      gradient: Gradients.coralCandyGradient,
+                      style: new TextStyle(
+                        fontSize: 21,
+                        color: Theme.of(context).primaryTextTheme.title.color
+                      ),
+                      textAlign: TextAlign.justify,
                     ),
-                    textAlign: TextAlign.justify,
                   ),
                 ),
-                new Divider(),
                 new Form(
                   key: _formKey,
                   child:Column(
@@ -238,8 +239,27 @@ class LoginState extends State<Login>{
             ),
           ),
         ),
+        showLoading(context)
         ],
       ),
+    );
+  }
+
+  Visibility showLoading(BuildContext context){
+    return Visibility(
+      visible: _isLoading,
+        child: new Scaffold(
+          backgroundColor:Colors.black54,
+          body: Center(
+            child: new Container(
+              padding: EdgeInsets.all(15),
+              alignment: Alignment.center,
+              width: 175,
+              height: 175,
+              child: new CircularProgressIndicator(),
+            ),
+          )
+        ),
     );
   }
 }
