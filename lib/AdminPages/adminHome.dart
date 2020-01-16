@@ -35,7 +35,7 @@ class _AdminHomeState extends State<AdminHome>{
   final List<Widget> children = [
     new CreateUser(auth: new Auth()),
     new aHome(auth: new Auth()),
-    new ManageUser(auth: new Auth()),
+    new ManageUser(auth: new Auth(),),
   ];
   @override
   Widget build(BuildContext context) {

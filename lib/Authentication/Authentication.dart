@@ -51,9 +51,31 @@ class Auth implements BaseAuth {
     return new UserProfile(fbUser: user, fsUser: fsUser);
   }
 
+  void deleteUser() async{
+    String x;
+    Firestore.instance.collection("Users").document(x).delete();
+  }
+
+  Future<UserProfile> getUserByEmail(String email) async{
+    
+    DocumentSnapshot fsUser = await Firestore.instance.collection("Users").document(email).get();
+    return new UserProfile(fbUser:null, fsUser: fsUser);
+  }
+
   Future<QuerySnapshot> getAllUsers() async{
-    QuerySnapshot users = await Firestore.instance.collection("Users").getDocuments();
-    return users;
+    return getCurrentUser().then((UserProfile user){
+      return Firestore.instance.collection("Users").getDocuments().then((QuerySnapshot users){
+        switch(user.fsUser.data['Usertype']){
+          case 99: 
+                  users.documents.removeWhere((searchUser) => searchUser.data['Usertype'] == 99 || searchUser.data['Usertype'] == 999);
+                  break;
+          case 999: 
+                  users.documents.removeWhere((searchUser)=> searchUser.data['Usertype'] == 999);
+                  break;
+        }
+        return users;
+      });
+    });
   }
 
   Future<void> signOut() async {

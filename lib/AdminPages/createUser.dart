@@ -211,6 +211,7 @@ class _CreateUserState extends State<CreateUser>{
       title: new Text(userTypeInput),
       children: <Widget>[
         new Wrap(
+          spacing:15,
           runAlignment: WrapAlignment.spaceBetween,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
