@@ -15,15 +15,15 @@ class ViewUser extends StatefulWidget{
 }
 
 class ViewUserState extends State<ViewUser>{
-  String userTypeInput = "Current role is ";
+  String userTypeInput = "Please select an option from below.";
   int userTypeValue = -1;
   bool isLoading = false;
   bool successPopped = false;
   String successMsg = "";
   bool errorPopped = false;
   String errorMsg = "";
-
-
+  Color fontColor = Colors.black;
+  Color iconColor = Colors.blueGrey[700];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -32,17 +32,17 @@ class ViewUserState extends State<ViewUser>{
       builder: (BuildContext context, AsyncSnapshot<UserProfile> user){
         if(user.hasData){
           return Scaffold(
-          backgroundColor: Colors.blueGrey[700],
+          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.keyboard_arrow_down),
+              icon: Icon(Icons.keyboard_arrow_down, color: iconColor,),
               onPressed: ()=>Navigator.pop(context),
             ),
-            backgroundColor: Colors.blueGrey[700],
+            backgroundColor: Colors.transparent,
             title: Text(
               "Editing " + user.data.fsUser.data['Name'] + "'s Profile...", 
-              style: new TextStyle(color: Colors.white),
+              style: new TextStyle(color: fontColor,)
             ),
           ),
           body: Stack(
@@ -51,6 +51,7 @@ class ViewUserState extends State<ViewUser>{
               children: <Widget>[
                 showErrorMessage(context),
                 showSuccessMessage(context),
+                showLastLogin(context, user.data),
                 showUserRoleSelector(context, user.data.fsUser.data['Usertype']),
                 showConfirmChanges(context, widget.email),
               ],
@@ -76,7 +77,7 @@ class ViewUserState extends State<ViewUser>{
     return Visibility(
       visible: isLoading,
         child: new Scaffold(
-          backgroundColor:Colors.black54,
+          backgroundColor:Colors.black38,
           body: Center(
             child: new Container(
               padding: EdgeInsets.all(15),
@@ -128,12 +129,32 @@ class ViewUserState extends State<ViewUser>{
     );
   }
 
+  Widget showLastLogin(BuildContext context, UserProfile user){
+    String timestamp = user.fsUser.data['Last-login'].toString();
+    if(timestamp == "null" || timestamp.isEmpty){
+      timestamp = "has not logged in yet.";
+    }
+    return new ListTile(
+      leading: new Icon(Icons.timeline,
+        color: iconColor
+      ),
+      title: new Text("Last logged in:",
+        style: new TextStyle(
+          color: fontColor,
+        ),
+      ),
+      subtitle: new Text(timestamp),
+    );
+  }
+
   ChoiceChip showChoiceChip(BuildContext context, String roleName, int roleValue){
+    Color selectedColor = Colors.blueGrey[300];
     return new ChoiceChip(
       label: new Text(roleName),
-      selected: false,
-      selectedColor: Colors.indigo,
-      onSelected:(selected){
+      backgroundColor: selectedColor,
+      selected: userTypeValue == roleValue,
+      selectedColor: Colors.blueGrey[700],
+      onSelected:(bool selected){
         setState(() {
           userTypeInput = roleName  + " role selected";
           userTypeValue = roleValue;
@@ -172,16 +193,36 @@ class ViewUserState extends State<ViewUser>{
   }
 
   Widget showUserRoleSelector(BuildContext context, int currUserType){
-    
     // userTypeInput = "User current role is " + CommonWidgets.mapUserRoleToLongName(currUserType);
     return new ExpansionTile(
       initiallyExpanded: true,
+      onExpansionChanged: ((value){
+        setState(() {
+          
+        });
+      }),
       leading: new Icon(
         Icons.portrait,
-        color: Colors.blueGrey[600],
+        color: iconColor,
       ),
-      title: new Text(userTypeInput),
+      title: new Text(
+        "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
+        style: new TextStyle(
+          color: fontColor,
+        ),
+      ),
       children: <Widget>[
+        new ListTile(
+          title: new Text(userTypeInput,
+            style: new TextStyle(
+              color: iconColor,
+            ),
+          ),
+          leading: new Icon(
+            Icons.chevron_right,
+            color: iconColor,
+          ),
+        ),
         populateWidgets()
       ],
     );
