@@ -5,21 +5,19 @@ import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 import 'package:woodwork/ContractorPages/viewOrders.dart';
 
-class Orders extends StatefulWidget{
-
+class Orders extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new OrdersState();
-  
 }
 
-class OrdersState extends State<Orders>{
+class OrdersState extends State<Orders> {
   FirestoreAccessors _firestoreAccessors;
   bool searchVisible = false;
   TextEditingController controller = new TextEditingController();
   List<Color> currSearchGrad;
   List<List<Color>> searchGradient = [
-    [Colors.blueGrey[700],Colors.blueGrey[400]],
-    [Colors.red[700],Colors.red[400]],
+    [Colors.blueGrey[700], Colors.blueGrey[400]],
+    [Colors.red[700], Colors.red[400]],
   ];
   String filter = "";
 
@@ -27,36 +25,38 @@ class OrdersState extends State<Orders>{
   void initState() {
     super.initState();
     _firestoreAccessors = new FirestoreAccessors();
-    controller.addListener((){
+    controller.addListener(() {
       setState(() {
         currSearchGrad = searchGradient[0];
         filter = controller.text;
       });
     });
   }
+
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     controller.dispose();
   }
 
-  
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return new StreamBuilder(
       stream: _firestoreAccessors.getAllOrders().asStream(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders){
-        if(orders.hasData){
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders) {
+        if (orders.hasData) {
           return Scaffold(
             floatingActionButton: new Container(
               child: new IconButton(
                 icon: new Icon(Icons.search, color: Colors.white),
-                onPressed: ()=>setState(() {
-                  if(searchVisible){
+                onPressed: () => setState(() {
+                  if (searchVisible) {
                     searchVisible = false;
+                    filter = "";
+                    controller.clear();
                     currSearchGrad = searchGradient[0];
-                  }else{
+                  } else {
                     searchVisible = true;
                     currSearchGrad = searchGradient[1];
                   }
@@ -65,13 +65,11 @@ class OrdersState extends State<Orders>{
               width: 45,
               height: 45,
               decoration: new BoxDecoration(
+                color: Colors.blueGrey[700],
                 shape: BoxShape.circle,
                 boxShadow: [
                   new BoxShadow(
-                    color: Colors.black87,
-                    spreadRadius: 0.75,
-                    blurRadius: 1
-                  )
+                      color: Colors.black87, spreadRadius: 0.75, blurRadius: 1)
                 ],
               ),
             ),
@@ -80,30 +78,33 @@ class OrdersState extends State<Orders>{
                 showSearchBar(context),
                 Expanded(
                   child: new ListView.builder(
-                    itemCount: orders.data.documents.length,
-                    itemBuilder: (context, index) {
-                      OrderModel currOrder = OrderModel.toObject(orders.data.documents[index].documentID, orders.data.documents[index].data);
-                      if(filter == null || filter.isEmpty){
-                        return showOrderTile(currOrder);
-                      }else if(currOrder.orderID.toLowerCase().contains(filter.toLowerCase())){
-                        return showOrderTile(currOrder);
-                      }else{
-                        return Container();
-                      }
-                    }
-                  ),
+                      itemCount: orders.data.documents.length,
+                      itemBuilder: (context, index) {
+                        OrderModel currOrder = OrderModel.toObject(
+                            orders.data.documents[index].documentID,
+                            orders.data.documents[index].data);
+                        if (filter == null || filter.isEmpty) {
+                          return showOrderTile(currOrder);
+                        } else if (currOrder.orderID
+                            .toLowerCase()
+                            .contains(filter.toLowerCase())) {
+                          return showOrderTile(currOrder);
+                        } else {
+                          return Container();
+                        }
+                      }),
                 ),
               ],
             ),
           );
-        }else{
+        } else {
           return CommonWidgets.pageLoadingScreen(context);
         }
       },
     );
   }
 
-  Visibility showSearchBar(BuildContext context){
+  Visibility showSearchBar(BuildContext context) {
     return new Visibility(
       visible: searchVisible,
       child: Container(
@@ -111,12 +112,13 @@ class OrdersState extends State<Orders>{
         color: Colors.white,
         child: ListTile(
           title: new TextFormField(
-            autofocus: true,
+            autofocus: searchVisible,
             controller: controller,
             decoration: new InputDecoration(
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
-              hintText: "Search..."
-            ),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+                hintText: "Search..."),
           ),
           leading: new Icon(Icons.search),
         ),
@@ -124,20 +126,20 @@ class OrdersState extends State<Orders>{
     );
   }
 
-  Widget showOrderTile(OrderModel order){
+  Widget showOrderTile(OrderModel order) {
     return new Container(
       child: new ListTile(
         title: new Text("ID: " + order.orderID),
         subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0]),
         trailing: new IconButton(
           icon: Icon(Icons.chevron_right),
-          onPressed: ()=> Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ViewOrder(order.orderID)
-            )
-          ),
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ViewOrder(order.orderID))),
         ),
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ViewOrder(order.orderID))),
       ),
     );
   }
