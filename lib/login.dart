@@ -147,12 +147,11 @@ class LoginState extends State<Login>{
                 Container(
                   color:Colors.blueGrey[700],
                   child: ListTile(
-                    title: new GradientText(
+                    title: Text(
                       "Login",
-                      gradient: Gradients.coralCandyGradient,
                       style: new TextStyle(
                         fontSize: 21,
-                        color: Theme.of(context).primaryTextTheme.title.color
+                        color: Colors.white,
                       ),
                       textAlign: TextAlign.justify,
                     ),
