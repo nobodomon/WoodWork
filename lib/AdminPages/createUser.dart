@@ -52,16 +52,18 @@ class _CreateUserState extends State<CreateUser>{
       body: Stack(
         children: <Widget>[
           new Container(
+            
             color: Colors.transparent,
             padding: EdgeInsets.all(15),
             child: new Form(
               key: _formKey,
-              child: new Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: children,
+              child: new SingleChildScrollView(
+                child: new Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: children
+                  ),
                 ),
               ),
             ),

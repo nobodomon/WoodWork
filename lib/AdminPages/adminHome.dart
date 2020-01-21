@@ -45,7 +45,7 @@ class _AdminHomeState extends State<AdminHome>{
       appBar: new AppBar(
         backgroundColor: Colors.blueGrey[700],
         elevation: 0,
-        title: new Text("AdminHome"),
+        title: new Text("AdminHome", style: new TextStyle(color: Colors.white),),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.exit_to_app),

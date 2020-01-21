@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:woodwork/AdminPages/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
+import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 import 'package:woodwork/rootPage.dart';
 
 class cHome extends StatefulWidget{
@@ -13,6 +16,14 @@ class cHome extends StatefulWidget{
 
 
 class cHomeState extends State<cHome>{
+  FirestoreAccessors _firestoreAccessors;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _firestoreAccessors = new FirestoreAccessors();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -20,16 +31,7 @@ class cHomeState extends State<cHome>{
       builder: (BuildContext context, AsyncSnapshot<UserProfile> user){
     // TODO: implement build
       if(!user.hasData){
-        return  new Scaffold(
-          body: Center(
-            child: new Container(
-              width: 100,
-              height: 100,
-              child: CircularProgressIndicator(),
-              color: Colors.white,
-            ),
-          ),
-        );
+        return CommonWidgets.pageLoadingScreen(context);
       }else{
       return new Scaffold(
       body: new Column(
@@ -62,24 +64,37 @@ class cHomeState extends State<cHome>{
             leading: new Icon(Icons.person),
             title: new Text("Welcome " + user.data.fsUser.data["Name"]),
           ),
-          new ExpansionTile(
-            title: new Text("Orders"),
-            leading: new Icon(Icons.list),
-            children: <Widget>[
-              new ListTile(
-                title: new Text("Complete Orders"),
-                trailing: new Text("#"),
-              ),
-              new ListTile(
-                title: new Text("Incomplete Orders"),
-                trailing: new Text("#"),
-              )
-            ],
-          )
+          ordersOverView(),
         ],
       ),
     );
       }
   });
+  }
+
+  Widget ordersOverView(){
+    return FutureBuilder(
+      future: _firestoreAccessors.getOverViewNumbers(),
+      builder: (BuildContext context, AsyncSnapshot<List<int>> numbers){
+        if(numbers.hasData){
+          return new ExpansionTile(
+            title: new Text(numbers.data[2].toString() + " Orders"),
+            leading: new Icon(Icons.list),
+            children: <Widget>[
+              new ListTile(
+                title: new Text("Complete Orders"),
+                trailing: new Text(numbers.data[0].toString()),
+              ),
+              new ListTile(
+                title: new Text("Incomplete Orders"),
+                trailing: new Text(numbers.data[1].toString()),
+              )
+            ],
+          );
+        }else{
+          return LinearProgressIndicator();
+        }
+      },
+    );
   }
 }

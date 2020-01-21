@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CommonWidgets{
@@ -34,5 +35,11 @@ class CommonWidgets{
         break;
     }
     return userTypeLong;
+  }
+
+  static String timeStampToString(Timestamp input){
+    DateTime d = input.toDate();
+    String formattedDateTime = d.day.toString() + "/" + d.month.toString()+ "/" + d.year.toString() + "@" + d.hour.toString() + ":" + d.minute.toString();
+    return formattedDateTime;
   }
 }

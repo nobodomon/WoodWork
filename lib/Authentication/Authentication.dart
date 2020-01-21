@@ -51,6 +51,11 @@ class Auth implements BaseAuth {
     return new UserProfile(fbUser: user, fsUser: fsUser);
   }
 
+  Future<FirebaseUser> getFireBaseCurrentuser() async{
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    return user;
+  }
+
   void deleteUser() async{
     String x;
     Firestore.instance.collection("Users").document(x).delete();
