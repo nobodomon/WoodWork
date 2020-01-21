@@ -11,7 +11,7 @@ class AdminHome extends StatefulWidget{
   
   final BaseAuth auth;
   final VoidCallback logoutCallback;
-  UserProfile currUser;
+  final UserProfile currUser;
   @override
   State<StatefulWidget> createState() => _AdminHomeState();
 
@@ -34,12 +34,11 @@ class _AdminHomeState extends State<AdminHome>{
 
   final List<Widget> children = [
     new CreateUser(auth: new Auth()),
-    new aHome(auth: new Auth()),
+    new AHome(auth: new Auth()),
     new ManageUser(auth: new Auth(),),
   ];
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.blueGrey[700],
       appBar: new AppBar(

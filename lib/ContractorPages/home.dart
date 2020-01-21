@@ -1,25 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_widgets/gradient_widgets.dart';
-import 'package:woodwork/AdminPages/DataAccessors/firestoreAccessors.dart';
+import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
-import 'package:woodwork/rootPage.dart';
 
-class cHome extends StatefulWidget{
-  cHome({this.auth});
-  BaseAuth auth;
+class CHome extends StatefulWidget{
+  CHome({this.auth});
+  final BaseAuth auth;
   @override
-  State<StatefulWidget> createState()=> cHomeState();
+  State<StatefulWidget> createState()=> CHomeState();
 }
 
 
-class cHomeState extends State<cHome>{
+class CHomeState extends State<CHome>{
   FirestoreAccessors _firestoreAccessors;
   @override
   void initState() {
-    // TODO: implement initState
     _firestoreAccessors = new FirestoreAccessors();
     super.initState();
   }
@@ -29,7 +25,6 @@ class cHomeState extends State<cHome>{
     return new FutureBuilder(
       future: Auth().getCurrentUser(),
       builder: (BuildContext context, AsyncSnapshot<UserProfile> user){
-    // TODO: implement build
       if(!user.hasData){
         return CommonWidgets.pageLoadingScreen(context);
       }else{

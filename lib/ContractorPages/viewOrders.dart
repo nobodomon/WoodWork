@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:woodwork/AdminPages/DataAccessors/OrderModel.dart';
-import 'package:woodwork/AdminPages/DataAccessors/firestoreAccessors.dart';
+import 'package:woodwork/DataAccessors/OrderModel.dart';
+import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class ViewOrder extends StatefulWidget{
   ViewOrder(this.orderID);
-  String orderID;
+  final String orderID;
   @override
   State<StatefulWidget> createState ()=> new ViewOrderState();
 }
@@ -15,7 +15,6 @@ class ViewOrderState extends State<ViewOrder>{
   FirestoreAccessors _firestoreAccessors;
   @override
   void initState() {
-    // TODO: implement initState
     _firestoreAccessors = new FirestoreAccessors();
     super.initState();
   }
@@ -23,7 +22,6 @@ class ViewOrderState extends State<ViewOrder>{
   OrderModel viewingOrder;
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new FutureBuilder(
       future: _firestoreAccessors.getOrderByID(widget.orderID),
       builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> orderchit){
@@ -85,11 +83,11 @@ class ViewOrderState extends State<ViewOrder>{
     }else{
       date = order.lastUpdated;
     }
-    title = OrderModel.convertOrderStatusToReadableString(order.status) + " on " + order.orderPlaced.split('@')[0];
+    title = OrderModel.convertOrderStatusToReadableString(order.status) + " on " + date.split('@')[0];
     return new Container(
       child: new ListTile(
         title: new Text(title),
-        subtitle: new Text("at " + order.orderPlaced.split('@')[1]),
+        subtitle: new Text("at " + date.split('@')[1]),
       ),
     );
   }

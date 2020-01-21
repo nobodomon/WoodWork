@@ -10,8 +10,8 @@ class ViewUser extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState()=> new ViewUserState();
-  String email;
-  int userType;
+  final String email;
+  final int userType;
 }
 
 class ViewUserState extends State<ViewUser>{
@@ -26,7 +26,6 @@ class ViewUserState extends State<ViewUser>{
   Color iconColor = Colors.blueGrey[700];
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return FutureBuilder(
       future: Auth().getUserByEmail(widget.email),
       builder: (BuildContext context, AsyncSnapshot<UserProfile> user){

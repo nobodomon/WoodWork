@@ -31,14 +31,13 @@ class Auth implements BaseAuth {
 
   Future<AuthResult> signUp(String email, String password, String adminPassword, int userType) async {
     //Usertypes, 99 -> Admin, 999 -> S.Admin, 1 -> Contractor, 2 -> Production, 3 -> Delivery
-  
     return getCurrentUser().then((UserProfile x){
       return _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password).then((AuthResult y){
           return Firestore.instance.collection("Users").document(email).setData({'Name': email.split('@')[0], 'Usertype': userType}).then((z){
             _firebaseAuth.signOut();
             return _firebaseAuth.signInWithEmailAndPassword(email: x.fbUser.email,password: adminPassword).then((AuthResult a){
-              
+              return a;
             });
           });
         });

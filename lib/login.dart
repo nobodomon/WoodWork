@@ -1,13 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
-import 'package:woodwork/AdminPages/adminHome.dart';
-import 'package:woodwork/ContractorPages/contractorHome.dart';
-import 'package:woodwork/ProductionPages/productionHome.dart';
-
 import 'Authentication/Authentication.dart';
 import 'Authentication/UserProfile.dart';
 
@@ -66,7 +60,7 @@ class LoginState extends State<Login>{
       _isLoading = true;
     });
     if (validateAndSave()) {
-      UserProfile user = null;
+      UserProfile user;
       try {
         user = await widget.auth.signIn(_email, _password);
         print('Signed in: $_email');

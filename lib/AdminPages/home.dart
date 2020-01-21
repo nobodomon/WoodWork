@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 
-class aHome extends StatefulWidget{
-  aHome({this.auth,});
-  BaseAuth auth;
+class AHome extends StatefulWidget{
+  AHome({this.auth,});
+  final BaseAuth auth;
   @override
-  State<StatefulWidget> createState()=> aHomeState();
+  State<StatefulWidget> createState()=> AHomeState();
 
 }
 
-class aHomeState extends State<aHome>{
+class AHomeState extends State<AHome>{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new FutureBuilder(
       future: widget.auth.getCurrentUser(),
       builder: (BuildContext context,AsyncSnapshot<UserProfile> user){

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:woodwork/AdminPages/DataAccessors/OrderModel.dart';
-import 'package:woodwork/AdminPages/DataAccessors/firestoreAccessors.dart';
+import 'package:woodwork/DataAccessors/OrderModel.dart';
+import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 import 'package:woodwork/ContractorPages/viewOrders.dart';
 
@@ -25,7 +25,6 @@ class OrdersState extends State<Orders>{
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _firestoreAccessors = new FirestoreAccessors();
     controller.addListener((){
@@ -45,7 +44,6 @@ class OrdersState extends State<Orders>{
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new StreamBuilder(
       stream: _firestoreAccessors.getAllOrders().asStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders){

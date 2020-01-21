@@ -1,22 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:titled_navigation_bar/titled_navigation_bar.dart';
-import 'package:woodwork/AdminPages/searchUser.dart';
 import 'package:woodwork/AdminPages/viewUser.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class ManageUser extends StatefulWidget {
-  ManageUser({this.auth});
-  Auth auth;
-  UserProfile currUser;
+  ManageUser({this.auth, this.currUser});
+  final Auth auth;
+  final UserProfile currUser;
   @override
   State<StatefulWidget> createState() => new _ManageUserState();
 }
 
 class _ManageUserState extends State<ManageUser> {
-  int _currentIndex = 0;
   bool searchVisible = false;
   TextEditingController controller = new TextEditingController();
   List<Color> currSearchGrad;
@@ -44,7 +41,6 @@ class _ManageUserState extends State<ManageUser> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement buildsetState(() {
       return new StreamBuilder(
       stream: widget.auth.getAllUsers().asStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> users) {

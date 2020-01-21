@@ -6,7 +6,7 @@ import 'package:woodwork/Authentication/UserProfile.dart';
 
 class CreateUser extends StatefulWidget{
   CreateUser({this.auth});
-  BaseAuth auth;
+  final BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> _CreateUserState();
 }
@@ -156,6 +156,8 @@ class _CreateUserState extends State<CreateUser>{
         validator: (value){
           if(value == null|| value.isEmpty){
             return "E-mail is empty";
+          }else{
+            return value;
           }
         },
       )
@@ -178,6 +180,8 @@ class _CreateUserState extends State<CreateUser>{
         validator: (value){
           if(value == null|| value.isEmpty){
             return "Admin password is empty!";
+          }else{
+            return value;
           }
         },
       ),

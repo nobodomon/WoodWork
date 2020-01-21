@@ -30,13 +30,12 @@ class _ContractorHomeState extends State<ContractorHome>{
    });
   }
   final List<Widget> children = [
-    new callService(),
-    new cHome(auth: new Auth()),
+    new CallService(),
+    new CHome(auth: new Auth()),
     new Orders(),
   ];
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.blueGrey[600],
