@@ -20,7 +20,6 @@ class ManualInputState extends State<ManualInput>{
   ScrollController _scrollController; 
   FirestoreAccessors _firestoreAccessors;
   String filter = "";
-  bool isExpanded;
   bool isLoading = false;
   bool isValid = false;
 
@@ -43,11 +42,6 @@ class ManualInputState extends State<ManualInput>{
     orderIDController.addListener((){
       setState(() {
         filter = orderIDController.text;
-        if(filter == "" || filter.isEmpty || filter == null){
-          isExpanded = false;
-        }else{
-          isExpanded = true;
-        }
       });
     });
     _firestoreAccessors = new FirestoreAccessors();
@@ -120,7 +114,7 @@ class ManualInputState extends State<ManualInput>{
 
   Widget showOrderIDInputField(){
     return new ExpansionTile(
-      initiallyExpanded: isExpanded,
+      initiallyExpanded: true,
       leading: new Icon(
         Icons.search,
         color: widget.accentFontColor,
@@ -139,6 +133,7 @@ class ManualInputState extends State<ManualInput>{
           }
         },
       ),
+      trailing: new Container(width: 0,height: 0,),
       children: <Widget>[
         populateQuickSearchResult(),
       ],
@@ -207,9 +202,9 @@ class ManualInputState extends State<ManualInput>{
       onTap: (){
         setState(() {
           orderIDController.text = orderID;
-          isExpanded = false;
         });
       },
+
     );
   }
 
