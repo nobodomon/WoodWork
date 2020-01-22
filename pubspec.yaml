@@ -26,7 +26,9 @@ dependencies:
   firebase_database: ^3.0.7
   cloud_firestore: 0.13.0+1
   email_validator: ^1.0.4
-  
+  qr_flutter:
+  qr_mobile_vision: ^0.3.1
+
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.

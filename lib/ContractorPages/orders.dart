@@ -45,7 +45,7 @@ class OrdersState extends State<Orders>{
   @override
   Widget build(BuildContext context) {
     return new StreamBuilder(
-      stream: _firestoreAccessors.getAllOrders().asStream(),
+      stream: _firestoreAccessors.getAllOrdersForCurrUser().asStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders){
         if(orders.hasData){
           return Scaffold(
