@@ -47,6 +47,7 @@ class ViewOrderState extends State<ViewOrder>{
             ),
             body: new ListView(
               children: <Widget>[
+                showOrderPlaced(viewingOrder),
                 showDates(viewingOrder),
                 showOrderStatusTile(viewingOrder),
               ],
@@ -74,7 +75,16 @@ class ViewOrderState extends State<ViewOrder>{
       ),
     );
   }
-  
+
+  Widget showOrderPlaced(OrderModel order){
+    return new Container(
+      child: new ListTile(
+        title: new Text("Order placed by: "),
+        subtitle: new Text(order.orderedBy),
+      ),
+    );
+  }
+
   Widget showDates(OrderModel order){
     String title;
     String date;

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum statusType{
   order_Placed,
   order_Recieved,
@@ -61,6 +63,45 @@ class OrderModel{
                             break;
       default:  return null;
                 break;
+    }
+  }
+
+  static Icon convertOrderStatusToIcon(int orderStatus, Color accentColor){
+    
+    switch(statusType.values[orderStatus]){
+      case statusType.order_Placed :  return Icon(
+        Icons.playlist_add_check,
+        semanticLabel: "Order Placed",
+        color: accentColor,
+      );
+        break;
+      case statusType.order_Recieved:  return Icon(
+        Icons.receipt,
+        semanticLabel: "Order Recieved",
+        color: accentColor,);
+        break;
+      case  statusType.order_Picked_Up:  return Icon(
+        Icons.local_shipping,
+        semanticLabel: "Order Picked up",
+        color: accentColor,);
+        break;
+      case statusType.order_Processing:  return Icon(
+        Icons.gavel,
+        semanticLabel: "Order Processing",
+        color: accentColor,);
+        break;
+      case statusType.order_Delivering:  return Icon(
+        Icons.local_shipping,
+        semanticLabel: "Order Delivering",
+        color: accentColor,);
+        break;
+      case statusType.order_Complete:  return Icon(
+        Icons.check,
+        semanticLabel: "Order Complete",
+        color: accentColor,);
+        break;
+      default:  return null;
+        break;
     }
   }
 }

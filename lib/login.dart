@@ -134,8 +134,6 @@ class LoginState extends State<Login>{
           duration: Duration(
             milliseconds: 300,
           ),
-          width: double.infinity,
-          height: double.infinity,
           padding: EdgeInsets.fromLTRB(20,topPadding,20,20),
           alignment: childAlignment,
           child: new Card(
@@ -144,16 +142,14 @@ class LoginState extends State<Login>{
             child: new Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Container(
+                new Container(
                   color:Colors.blueGrey[700],
                   child: ListTile(
                     title: Text(
                       "Login",
                       style: new TextStyle(
-                        fontSize: 21,
                         color: Colors.white,
                       ),
-                      textAlign: TextAlign.justify,
                     ),
                   ),
                 ),

@@ -129,6 +129,8 @@ class OrdersState extends State<Orders> {
   Widget showOrderTile(OrderModel order) {
     return new Container(
       child: new ListTile(
+        dense: true,
+        leading: OrderModel.convertOrderStatusToIcon(order.status, Colors.blueGrey[700]),
         title: new Text("ID: " + order.orderID),
         subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0]),
         trailing: new IconButton(

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
+import 'package:woodwork/ContractorPages/viewOrders.dart';
 import 'package:woodwork/DataAccessors/OrderModel.dart';
 import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 
@@ -19,7 +20,7 @@ class ManualInputState extends State<ManualInput>{
   ScrollController _scrollController; 
   FirestoreAccessors _firestoreAccessors;
   String filter = "";
-  bool isExpanded = true;
+  bool isExpanded;
   bool isLoading = false;
   bool isValid = false;
 
@@ -42,6 +43,11 @@ class ManualInputState extends State<ManualInput>{
     orderIDController.addListener((){
       setState(() {
         filter = orderIDController.text;
+        if(filter == "" || filter.isEmpty || filter == null){
+          isExpanded = false;
+        }else{
+          isExpanded = true;
+        }
       });
     });
     _firestoreAccessors = new FirestoreAccessors();
@@ -183,8 +189,21 @@ class ManualInputState extends State<ManualInput>{
 
   Widget quickSearchTileResult(String orderID){
     return new ListTile(
-      title: new Text(orderID),
+      title: new Text(
+        orderID,
+        style: new TextStyle(
+          color: widget.accentFontColor, 
+        )
+      ),
       dense: true,
+      trailing: new IconButton(
+        icon: Icon(
+          Icons.chevron_right,
+          color: widget.accentFontColor,
+        ),
+        onPressed: ()=> Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ViewOrder(orderID))),
+      ),
       onTap: (){
         setState(() {
           orderIDController.text = orderID;
@@ -240,7 +259,7 @@ class ManualInputState extends State<ManualInput>{
   Future<UpdateResult> validateAndSubmit(String orderID, int index){
     return validateAndSave(orderID).then((UpdateResult result){
       if(result.pass){
-        if(int.parse(result.remarks) == 1){
+        if(int.parse(result.remarks) == 2){
           return _firestoreAccessors.updateOrderStatus(orderIDController.text, statusType.order_Processing.index);
         }else{
           return new UpdateResult(pass: false, remarks: "Invalid operation, order has already been processed!"); 
