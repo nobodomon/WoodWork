@@ -5,6 +5,7 @@ import 'package:woodwork/AdminPages/home.dart';
 import 'package:woodwork/AdminPages/manageUser.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
+import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class AdminHome extends StatefulWidget{
   AdminHome({this.auth, this.logoutCallback, this.currUser});
@@ -50,37 +51,7 @@ class _AdminHomeState extends State<AdminHome>{
             icon: new Icon(Icons.exit_to_app),
             onPressed: ()=> showDialog(
               context: context,
-              child: Center(
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
-                  margin: new EdgeInsets.all(75),
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new ListTile(
-                        title: new Text("Log-out"),
-                        subtitle: new Text("Are you sure you want to log out?")
-                      ),
-                      new Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          new FlatButton(
-                            child: new Text("Confirm"),
-                            onPressed: (){
-                              widget.logoutCallback();
-                              Navigator.of(context).pop();
-                            }
-                          ),
-                          new FlatButton(
-                            child: new Text("Cancel"),
-                            onPressed: ()=>{Navigator.of(context).pop()}
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              )
+              child: CommonWidgets.logoutDialog(context, widget.logoutCallback),
             )
           )
         ],

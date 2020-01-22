@@ -19,7 +19,19 @@ class FirestoreAccessors {
     });
   }
 
-  Future<QuerySnapshot> getAllOrders() async {
+  
+  Future<QuerySnapshot> getAllOrdersForProduction() async {
+    return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
+      return _fStoreInstance
+          .collection("Orders")
+          .getDocuments().then((QuerySnapshot orders){
+            orders.documents.retainWhere((searchItems) => searchItems.data['orderStatus'] == statusType.order_Picked_Up.index);
+            return orders;
+          });
+    });
+  }
+
+  Future<QuerySnapshot> getAllOrdersForCurrUser() async {
     return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
       return _fStoreInstance
           .collection("Orders")
@@ -52,7 +64,7 @@ class FirestoreAccessors {
     int total;
     int complete;
     int incomplete;
-    return getAllOrders().then((QuerySnapshot orders) {
+    return getAllOrdersForCurrUser().then((QuerySnapshot orders) {
       total = orders.documents.length;
       orders.documents.retainWhere((items) =>
           items.data['orderStatus'] == statusType.order_Complete.index);

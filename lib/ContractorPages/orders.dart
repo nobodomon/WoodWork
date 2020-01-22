@@ -43,9 +43,9 @@ class OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     return new StreamBuilder(
-      stream: _firestoreAccessors.getAllOrders().asStream(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders) {
-        if (orders.hasData) {
+      stream: _firestoreAccessors.getAllOrdersForCurrUser().asStream(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders){
+        if(orders.hasData){
           return Scaffold(
             floatingActionButton: new Container(
               child: new IconButton(

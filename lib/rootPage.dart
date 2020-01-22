@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:woodwork/AdminPages/adminHome.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/ContractorPages/contractorHome.dart';
+import 'package:woodwork/ProductionPages/productionHome.dart';
 import 'package:woodwork/login.dart';
 import 'Authentication/Authentication.dart';
 
@@ -91,7 +92,11 @@ class RootPageState extends State<RootPage>{
                     logoutCallback: logoutCallback,
                   );
                   break;
-
+                case 2: return new ProductionHome(
+                    auth: widget.auth,
+                    logoutCallback: logoutCallback,
+                  );
+                        break;
                 case 99: return new AdminHome(
                     auth:widget.auth,
                     logoutCallback: logoutCallback,

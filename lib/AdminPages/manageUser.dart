@@ -51,8 +51,6 @@ class _ManageUserState extends State<ManageUser> {
                 icon: new Icon(Icons.search, color: Colors.white),
                 onPressed: () => setState(() {
                   if (searchVisible) {
-                    filter = "";
-                    controller.clear();
                     searchVisible = false;
                     currSearchGrad = searchGradient[0];
                   } else {
@@ -179,8 +177,11 @@ class _ManageUserState extends State<ManageUser> {
       String userTypeLong, Color userColor, List<Color> userAvatarColor) {
     return Container(
       margin: EdgeInsets.fromLTRB(4.5, 2.25, 4.5, 2.25),
-      color: userColor,
+      decoration: new BoxDecoration(
+          color: Colors.white,
+          border: new Border.all(color: userColor, width: 1.5)),
       child: ListTile(
+        dense: true,
         leading: new Container(
           alignment: Alignment.center,
           width: 45,
@@ -202,7 +203,10 @@ class _ManageUserState extends State<ManageUser> {
         title: new Text(name),
         subtitle: new Text(userTypeLong),
         trailing: new IconButton(
-            icon: Icon(Icons.chevron_right),
+            icon: Icon(
+              Icons.chevron_right,
+              color: userColor,
+            ),
             onPressed: () {
               Navigator.push(
                   context,
@@ -214,10 +218,8 @@ class _ManageUserState extends State<ManageUser> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ViewUser(
-                        email: email,
-                        userType: userType,
-                      )));
+                  builder: (context) =>
+                      ViewUser(email: email, userType: userType)));
         },
       ),
     );

@@ -42,4 +42,38 @@ class CommonWidgets{
     String formattedDateTime = d.day.toString() + "/" + d.month.toString()+ "/" + d.year.toString() + "@" + d.hour.toString() + ":" + d.minute.toString();
     return formattedDateTime;
   }
+
+  static Widget logoutDialog(BuildContext context, VoidCallback logoutCallback){
+    return Center(
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
+        margin: new EdgeInsets.all(75),
+        child: new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            new ListTile(
+              title: new Text("Log-out"),
+              subtitle: new Text("Are you sure you want to log out?")
+            ),
+            new Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                new FlatButton(
+                  child: new Text("Confirm"),
+                  onPressed: (){
+                    logoutCallback();
+                    Navigator.of(context).pop();
+                  }
+                ),
+                new FlatButton(
+                  child: new Text("Cancel"),
+                  onPressed: ()=>{Navigator.of(context).pop()}
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
