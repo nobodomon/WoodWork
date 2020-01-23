@@ -63,7 +63,7 @@ class _ProductionHomeState extends State<ProductionHome>{
         children: <Widget>[
           Scan(fontColor: fontColor, accentFontColor: accentFontColor, accentColor: accentColor,),
           PHome(),
-          IncomingOrders()
+          IncomingOrders(fontColor: fontColor, accentFontColor: accentFontColor, accentColor: accentColor,)
         ],
         onPageChanged: (index) {
           setState(() {

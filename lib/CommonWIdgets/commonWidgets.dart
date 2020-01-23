@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:woodwork/ContractorPages/viewOrders.dart';
+import 'package:woodwork/DataAccessors/OrderModel.dart';
 
 class CommonWidgets{
   
@@ -76,4 +79,63 @@ class CommonWidgets{
       ),
     );
   }
+
+  static Widget showOrderTile(BuildContext context,OrderModel order,bool isProductionAndItemJustPlaced, {int operationToDo}) {
+    int op = operationToDo;
+    if(operationToDo == null){
+      op = -1;
+    }
+    return new Container(
+      child: new ListTile(
+        dense: true,
+        leading: OrderModel.convertOrderStatusToIcon(
+            order.status, Colors.blueGrey[700]),
+        title: new Text("ID: " + order.orderID),
+        subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0]),
+        trailing: new IconButton(
+          icon: Icon(Icons.chevron_right),
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ViewOrder(order.orderID, isProductionAndItemJustPlaced, operationToDo:  op,))),
+        ),
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ViewOrder(order.orderID,isProductionAndItemJustPlaced, operationToDo:  op,)),
+      ),
+    ));
+  }
+
+  static QrImage generateQR(String orderID, int operation){
+    String embedCode = orderID + "," + operation.toString();
+    return QrImage(
+      data: embedCode,
+
+    );
+  }
+
+  static ParseResult parseQRinput(String input){
+    List<String> parsed = input.split(',');
+    if(parsed.length == 2){
+      try{
+        int.parse(parsed[1]);
+        
+        return new ParseResult(true, "Parse successful", values: parsed);
+      }catch(e){
+        return new ParseResult(false, "Incorrect QR Code");
+      }
+    }else{
+      return new ParseResult(false, "Incorrect QR Code");
+    }
+  }
+
 }
+
+class ParseResult{
+  ParseResult(this.pass,this.remarks,{this.values});
+  bool pass;
+  String remarks;
+  List<String> values;
+}
+
+
+

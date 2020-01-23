@@ -19,6 +19,13 @@ class FirestoreAccessors {
     });
   }
 
+  Future<QuerySnapshot> getAllOrders() async {
+    return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
+      return _fStoreInstance
+          .collection("Orders")
+          .getDocuments();
+    });
+  }
   
   Future<QuerySnapshot> getAllOrdersForProduction() async {
     return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {

@@ -197,7 +197,7 @@ class ManualInputState extends State<ManualInput>{
           color: widget.accentFontColor,
         ),
         onPressed: ()=> Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ViewOrder(orderID))),
+            MaterialPageRoute(builder: (context) => ViewOrder(orderID,false))),
       ),
       onTap: (){
         setState(() {
@@ -251,13 +251,13 @@ class ManualInputState extends State<ManualInput>{
     }
   }
 
-  Future<UpdateResult> validateAndSubmit(String orderID, int index){
+  Future<UpdateResult> validateAndSubmit(String orderID, int operation){
     return validateAndSave(orderID).then((UpdateResult result){
       if(result.pass){
-        if(int.parse(result.remarks) == 2){
-          return _firestoreAccessors.updateOrderStatus(orderIDController.text, statusType.order_Processing.index);
+        if(operation - int.parse(result.remarks) == 1){
+          return _firestoreAccessors.updateOrderStatus(orderID, operation);
         }else{
-          return new UpdateResult(pass: false, remarks: "Invalid operation, order has already been processed!"); 
+          return new UpdateResult(pass: false, remarks: "Invalid operation!"); 
         }
       }else{
         return new UpdateResult(pass: false, remarks: "No such order number!");

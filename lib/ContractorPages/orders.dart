@@ -84,11 +84,11 @@ class OrdersState extends State<Orders> {
                             orders.data.documents[index].documentID,
                             orders.data.documents[index].data);
                         if (filter == null || filter.isEmpty) {
-                          return showOrderTile(currOrder);
+                          return CommonWidgets.showOrderTile(context,currOrder,false);
                         } else if (currOrder.orderID
                             .toLowerCase()
                             .contains(filter.toLowerCase())) {
-                          return showOrderTile(currOrder);
+                          return CommonWidgets.showOrderTile(context,currOrder,false);
                         } else {
                           return Container();
                         }
@@ -122,26 +122,6 @@ class OrdersState extends State<Orders> {
           ),
           leading: new Icon(Icons.search),
         ),
-      ),
-    );
-  }
-
-  Widget showOrderTile(OrderModel order) {
-    return new Container(
-      child: new ListTile(
-        dense: true,
-        leading: OrderModel.convertOrderStatusToIcon(order.status, Colors.blueGrey[700]),
-        title: new Text("ID: " + order.orderID),
-        subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0]),
-        trailing: new IconButton(
-          icon: Icon(Icons.chevron_right),
-          onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ViewOrder(order.orderID))),
-        ),
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ViewOrder(order.orderID))),
       ),
     );
   }

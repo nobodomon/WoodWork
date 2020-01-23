@@ -5,28 +5,22 @@ import 'package:woodwork/DataAccessors/OrderModel.dart';
 import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
-class ViewOrder extends StatefulWidget{
-  ViewOrder(this.orderID, this.isProduction, {this.operationToDo});
+class QRViewOrder extends StatefulWidget{
+  QRViewOrder(this.orderID, this.isProduction, );
   final String orderID;
   final bool isProduction;
-  int operationToDo;
   @override
-  State<StatefulWidget> createState ()=> new ViewOrderState();
+  State<StatefulWidget> createState ()=> new QRViewOrderState();
 }
 
-class ViewOrderState extends State<ViewOrder>{
+class QRViewOrderState extends State<QRViewOrder>{
   FirestoreAccessors _firestoreAccessors;
   @override
   void initState() {
     _firestoreAccessors = new FirestoreAccessors();
-    if(widget.operationToDo == null){
-      setState(() {
-        widget.operationToDo = -1;
-      });
-    }
     super.initState();
   }
-  bool isLoading= false;
+  bool isLoading;
   Color accentColor = Colors.blueGrey[700];
   
   bool successPopped = false;
@@ -68,17 +62,14 @@ class ViewOrderState extends State<ViewOrder>{
                     showOrderPlaced(viewingOrder),
                     showDates(viewingOrder),
                     showOrderStatusTile(viewingOrder),
-                    orderActionButton(context),
+                    orderProcessingButton(context),
                   ],
                 ),
-                showLoading(context),
+                showLoading(context)
               ],
             ),
           );
-        }else if(orderchit.data == null){ 
-          return CommonWidgets.pageLoadingScreen(context);
-        }else{
-          
+        }else{ 
           return CommonWidgets.pageLoadingScreen(context);
         }
       },
@@ -171,50 +162,34 @@ class ViewOrderState extends State<ViewOrder>{
       ),
     );
   }
-  
-  Widget orderActionButton(BuildContext context){
-    int operation;
-    String buttonLabel;
-    if(widget.isProduction && widget.operationToDo - viewingOrder.status == 1){
-      switch(widget.operationToDo){
-        case 1: operation = statusType.order_Recieved.index;
-                buttonLabel = "Recieve Order";
-                break;
-        case 3: operation = statusType.order_Processing.index;
-                buttonLabel = "Process Order";
-                break;
-        default: operation = -1;
-                buttonLabel = "";
-      }
-      if(operation == -1){
-        return new Container();
-      }else{
-        return new Container(
-          padding: EdgeInsets.all(15),
-          child: new GradientButton(
-            increaseWidthBy: double.infinity,
-            gradient: Gradients.taitanum,
-            child: new Text(buttonLabel),
-            callback: () async{
+
+  Widget orderProcessingButton(BuildContext context){
+    if(widget.isProduction && viewingOrder.status == 2){
+      return new Container(
+        padding: EdgeInsets.all(15),
+        child: new GradientButton(
+          increaseWidthBy: double.infinity,
+          gradient: Gradients.taitanum,
+          child: new Text("Process Order"),
+          callback: () async{
+            setState(() {
+              isLoading = true;
+            });
+            validateProcessAndSubmit(viewingOrder.orderID, statusType.order_Processing.index).then((UpdateResult result){
               setState(() {
-                isLoading = true;
+                isLoading = false;
+                if(result.pass){
+                  successPopped = true;
+                  successMsg = result.remarks;
+                }else{
+                  errorPopped = true;
+                  errorMsg = result.remarks;
+                }
               });
-              validateAndSubmit(viewingOrder.orderID, operation).then((UpdateResult result){
-                setState(() {
-                  isLoading = false;
-                  if(result.pass){
-                    successPopped = true;
-                    successMsg = result.remarks;
-                  }else{
-                    errorPopped = true;
-                    errorMsg = result.remarks;
-                  }
-                });
-              });
-            },
-          ),
-        );
-      }
+            });
+          },
+        ),
+      );
     }else{
       return Container();
     }
@@ -234,13 +209,13 @@ class ViewOrderState extends State<ViewOrder>{
     }
   }
 
-  Future<UpdateResult> validateAndSubmit(String orderID, int operation){
+  Future<UpdateResult> validateProcessAndSubmit(String orderID, int index){
     return validateAndSave(orderID).then((UpdateResult result){
       if(result.pass){
-        if(operation - int.parse(result.remarks) == 1){
-          return _firestoreAccessors.updateOrderStatus(viewingOrder.orderID, operation);
+        if(int.parse(result.remarks) == statusType.order_Picked_Up.index){
+          return _firestoreAccessors.updateOrderStatus(viewingOrder.orderID, index);
         }else{
-          return new UpdateResult(pass: false, remarks: "Invalid operation!"); 
+          return new UpdateResult(pass: false, remarks: "Invalid operation, order has already been processed!"); 
         }
       }else{
         return new UpdateResult(pass: false, remarks: "No such order number!");

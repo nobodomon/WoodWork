@@ -25,28 +25,24 @@ class ScanState extends State<Scan> with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: widget.accentColor,
-
-        bottom: new TabBar(
-          labelColor: widget.fontColor,
-          indicatorColor: widget.fontColor,
-          controller: _tabController,
-          isScrollable: true,
-          tabs: <Widget>[
-            new Tab(
-              text: "Scan QR",
-            ),
-            new Tab(
-              text: "Manual Input"
-            ),
-          ],
-        )
+      appBar: new TabBar(
+        labelColor: widget.accentFontColor,
+        indicatorColor: widget.accentFontColor,
+        controller: _tabController,
+        isScrollable: true,
+        tabs: <Widget>[
+          new Tab(
+            text: "Scan QR",
+          ),
+          new Tab(
+            text: "Manual Input"
+          ),
+        ],
       ),
       body: new TabBarView(
         controller: _tabController,
         children: <Widget>[
-          new QrScanner(),
+          new QrScanner(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor),
           new ManualInput(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor)
         ],
       ),
