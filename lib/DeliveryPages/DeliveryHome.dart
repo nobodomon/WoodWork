@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
-import 'package:woodwork/AdminPages/createUser.dart';
-import 'package:woodwork/AdminPages/home.dart';
-import 'package:woodwork/AdminPages/manageUser.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
-import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
+import 'package:woodwork/DeliveryPages/DeliverPage.dart';
+import 'package:woodwork/DeliveryPages/PickupPage.dart';
 
-class AdminHome extends StatefulWidget{
-  AdminHome({this.auth, this.logoutCallback, this.currUser, this.fontColor,this.accentFontColor, this.accentColor});
+class DeliveryHome extends StatefulWidget{
+  DeliveryHome({this.auth,this.logoutCallback, this.fontColor,this.accentFontColor, this.accentColor});
+  final Auth auth;
+  final VoidCallback logoutCallback;
   final Color accentFontColor;
   final Color accentColor;
   final Color fontColor;
-  final BaseAuth auth;
-  final VoidCallback logoutCallback;
-  final UserProfile currUser;
+
   @override
-  State<StatefulWidget> createState() => _AdminHomeState();
+  State<StatefulWidget> createState() => _DeliveryHomeState();
 
 }
 
-class _AdminHomeState extends State<AdminHome>{
+class _DeliveryHomeState extends State<DeliveryHome>{
   PageController pageController = new PageController(keepPage: true);
   @override
   void initState(){
@@ -35,22 +33,20 @@ class _AdminHomeState extends State<AdminHome>{
    });
   }
 
-  final List<Widget> children = [
-    new CreateUser(auth: new Auth()),
-    new AHome(auth: new Auth()),
-    new ManageUser(auth: new Auth(),),
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: widget.accentColor,
       appBar: new AppBar(
         backgroundColor: widget.accentColor,
         elevation: 0,
-        title: new Text("AdminHome", style: new TextStyle(color: widget.fontColor),),
+        title: new Text("DeliveryHome",
+        style: new TextStyle(
+          color: widget.fontColor
+        ),),
         actions: <Widget>[
           new IconButton(
-            icon: new Icon(Icons.exit_to_app),
+            icon: Icon(Icons.exit_to_app),
             onPressed: ()=> showDialog(
               context: context,
               child: CommonWidgets.logoutDialog(context, widget.logoutCallback),
@@ -58,27 +54,29 @@ class _AdminHomeState extends State<AdminHome>{
           )
         ],
       ),
-      body: PageView(
+      body: new PageView(
         controller: pageController,
-        children: children,
+        children: <Widget>[
+          PickUpPage(fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,),
+          DeliverPage(fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,)
+        ],
         onPageChanged: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
       ),
-      bottomNavigationBar: TitledBottomNavigationBar(
+      bottomNavigationBar: new TitledBottomNavigationBar(
         curve: Curves.easeInOut,
-        activeColor: widget.accentColor,
+        activeColor: Colors.blueGrey[700],
         currentIndex: _currentIndex,
+        items: [
+          TitledNavigationBarItem(title: "Pick-Up", icon: Icons.camera),
+          TitledNavigationBarItem(title: "Deliver", icon: Icons.camera),
+        ],
         onTap: (index){
           onTabTapped(index);
         },
-        items: [
-          TitledNavigationBarItem(title: "Add User", icon: Icons.person_add),
-          TitledNavigationBarItem(title: "Home", icon: Icons.home),
-          TitledNavigationBarItem(title: "Manage Users", icon: Icons.subject),
-        ],
       ),
     );
   }

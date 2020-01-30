@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:woodwork/ContractorPages/callService.dart';
 import 'package:woodwork/ProductionPages/QRPage/ManualInput.dart';
 import 'package:woodwork/ProductionPages/QRPage/QrScanner.dart';
 
-class Scan extends StatefulWidget{
-  Scan({this.fontColor, this.accentFontColor, this.accentColor});
+class ServicePage extends StatefulWidget{
+  ServicePage({this.fontColor, this.accentFontColor, this.accentColor});
   final Color fontColor;
   final Color accentFontColor;
   final Color accentColor;
   @override
-  State<StatefulWidget> createState() => ScanState();
+  State<StatefulWidget> createState()=> ServicePageState();
 }
+
+class ServicePageState extends State<ServicePage> with SingleTickerProviderStateMixin{
   
-class ScanState extends State<Scan> with SingleTickerProviderStateMixin{
   int currIndex = 0;
 
   TabController _tabController;
-
+  
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this);
-    print(widget.fontColor.toString());
+    _tabController = new TabController(length: 3, vsync: this);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return new Scaffold(
       appBar: new TabBar(
         labelColor: widget.accentFontColor,
@@ -32,7 +34,10 @@ class ScanState extends State<Scan> with SingleTickerProviderStateMixin{
         isScrollable: true,
         tabs: <Widget>[
           new Tab(
-            text: "Scan QR",
+            text: "Call service",
+          ),
+          new Tab(
+            text: "QR Scanner"
           ),
           new Tab(
             text: "Manual Input"
@@ -42,10 +47,12 @@ class ScanState extends State<Scan> with SingleTickerProviderStateMixin{
       body: new TabBarView(
         controller: _tabController,
         children: <Widget>[
+          new CallService(),
           new QrScanner(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, pickup: false,),
-          new ManualInput(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, pickup:  false, recieve: false,)
+          new ManualInput(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, pickup: false,)
         ],
       ),
     );
   }
+
 }

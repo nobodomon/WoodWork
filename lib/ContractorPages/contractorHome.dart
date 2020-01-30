@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
-import 'package:woodwork/ContractorPages/callService.dart';
+import 'package:woodwork/ContractorPages/ServicePage.dart';
 import 'package:woodwork/ContractorPages/home.dart';
 import 'package:woodwork/ContractorPages/orders.dart';
 
 class ContractorHome extends StatefulWidget{
-  ContractorHome({this.auth, this.logoutCallback});
-
+  ContractorHome({this.auth, this.logoutCallback, this.fontColor,this.accentFontColor, this.accentColor});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final BaseAuth auth;
   final VoidCallback logoutCallback;
   @override
@@ -30,16 +32,13 @@ class _ContractorHomeState extends State<ContractorHome>{
      pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.ease);
    });
   }
-  final List<Widget> children = [
-    new CallService(),
-    new CHome(auth: new Auth()),
-    new Orders(),
-  ];
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.blueGrey[600],
+        backgroundColor: widget.accentColor,
         elevation: 0,
         actions: <Widget>[
           new IconButton(
@@ -53,7 +52,11 @@ class _ContractorHomeState extends State<ContractorHome>{
       ),
       body: new PageView(
         controller: pageController,
-        children: children,
+        children: <Widget>[
+          new ServicePage(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor),
+          new CHome(auth: new Auth()),
+          new Orders(),
+        ],
         onPageChanged: (index) {
           setState(() {
             _currentIndex = index;
@@ -62,7 +65,7 @@ class _ContractorHomeState extends State<ContractorHome>{
       ),
       bottomNavigationBar: TitledBottomNavigationBar(
         curve: Curves.easeInOut,
-        activeColor: Colors.blueGrey[700],
+        activeColor: widget.accentColor,
         currentIndex: _currentIndex,
         onTap: (index){
           onTabTapped(index);

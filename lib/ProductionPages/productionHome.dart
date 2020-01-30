@@ -7,7 +7,10 @@ import 'package:woodwork/ProductionPages/Scan.dart';
 import 'package:woodwork/ProductionPages/incomingOrders.dart';
 
 class ProductionHome extends StatefulWidget{
-  ProductionHome({this.auth,this.logoutCallback});
+  ProductionHome({this.auth,this.logoutCallback, this.fontColor,this.accentFontColor, this.accentColor});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final Auth auth;
   final VoidCallback logoutCallback;
   @override

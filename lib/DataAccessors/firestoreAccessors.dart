@@ -7,11 +7,11 @@ import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 class FirestoreAccessors {
   final _fStoreInstance = Firestore.instance;
 
-  Future<DocumentReference> createOrder() async {
+  Future<void> createOrder() async {
     String timeNow = CommonWidgets.timeStampToString(Timestamp.now());
-
+    String orderID = CommonWidgets.createOrderID(Timestamp.now());
     return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
-      return _fStoreInstance.collection("Orders").add({
+      return _fStoreInstance.collection("Orders").document(orderID).setData({
         'orderedBy': user.email,
         'orderStatus': statusType.order_Placed.index,
         'orderPlaced': timeNow
@@ -27,12 +27,56 @@ class FirestoreAccessors {
     });
   }
   
+  Future<QuerySnapshot> getAllOrdersForRecieve() async {
+    return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
+      return _fStoreInstance
+          .collection("Orders")
+          .getDocuments().then((QuerySnapshot orders){
+            orders.documents.retainWhere((searchItems) => searchItems.data['orderStatus'] == statusType.order_Placed.index);
+            return orders;
+          });
+    });
+  }
+
+  Future<QuerySnapshot> getAllOrdersForPickUp() async {
+    return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
+      return _fStoreInstance
+          .collection("Orders")
+          .getDocuments().then((QuerySnapshot orders){
+            orders.documents.retainWhere((searchItems) => searchItems.data['orderStatus'] == statusType.order_Recieved.index);
+            return orders;
+          });
+    });
+  }
+  
   Future<QuerySnapshot> getAllOrdersForProduction() async {
     return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
       return _fStoreInstance
           .collection("Orders")
           .getDocuments().then((QuerySnapshot orders){
             orders.documents.retainWhere((searchItems) => searchItems.data['orderStatus'] == statusType.order_Picked_Up.index);
+            return orders;
+          });
+    });
+  }
+  
+  Future<QuerySnapshot> getAllOrdersForDelivery() async {
+    return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
+      return _fStoreInstance
+          .collection("Orders")
+          .getDocuments().then((QuerySnapshot orders){
+            orders.documents.retainWhere((searchItems) => searchItems.data['orderStatus'] == statusType.order_Processing.index);
+            return orders;
+          });
+    });
+  }
+
+  Future<QuerySnapshot> getAllOrdersForCompletion() async {
+    return Auth().getFireBaseCurrentuser().then((FirebaseUser user) {
+      return _fStoreInstance
+          .collection("Orders")
+          .getDocuments().then((QuerySnapshot orders){
+            orders.documents.retainWhere((searchItems) => searchItems.data['orderStatus'] == statusType.order_Delivering.index);
             return orders;
           });
     });

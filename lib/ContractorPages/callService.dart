@@ -69,7 +69,7 @@ class CallServiceState extends State<CallService>{
                                             isLoading = true;
                                           });
                                           Navigator.of(context).pop();
-                                          _firestoreAccessors.createOrder().then((DocumentReference ref){
+                                          _firestoreAccessors.createOrder().then((x){
                                             setState(() {
                                               isLoading = false;
                                             });

@@ -68,7 +68,7 @@ class ViewOrderState extends State<ViewOrder>{
                     showOrderPlaced(viewingOrder),
                     showDates(viewingOrder),
                     showOrderStatusTile(viewingOrder),
-                    orderActionButton(context),
+                    orderActionButton(context, viewingOrder),
                   ],
                 ),
                 showLoading(context),
@@ -172,16 +172,25 @@ class ViewOrderState extends State<ViewOrder>{
     );
   }
   
-  Widget orderActionButton(BuildContext context){
+  Widget orderActionButton(BuildContext context, OrderModel order){
     int operation;
     String buttonLabel;
-    if(widget.isProduction && widget.operationToDo - viewingOrder.status == 1){
+    if(widget.operationToDo - order.status == 1){
       switch(widget.operationToDo){
         case 1: operation = statusType.order_Recieved.index;
                 buttonLabel = "Recieve Order";
                 break;
+        case 2: operation = statusType.order_Picked_Up.index;
+                buttonLabel = "Pick up Order";
+                break;
         case 3: operation = statusType.order_Processing.index;
                 buttonLabel = "Process Order";
+                break;
+        case 4: operation = statusType.order_Delivering.index;
+                buttonLabel = "Deliver Order";
+                break;
+        case 5: operation = statusType.order_Complete.index;
+                buttonLabel = "Confirm recieve Order";
                 break;
         default: operation = -1;
                 buttonLabel = "";

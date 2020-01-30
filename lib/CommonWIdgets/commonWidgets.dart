@@ -46,6 +46,32 @@ class CommonWidgets{
     return formattedDateTime;
   }
 
+  static String createOrderID(Timestamp input){
+    DateTime d = input.toDate();
+    String day = d.day.toString();
+    if(day.length == 1){
+      day = "0" + day;
+    }
+    String month = d.month.toString();
+    if(month.length == 1){
+      month = "0" + month;
+    }
+    String hour = d.hour.toString();
+    if(hour.length == 1){
+      hour = "0" + hour;
+    }
+    String minute = d.minute.toString();
+    if(minute.length == 1){
+      minute = "0" + minute;
+    }
+    String second = d.second.toString();
+    if(second.length == 1){
+      second = "0" + second;
+    }
+    String orderID = "WW" + day + month + d.year.toString() + hour + minute + second;
+    return orderID;
+  }
+
   static Widget logoutDialog(BuildContext context, VoidCallback logoutCallback){
     return Center(
       child: Card(
@@ -114,17 +140,18 @@ class CommonWidgets{
   }
 
   static ParseResult parseQRinput(String input){
-    List<String> parsed = input.split(',');
-    if(parsed.length == 2){
-      try{
-        int.parse(parsed[1]);
-        
-        return new ParseResult(true, "Parse successful", values: parsed);
-      }catch(e){
-        return new ParseResult(false, "Incorrect QR Code");
+    if(input.length == 16){
+      if(input.substring(0,2) == 'WW'){
+        if(int.parse(input.substring(2)).isNaN == false){
+          return new ParseResult(true, "Input successfully parsed",values: input);
+        }else{
+          return new ParseResult(false, "Invalid QR Code");
+        }
+      }else{
+        return new ParseResult(false, "Invalid QR Code");
       }
     }else{
-      return new ParseResult(false, "Incorrect QR Code");
+      return new ParseResult(false, "Invalid QR Code");
     }
   }
 
@@ -134,7 +161,7 @@ class ParseResult{
   ParseResult(this.pass,this.remarks,{this.values});
   bool pass;
   String remarks;
-  List<String> values;
+  String values;
 }
 
 

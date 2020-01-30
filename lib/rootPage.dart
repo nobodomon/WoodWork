@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:woodwork/AdminPages/adminHome.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/ContractorPages/contractorHome.dart';
+import 'package:woodwork/DeliveryPages/DeliveryHome.dart';
 import 'package:woodwork/ProductionPages/productionHome.dart';
 import 'package:woodwork/login.dart';
 import 'Authentication/Authentication.dart';
@@ -14,7 +15,7 @@ enum AuthStatus {
 
 class RootPage extends StatefulWidget{
   RootPage({this.auth});
-
+  
   final BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> new RootPageState();
@@ -22,12 +23,18 @@ class RootPage extends StatefulWidget{
 
 class RootPageState extends State<RootPage>{
   
-  AuthStatus authStatus = AuthStatus.NOT_LOGGED_IN;
+  AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   UserProfile currUser;
 
+  Color accentFontColor;
+  Color accentColor;
+  Color fontColor;
   @override
   void initState() {
     super.initState();
+    fontColor = Colors.white;
+    accentColor = Colors.blueGrey[700];
+    accentFontColor = Colors.blueGrey[700];
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
@@ -90,21 +97,42 @@ class RootPageState extends State<RootPage>{
                 case 1: return new ContractorHome(
                     auth: widget.auth,
                     logoutCallback: logoutCallback,
+                    fontColor: fontColor,
+                    accentFontColor: accentFontColor,
+                    accentColor: accentColor
                   );
                   break;
                 case 2: return new ProductionHome(
                     auth: widget.auth,
                     logoutCallback: logoutCallback,
+                    fontColor: fontColor,
+                    accentFontColor: accentFontColor,
+                    accentColor: accentColor
+                  );
+                        break;
+                
+                case 3: return new DeliveryHome(
+                    auth: widget.auth,
+                    logoutCallback: logoutCallback,
+                    fontColor: fontColor,
+                    accentFontColor: accentFontColor,
+                    accentColor: accentColor
                   );
                         break;
                 case 99: return new AdminHome(
                     auth:widget.auth,
                     logoutCallback: logoutCallback,
+                    fontColor: fontColor,
+                    accentFontColor: accentFontColor,
+                    accentColor: accentColor
                   );
                   break;
                 case 999: return new AdminHome(
                     auth:widget.auth,
                     logoutCallback: logoutCallback,
+                    fontColor: fontColor,
+                    accentFontColor: accentFontColor,
+                    accentColor: accentColor
                   );
                   break;
                 default: {
