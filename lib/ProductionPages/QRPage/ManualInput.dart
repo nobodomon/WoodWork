@@ -5,7 +5,6 @@ import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 import 'package:woodwork/ContractorPages/viewOrders.dart';
-import 'package:woodwork/DataAccessors/OrderModel.dart';
 import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 
 class ManualInput extends StatefulWidget {

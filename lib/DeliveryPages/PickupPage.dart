@@ -26,7 +26,6 @@ class PickUpPageState extends State<PickUpPage> with SingleTickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new Scaffold(
       appBar: new TabBar(
         labelColor: widget.accentFontColor,

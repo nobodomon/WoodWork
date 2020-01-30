@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:woodwork/DataAccessors/OrderModel.dart';
 import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
-import 'package:woodwork/ContractorPages/viewOrders.dart';
 
 class Orders extends StatefulWidget {
   @override

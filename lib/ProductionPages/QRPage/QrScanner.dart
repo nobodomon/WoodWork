@@ -5,9 +5,6 @@ import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 import 'package:woodwork/ContractorPages/viewOrders.dart';
-import 'package:woodwork/DataAccessors/OrderModel.dart';
-
-import 'QRViewOrders.dart';
 
 class QrScanner extends StatefulWidget {
   QrScanner({this.fontColor, this.accentFontColor, this.accentColor, this.pickup});
