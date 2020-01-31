@@ -5,7 +5,10 @@ import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class CHome extends StatefulWidget{
-  CHome({this.auth});
+  CHome({this.auth, this.accentFontColor, this.accentColor, this.fontColor});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> CHomeState();
@@ -35,19 +38,19 @@ class CHomeState extends State<CHome>{
             alignment: Alignment.bottomCenter,
             children: <Widget>[
               new Container(
-                color: Colors.blueGrey[700],
+                color: widget.accentColor,
                 height: 400,
               ),
               new Container(
                   alignment: Alignment.bottomCenter,
-                  color: Colors.blueGrey[900],
+                  color: widget.accentColor,
                   height: 50,
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: new Text(
                       "Contractor's Home",
                       style: new TextStyle(
-                        color: Colors.white,
+                        color: widget.fontColor,
                         fontSize: 24
                       ),
                     ),

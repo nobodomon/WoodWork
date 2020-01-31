@@ -122,7 +122,7 @@ class ManualInputState extends State<ManualInput> {
         decoration: new InputDecoration(
             focusedBorder: UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+                    BorderSide(color: widget.accentColor, width: 2.0)),
             hintText: "OrderID..."),
         validator: (value) {
           if (value == null || value.isEmpty) {

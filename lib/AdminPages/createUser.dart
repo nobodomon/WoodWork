@@ -5,7 +5,11 @@ import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 
 class CreateUser extends StatefulWidget{
-  CreateUser({this.auth});
+  CreateUser({this.auth, this.accentFontColor, this.accentColor, this.fontColor});
+  
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> _CreateUserState();
@@ -93,11 +97,11 @@ class _CreateUserState extends State<CreateUser>{
   }
   Container showTitleBar(BuildContext context){
     return Container(
-      color: Colors.blueGrey[900],
+      color: widget.accentColor,
       child: new ListTile(
         title: new Text("Create new user",
         style: new TextStyle(
-          color: Colors.white
+          color: widget.fontColor
         )),
       ),
     );
@@ -144,13 +148,13 @@ class _CreateUserState extends State<CreateUser>{
     return new ListTile(
       leading: new Icon(
         Icons.email,
-        color: Colors.blueGrey[600],
+        color: widget.accentFontColor,
       ),
       title: new TextFormField(
         keyboardType: TextInputType.emailAddress,
         controller: emailController,
         decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentColor, width: 2.0)),
           hintText: "E-Mail"
         ),
         validator: (value){
@@ -168,13 +172,13 @@ class _CreateUserState extends State<CreateUser>{
     return new ListTile(
       leading: new Icon(
         Icons.lock,
-        color: Colors.blueGrey[600],
+        color: widget.accentFontColor,
       ),
       title: new TextFormField(
         obscureText: obscureText,
         controller: passwordController,
         decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentColor, width: 2.0)),
           hintText: "Your admin password"
         ),
         validator: (value){
@@ -212,7 +216,7 @@ class _CreateUserState extends State<CreateUser>{
       initiallyExpanded: true,
       leading: new Icon(
         Icons.portrait,
-        color: Colors.blueGrey[600],
+        color: widget.accentFontColor,
       ),
       title: new Text(userTypeInput),
       children: <Widget>[

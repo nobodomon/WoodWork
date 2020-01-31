@@ -5,6 +5,11 @@ import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class Orders extends StatefulWidget {
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
+
+  const Orders({Key key, this.accentFontColor, this.accentColor, this.fontColor}) : super(key: key);
   @override
   State<StatefulWidget> createState() => new OrdersState();
 }
@@ -64,7 +69,7 @@ class OrdersState extends State<Orders> {
               width: 45,
               height: 45,
               decoration: new BoxDecoration(
-                color: Colors.blueGrey[700],
+                color: widget.accentColor,
                 shape: BoxShape.circle,
                 boxShadow: [
                   new BoxShadow(
@@ -116,7 +121,7 @@ class OrdersState extends State<Orders> {
             decoration: new InputDecoration(
                 focusedBorder: UnderlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+                        BorderSide(color: widget.accentColor, width: 2.0)),
                 hintText: "Search..."),
           ),
           leading: new Icon(Icons.search),

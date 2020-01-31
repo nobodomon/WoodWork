@@ -6,7 +6,11 @@ import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class ViewUser extends StatefulWidget{
-  ViewUser({this.email, this.userType});
+  ViewUser({this.email, this.userType, this.accentFontColor, this.accentColor, this.fontColor});
+  
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
 
   @override
   State<StatefulWidget> createState()=> new ViewUserState();
@@ -22,8 +26,6 @@ class ViewUserState extends State<ViewUser>{
   String successMsg = "";
   bool errorPopped = false;
   String errorMsg = "";
-  Color fontColor = Colors.black;
-  Color iconColor = Colors.blueGrey[700];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -35,13 +37,13 @@ class ViewUserState extends State<ViewUser>{
           appBar: AppBar(
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.keyboard_arrow_down, color: iconColor,),
+              icon: Icon(Icons.keyboard_arrow_down, color: widget.accentFontColor,),
               onPressed: ()=>Navigator.pop(context),
             ),
             backgroundColor: Colors.transparent,
             title: Text(
               "Editing " + user.data.fsUser.data['Name'] + "'s Profile...", 
-              style: new TextStyle(color: fontColor,)
+              style: new TextStyle(color: widget.fontColor,)
             ),
           ),
           body: Stack(
@@ -135,11 +137,11 @@ class ViewUserState extends State<ViewUser>{
     }
     return new ListTile(
       leading: new Icon(Icons.timeline,
-        color: iconColor
+        color: widget.accentFontColor,
       ),
       title: new Text("Last logged in:",
         style: new TextStyle(
-          color: fontColor,
+          color: widget.accentFontColor,
         ),
       ),
       subtitle: new Text(timestamp),
@@ -152,7 +154,7 @@ class ViewUserState extends State<ViewUser>{
       label: new Text(roleName),
       backgroundColor: selectedColor,
       selected: userTypeValue == roleValue,
-      selectedColor: Colors.blueGrey[700],
+      selectedColor: widget.accentColor,
       onSelected:(bool selected){
         setState(() {
           userTypeInput = roleName  + " role selected";
@@ -184,7 +186,7 @@ class ViewUserState extends State<ViewUser>{
           );
         }else{
           return LinearProgressIndicator(
-            backgroundColor: Colors.blueGrey[700],
+            backgroundColor: widget.accentColor,
           );
         }
       },
@@ -202,24 +204,24 @@ class ViewUserState extends State<ViewUser>{
       }),
       leading: new Icon(
         Icons.portrait,
-        color: iconColor,
+        color: widget.accentFontColor,
       ),
       title: new Text(
         "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
         style: new TextStyle(
-          color: fontColor,
+          color: widget.accentFontColor,
         ),
       ),
       children: <Widget>[
         new ListTile(
           title: new Text(userTypeInput,
             style: new TextStyle(
-              color: iconColor,
+              color: widget.accentFontColor,
             ),
           ),
           leading: new Icon(
             Icons.chevron_right,
-            color: iconColor,
+            color: widget.accentFontColor,
           ),
         ),
         populateWidgets()

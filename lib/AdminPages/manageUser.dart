@@ -6,7 +6,11 @@ import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class ManageUser extends StatefulWidget {
-  ManageUser({this.auth, this.currUser});
+  ManageUser({this.auth, this.currUser, this.accentFontColor, this.accentColor, this.fontColor});
+  
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final Auth auth;
   final UserProfile currUser;
   @override
@@ -101,7 +105,7 @@ class _ManageUserState extends State<ManageUser> {
             decoration: new InputDecoration(
                 focusedBorder: UnderlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+                        BorderSide(color: widget.accentColor, width: 2.0)),
                 hintText: "Search..."),
           ),
           leading: new Icon(Icons.search),
