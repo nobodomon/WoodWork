@@ -6,7 +6,11 @@ import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class ViewOrder extends StatefulWidget{
-  ViewOrder(this.orderID, this.isProduction, {this.operationToDo});
+  ViewOrder(this.orderID, this.isProduction, {this.operationToDo, this.accentFontColor, this.accentColor, this.fontColor});
+  
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final String orderID;
   final bool isProduction;
   int operationToDo;
@@ -27,7 +31,6 @@ class ViewOrderState extends State<ViewOrder>{
     super.initState();
   }
   bool isLoading= false;
-  Color accentColor = Colors.blueGrey[700];
   
   bool successPopped = false;
   String successMsg = "";
@@ -48,14 +51,14 @@ class ViewOrderState extends State<ViewOrder>{
               leading: new IconButton(
                 icon: Icon(
                   Icons.keyboard_arrow_down,
-                  color: accentColor,
+                  color: widget.accentFontColor,
                 ),
                 onPressed: ()=> Navigator.pop(context),
               ),
               title: new Text(
                 widget.orderID,
                 style: new TextStyle(
-                  color: accentColor,
+                  color: widget.accentFontColor,
                 ),
               ),
             ),
@@ -137,7 +140,7 @@ class ViewOrderState extends State<ViewOrder>{
         title: new Text("Order Status: " + OrderModel.convertOrderStatusToReadableString(order.status)),
         subtitle: new LinearProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(
-            accentColor
+            widget.accentFontColor
           ),
           backgroundColor: Colors.blueGrey[100],
           value: OrderModel.convertOrderStatusToValue(order.status),

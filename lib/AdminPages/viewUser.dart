@@ -41,7 +41,11 @@ class ViewUserState extends State<ViewUser>{
             backgroundColor: Colors.transparent,
             title: Text(
               "Editing " + user.data.fsUser.data['Name'] + "'s Profile...", 
+<<<<<<< Updated upstream
               style: new TextStyle(color: fontColor,)
+=======
+              style: new TextStyle(color: widget.accentFontColor,)
+>>>>>>> Stashed changes
             ),
           ),
           body: Stack(
@@ -50,9 +54,10 @@ class ViewUserState extends State<ViewUser>{
               children: <Widget>[
                 showErrorMessage(context),
                 showSuccessMessage(context),
+                showDeleteOrEnableButtons(context, user.data),
                 showLastLogin(context, user.data),
                 showUserRoleSelector(context, user.data.fsUser.data['Usertype']),
-                showConfirmChanges(context, widget.email),
+                showConfirmChanges(context, user.data),
               ],
             ),
             showLoading(context),
@@ -108,7 +113,7 @@ class ViewUserState extends State<ViewUser>{
       ),
     );
   }
-
+  
   Container showErrorMessage(BuildContext context){
     return Container(
       color: Colors.red,
@@ -124,6 +129,48 @@ class ViewUserState extends State<ViewUser>{
             }),
           )
         ),
+      ),
+    );
+  }
+
+  Widget showDeleteOrEnableButtons(BuildContext context, UserProfile user){
+    if(user.fsUser.data['Usertype'] == -1){
+      return showReEnableUser(context, user);
+    }else{
+      return showDeleteUser(context, user);
+    }
+  }
+
+  Widget showDeleteUser(BuildContext context, UserProfile user){
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: new GradientButton(
+        child: new Text("Delete User"),
+        gradient: Gradients.taitanum,
+        increaseWidthBy: double.infinity,
+        callback: ()=> new Auth().deleteUser(context, user).then((DeleteResult result){
+          setState(() {
+            successPopped = true;
+            successMsg = "User successfully deleted.";
+          });
+        }),
+      ),
+    );
+  }
+
+  Widget showReEnableUser(BuildContext context, UserProfile user){
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: new GradientButton(
+        child: new Text("Re-enable User"),
+        gradient: Gradients.taitanum,
+        increaseWidthBy: double.infinity,
+        callback: ()=> new Auth().renableUser(context, user).then((DeleteResult result){
+          setState(() {
+            successPopped = true;
+            successMsg = "User successfully re-enabled.";
+          });
+        }),
       ),
     );
   }
@@ -193,6 +240,7 @@ class ViewUserState extends State<ViewUser>{
 
   Widget showUserRoleSelector(BuildContext context, int currUserType){
     // userTypeInput = "User current role is " + CommonWidgets.mapUserRoleToLongName(currUserType);
+<<<<<<< Updated upstream
     return new ExpansionTile(
       initiallyExpanded: true,
       onExpansionChanged: ((value){
@@ -220,11 +268,58 @@ class ViewUserState extends State<ViewUser>{
           leading: new Icon(
             Icons.chevron_right,
             color: iconColor,
+=======
+    bool expanded;
+    if(currUserType == -1){
+      expanded = false;
+      return new ListTile(
+        leading: new Icon(
+          Icons.portrait,
+          color: widget.accentFontColor,
+        ),
+        title: new Text(
+          "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
+          style: new TextStyle(
+            color: widget.accentFontColor,
           ),
         ),
-        populateWidgets()
-      ],
-    );
+      );
+    }else{
+      expanded = true;
+      return new ExpansionTile(
+        initiallyExpanded: expanded,
+        onExpansionChanged: ((value){
+          setState(() {
+            
+          });
+        }),
+        leading: new Icon(
+          Icons.portrait,
+          color: widget.accentFontColor,
+        ),
+        title: new Text(
+          "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
+          style: new TextStyle(
+            color: widget.accentFontColor,
+>>>>>>> Stashed changes
+          ),
+        ),
+        children: <Widget>[
+          new ListTile(
+            title: new Text(userTypeInput,
+              style: new TextStyle(
+                color: widget.accentFontColor,
+              ),
+            ),
+            leading: new Icon(
+              Icons.chevron_right,
+              color: widget.accentFontColor,
+            ),
+          ),
+          populateWidgets()
+        ],
+      );
+    }
   }
 
   void validateAndSubmit(String email) async{
@@ -278,14 +373,21 @@ class ViewUserState extends State<ViewUser>{
     }
   }
 
-  Padding showConfirmChanges(BuildContext context, String email){
+  Padding showConfirmChanges(BuildContext context, UserProfile user){
+    bool enabled;
+    if(user.fsUser.data['Usertype'] == -1){
+      enabled = false;
+    }else{
+      enabled = true;
+    }
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
+        isEnabled: enabled,
         child: new Text("Submit"),
         gradient: Gradients.taitanum,
         increaseWidthBy: double.infinity,
-        callback: ()=> validateAndSubmit(email),
+        callback: ()=> validateAndSubmit(user.fsUser.documentID)
       ),
     );
   }

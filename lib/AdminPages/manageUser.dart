@@ -147,7 +147,9 @@ class _ManageUserState extends State<ManageUser> {
               userAvatarColor = [Colors.teal[100], Colors.teal[300]];
               break;
             case -1:
-              userTypeLong = "Invalid type!";
+              userTypeLong = "Invalid/Deleted user!";
+              userColor = Colors.black;
+              userAvatarColor = [Colors.black, Colors.white];
               break;
           }
           if (filter == null || filter.isEmpty) {
@@ -212,14 +214,14 @@ class _ManageUserState extends State<ManageUser> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ViewUser(email: email, userType: userType)));
+                          ViewUser(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,email: email, userType: userType)));
             }),
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      ViewUser(email: email, userType: userType)));
+                      ViewUser(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,email: email, userType: userType)));
         },
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
+import 'package:woodwork/CommonWIdgets/EditProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 import 'package:woodwork/DeliveryPages/DeliverPage.dart';
 import 'package:woodwork/DeliveryPages/PickupPage.dart';
@@ -46,10 +47,17 @@ class _DeliveryHomeState extends State<DeliveryHome>{
         ),),
         actions: <Widget>[
           new IconButton(
+              icon: new Icon(Icons.settings),
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => EditProfile(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, auth: widget.auth, logoutCallback: widget.logoutCallback)),
+                  )),
+          new IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: ()=> showDialog(
               context: context,
-              child: CommonWidgets.logoutDialog(context, widget.logoutCallback),
+              child: CommonWidgets.logoutDialog(context, widget.logoutCallback,false),
             )
           )
         ],

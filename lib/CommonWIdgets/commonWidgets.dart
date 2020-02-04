@@ -34,7 +34,7 @@ class CommonWidgets{
         userTypeLong = "S.Admin";
         break;
       case -1:
-        userTypeLong = "Invalid type!";
+        userTypeLong = "Invalid/Deleted user";
         break;
     }
     return userTypeLong;
@@ -72,7 +72,7 @@ class CommonWidgets{
     return orderID;
   }
 
-  static Widget logoutDialog(BuildContext context, VoidCallback logoutCallback){
+  static Widget logoutDialog(BuildContext context, VoidCallback logoutCallback, bool fromSettings){
     return Center(
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
@@ -106,7 +106,7 @@ class CommonWidgets{
     );
   }
 
-  static Widget showOrderTile(BuildContext context,OrderModel order,bool isProductionAndItemJustPlaced, {int operationToDo}) {
+  static Widget showOrderTile(BuildContext context,OrderModel order,bool isProductionAndItemJustPlaced, {int operationToDo, Color fontColor, Color accentColor, Color accentFontColor}) {
     int op = operationToDo;
     if(operationToDo == null){
       op = -1;
@@ -115,7 +115,7 @@ class CommonWidgets{
       child: new ListTile(
         dense: true,
         leading: OrderModel.convertOrderStatusToIcon(
-            order.status, Colors.blueGrey[700]),
+            order.status, accentFontColor),
         title: new Text("ID: " + order.orderID),
         subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0]),
         trailing: new IconButton(
@@ -123,10 +123,10 @@ class CommonWidgets{
           onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ViewOrder(order.orderID, isProductionAndItemJustPlaced, operationToDo:  op,))),
+                  builder: (context) => ViewOrder(order.orderID, isProductionAndItemJustPlaced, operationToDo:  op,fontColor: fontColor,accentFontColor: accentFontColor, accentColor: accentColor,))),
         ),
         onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ViewOrder(order.orderID,isProductionAndItemJustPlaced, operationToDo:  op,)),
+            MaterialPageRoute(builder: (context) => ViewOrder(order.orderID,isProductionAndItemJustPlaced, operationToDo:  op,fontColor: fontColor,accentFontColor: accentFontColor, accentColor: accentColor,)),
       ),
     ));
   }
@@ -154,6 +154,8 @@ class CommonWidgets{
       return new ParseResult(false, "Invalid QR Code");
     }
   }
+
+  
 
 }
 

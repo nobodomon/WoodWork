@@ -5,6 +5,7 @@ import 'package:woodwork/AdminPages/home.dart';
 import 'package:woodwork/AdminPages/manageUser.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
+import 'package:woodwork/CommonWIdgets/EditProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class AdminHome extends StatefulWidget{
@@ -50,17 +51,53 @@ class _AdminHomeState extends State<AdminHome>{
         title: new Text("AdminHome", style: new TextStyle(color: widget.fontColor),),
         actions: <Widget>[
           new IconButton(
+<<<<<<< Updated upstream
             icon: new Icon(Icons.exit_to_app),
             onPressed: ()=> showDialog(
               context: context,
               child: CommonWidgets.logoutDialog(context, widget.logoutCallback),
             )
           )
+=======
+              icon: new Icon(Icons.settings),
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => EditProfile(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, auth: widget.auth, logoutCallback: widget.logoutCallback)),
+                  )),
+          new IconButton(
+              icon: new Icon(Icons.exit_to_app),
+              onPressed: () => showDialog(
+                    context: context,
+                    child: CommonWidgets.logoutDialog(
+                        context, widget.logoutCallback,false),
+                  ))
+>>>>>>> Stashed changes
         ],
       ),
       body: PageView(
         controller: pageController,
+<<<<<<< Updated upstream
         children: children,
+=======
+        children: <Widget>[
+          new CreateUser(
+              auth: widget.auth,
+              fontColor: widget.fontColor,
+              accentFontColor: widget.accentFontColor,
+              accentColor: widget.accentColor),
+          new AHome(
+              auth: widget.auth,
+              fontColor: widget.fontColor,
+              accentFontColor: widget.accentFontColor,
+              accentColor: widget.accentColor),
+          new ManageUser(
+              auth: widget.auth,
+              fontColor: widget.fontColor,
+              accentFontColor: widget.accentFontColor,
+              accentColor: widget.accentColor),
+        ],
+>>>>>>> Stashed changes
         onPageChanged: (index) {
           setState(() {
             _currentIndex = index;

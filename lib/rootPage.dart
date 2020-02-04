@@ -33,7 +33,7 @@ class RootPageState extends State<RootPage>{
   void initState() {
     super.initState();
     fontColor = Colors.white;
-    accentColor = Colors.blueGrey[700];
+    accentColor = Colors.blue[700];
     accentFontColor = Colors.blueGrey[700];
     widget.auth.getCurrentUser().then((user) {
       setState(() {
@@ -43,7 +43,7 @@ class RootPageState extends State<RootPage>{
 
         }
         authStatus =
-            user.fbUser?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
+            user == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
       });
     });
   }
@@ -85,6 +85,9 @@ class RootPageState extends State<RootPage>{
         return new Login(
           auth: widget.auth,
           loginCallback: loginCallback,
+          fontColor: fontColor,
+          accentFontColor: accentFontColor,
+          accentColor: accentColor
         );
         break;
       case AuthStatus.LOGGED_IN:
@@ -135,11 +138,19 @@ class RootPageState extends State<RootPage>{
                     accentColor: accentColor
                   );
                   break;
-                default: {
+                case -1: 
+                  return new Login(auth: widget.auth, loginCallback:  loginCallback,
+                    fontColor: fontColor,
+                    accentFontColor: accentFontColor,
+                    accentColor: accentColor);
+                  break;
+                default:
                   logoutCallback();
-                  return new Login(auth: widget.auth, loginCallback:  loginCallback);
-                }
-                break;
+                  return new Login(auth: widget.auth, loginCallback:  loginCallback,
+                    fontColor: fontColor,
+                    accentFontColor: accentFontColor,
+                    accentColor: accentColor);
+                  break;
               }
               
             } else{

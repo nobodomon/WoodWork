@@ -4,6 +4,12 @@ import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class CallService extends StatefulWidget{
+  
+  final Color fontColor;
+  final Color accentFontColor;
+  final Color accentColor;
+
+  const CallService({Key key, this.fontColor, this.accentFontColor, this.accentColor});
   @override
   State<StatefulWidget> createState() => new CallServiceState();
 }
@@ -25,7 +31,7 @@ class CallServiceState extends State<CallService>{
           child: CommonWidgets.pageLoadingScreen(context)
         ),
         new Scaffold(
-          backgroundColor: Colors.blueGrey[700],
+          backgroundColor: widget.accentColor,
           body: new Center(
             child: new Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
@@ -34,7 +40,7 @@ class CallServiceState extends State<CallService>{
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   new ListTile(
-                    leading: Icon(Icons.phone, color: Colors.blueGrey[700],),
+                    leading: Icon(Icons.phone, color: widget.accentFontColor,),
                     title: new Text("Call for service"),
                   ),
                   new Divider(),

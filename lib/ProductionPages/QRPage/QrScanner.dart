@@ -89,7 +89,7 @@ class QrScannerState extends State<QrScanner> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ViewOrder(result.values, true,
-                            operationToDo: opToDo)));
+                            operationToDo: opToDo,fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,)));
               } else {}
             }
           }),

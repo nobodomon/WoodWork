@@ -384,7 +384,7 @@ class ManualInputState extends State<ManualInput> {
           color: widget.accentFontColor,
         ),
         onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ViewOrder(orderID, false, operationToDo: opToDo,))),
+            MaterialPageRoute(builder: (context) => ViewOrder(orderID, false, operationToDo: opToDo,fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,))),
       ),
       onTap: () {
         setState(() {

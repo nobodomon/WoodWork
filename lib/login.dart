@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:woodwork/ForgetPassword.dart';
 import 'Authentication/Authentication.dart';
 import 'Authentication/UserProfile.dart';
 
 class Login extends StatefulWidget{
-  Login({this.auth, this.loginCallback});
+  Login({this.auth, this.loginCallback, this.accentFontColor, this.accentColor, this.fontColor});
 
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final BaseAuth auth;
   final VoidCallback loginCallback;
   @override
@@ -143,7 +147,7 @@ class LoginState extends State<Login>{
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 new Container(
-                  color:Colors.blueGrey[700],
+                  color:widget.accentColor,
                   child: ListTile(
                     title: Text(
                       "Login",
@@ -160,25 +164,25 @@ class LoginState extends State<Login>{
                       new ListTile(
                         leading: new Icon(
                           Icons.email,
-                          color: Colors.blueGrey[600],
+                          color: widget.accentFontColor,
                         ),
                         title: new TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           controller: emailController,
                           decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentFontColor, width: 2.0)),
                             hintText: "E-Mail"
                           ),
                         )),
                       new ListTile(
                         leading: new Icon(
                           Icons.lock,
-                          color: Colors.blueGrey[600],
+                          color: widget.accentFontColor,
                         ),
                         title: new TextFormField(
                           controller: passwordController,
                           decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
+                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentFontColor, width: 2.0)),
                             hintText: "Password"
                             
                           ),
@@ -210,6 +214,13 @@ class LoginState extends State<Login>{
                             ),
                           ),
                         ),
+                      ),
+                      new Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: new FlatButton(
+                          child: new Text("Forgot password?"),
+                          onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ForgetPassword(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, auth: widget.auth,))),
+                        )
                       ),
                       new Padding(
                         padding: const EdgeInsets.all(15.0),

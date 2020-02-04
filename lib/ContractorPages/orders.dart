@@ -83,11 +83,11 @@ class OrdersState extends State<Orders> {
                             orders.data.documents[index].documentID,
                             orders.data.documents[index].data);
                         if (filter == null || filter.isEmpty) {
-                          return CommonWidgets.showOrderTile(context,currOrder,false);
+                          return CommonWidgets.showOrderTile(context,currOrder,false,fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,);
                         } else if (currOrder.orderID
                             .toLowerCase()
                             .contains(filter.toLowerCase())) {
-                          return CommonWidgets.showOrderTile(context,currOrder,false);
+                          return CommonWidgets.showOrderTile(context,currOrder,false,fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,);
                         } else {
                           return Container();
                         }

@@ -80,9 +80,9 @@ class IncomingOrdersState extends State<IncomingOrders>
           OrderModel currOrder = OrderModel.toObject(
               orders.documents[index].documentID, orders.documents[index].data);
           if(currOrder.status == statusType.order_Placed.index){
-              return CommonWidgets.showOrderTile(context,currOrder,true,operationToDo: statusType.order_Recieved.index);
+              return CommonWidgets.showOrderTile(context,currOrder,true,operationToDo: statusType.order_Recieved.index,fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,);
             }else{
-              return CommonWidgets.showOrderTile(context,currOrder,false);
+              return CommonWidgets.showOrderTile(context,currOrder,false,fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,);
             }
         }
       );
@@ -95,9 +95,9 @@ class IncomingOrdersState extends State<IncomingOrders>
 
           if(currOrder.status == orderStatus){
             if(currOrder.status == statusType.order_Placed.index){
-              return CommonWidgets.showOrderTile(context,currOrder,true,operationToDo: statusType.order_Recieved.index);
+              return CommonWidgets.showOrderTile(context,currOrder,true,operationToDo: statusType.order_Recieved.index,fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,);
             }else{
-              return CommonWidgets.showOrderTile(context,currOrder,false);
+              return CommonWidgets.showOrderTile(context,currOrder,false,fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,);
             }
           }else{
             return Container();

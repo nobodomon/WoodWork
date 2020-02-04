@@ -46,7 +46,7 @@ class ServicePageState extends State<ServicePage> with SingleTickerProviderState
       body: new TabBarView(
         controller: _tabController,
         children: <Widget>[
-          new CallService(),
+          new CallService(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,),
           new QrScanner(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, pickup: false,),
           new ManualInput(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, pickup: false,)
         ],
