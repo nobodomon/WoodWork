@@ -6,7 +6,10 @@ import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class ManageUser extends StatefulWidget {
-  ManageUser({this.auth, this.currUser});
+  ManageUser({this.auth, this.currUser, this.accentFontColor, this.accentColor, this.fontColor});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
   final Auth auth;
   final UserProfile currUser;
   @override

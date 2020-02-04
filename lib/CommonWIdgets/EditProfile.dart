@@ -296,6 +296,7 @@ class EditProfileState extends State<EditProfile>{
           }else if(newPassword != confirmNewPassword){
             return "New password and confirm new password must be the same!";
           }else{
+            return value;
           }
         },
       ),

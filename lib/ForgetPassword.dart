@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
-import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 
-import 'Authentication/UserProfile.dart';
 import 'CommonWIdgets/commonWidgets.dart';
 
 class ForgetPassword extends StatefulWidget{
@@ -46,7 +43,6 @@ class ForgetPasswordState extends State<ForgetPassword>{
   }
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Stack(
       children: <Widget>[
         new Scaffold(

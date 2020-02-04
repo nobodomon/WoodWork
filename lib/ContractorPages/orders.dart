@@ -5,6 +5,11 @@ import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class Orders extends StatefulWidget {
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
+
+  const Orders({Key key, this.accentFontColor, this.accentColor, this.fontColor});
   @override
   State<StatefulWidget> createState() => new OrdersState();
 }

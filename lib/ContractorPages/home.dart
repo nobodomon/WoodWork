@@ -5,7 +5,10 @@ import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class CHome extends StatefulWidget{
-  CHome({this.auth});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
+  CHome({this.auth, this.accentFontColor, this.accentColor, this.fontColor});
   final BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> CHomeState();

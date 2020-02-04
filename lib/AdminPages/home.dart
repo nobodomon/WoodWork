@@ -3,7 +3,10 @@ import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 
 class AHome extends StatefulWidget{
-  AHome({this.auth,});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
+  AHome({this.auth, this.accentFontColor, this.accentColor, this.fontColor,});
   final BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> AHomeState();

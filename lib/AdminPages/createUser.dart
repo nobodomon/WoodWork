@@ -5,7 +5,10 @@ import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
 
 class CreateUser extends StatefulWidget{
-  CreateUser({this.auth});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
+  CreateUser({this.auth, this.accentFontColor, this.accentColor, this.fontColor});
   final BaseAuth auth;
   @override
   State<StatefulWidget> createState()=> _CreateUserState();

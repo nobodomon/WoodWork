@@ -35,12 +35,6 @@ class _AdminHomeState extends State<AdminHome>{
      pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.ease);
    });
   }
-
-  final List<Widget> children = [
-    new CreateUser(auth: new Auth()),
-    new AHome(auth: new Auth()),
-    new ManageUser(auth: new Auth(),),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,14 +45,6 @@ class _AdminHomeState extends State<AdminHome>{
         title: new Text("AdminHome", style: new TextStyle(color: widget.fontColor),),
         actions: <Widget>[
           new IconButton(
-<<<<<<< Updated upstream
-            icon: new Icon(Icons.exit_to_app),
-            onPressed: ()=> showDialog(
-              context: context,
-              child: CommonWidgets.logoutDialog(context, widget.logoutCallback),
-            )
-          )
-=======
               icon: new Icon(Icons.settings),
               onPressed: () => Navigator.push(
                     context,
@@ -72,14 +58,10 @@ class _AdminHomeState extends State<AdminHome>{
                     child: CommonWidgets.logoutDialog(
                         context, widget.logoutCallback,false),
                   ))
->>>>>>> Stashed changes
         ],
       ),
       body: PageView(
         controller: pageController,
-<<<<<<< Updated upstream
-        children: children,
-=======
         children: <Widget>[
           new CreateUser(
               auth: widget.auth,
@@ -97,7 +79,6 @@ class _AdminHomeState extends State<AdminHome>{
               accentFontColor: widget.accentFontColor,
               accentColor: widget.accentColor),
         ],
->>>>>>> Stashed changes
         onPageChanged: (index) {
           setState(() {
             _currentIndex = index;

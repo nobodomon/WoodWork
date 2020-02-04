@@ -6,7 +6,10 @@ import 'package:woodwork/Authentication/UserProfile.dart';
 import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class ViewUser extends StatefulWidget{
-  ViewUser({this.email, this.userType});
+  ViewUser({this.email, this.userType, this.accentFontColor, this.accentColor, this.fontColor});
+  final Color accentFontColor;
+  final Color accentColor;
+  final Color fontColor;
 
   @override
   State<StatefulWidget> createState()=> new ViewUserState();
@@ -41,11 +44,7 @@ class ViewUserState extends State<ViewUser>{
             backgroundColor: Colors.transparent,
             title: Text(
               "Editing " + user.data.fsUser.data['Name'] + "'s Profile...", 
-<<<<<<< Updated upstream
-              style: new TextStyle(color: fontColor,)
-=======
               style: new TextStyle(color: widget.accentFontColor,)
->>>>>>> Stashed changes
             ),
           ),
           body: Stack(
@@ -240,35 +239,6 @@ class ViewUserState extends State<ViewUser>{
 
   Widget showUserRoleSelector(BuildContext context, int currUserType){
     // userTypeInput = "User current role is " + CommonWidgets.mapUserRoleToLongName(currUserType);
-<<<<<<< Updated upstream
-    return new ExpansionTile(
-      initiallyExpanded: true,
-      onExpansionChanged: ((value){
-        setState(() {
-          
-        });
-      }),
-      leading: new Icon(
-        Icons.portrait,
-        color: iconColor,
-      ),
-      title: new Text(
-        "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
-        style: new TextStyle(
-          color: fontColor,
-        ),
-      ),
-      children: <Widget>[
-        new ListTile(
-          title: new Text(userTypeInput,
-            style: new TextStyle(
-              color: iconColor,
-            ),
-          ),
-          leading: new Icon(
-            Icons.chevron_right,
-            color: iconColor,
-=======
     bool expanded;
     if(currUserType == -1){
       expanded = false;
@@ -301,7 +271,6 @@ class ViewUserState extends State<ViewUser>{
           "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
           style: new TextStyle(
             color: widget.accentFontColor,
->>>>>>> Stashed changes
           ),
         ),
         children: <Widget>[
