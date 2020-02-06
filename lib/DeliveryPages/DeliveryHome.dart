@@ -43,7 +43,7 @@ class _DeliveryHomeState extends State<DeliveryHome>{
         elevation: 0,
         title: new Text("DeliveryHome",
         style: new TextStyle(
-          color: widget.fontColor
+          color: widget.accentFontColor
         ),),
         actions: <Widget>[
           new IconButton(
@@ -76,7 +76,7 @@ class _DeliveryHomeState extends State<DeliveryHome>{
       ),
       bottomNavigationBar: new TitledBottomNavigationBar(
         curve: Curves.easeInOut,
-        activeColor: Colors.blueGrey[700],
+        activeColor: widget.accentColor,
         currentIndex: _currentIndex,
         items: [
           TitledNavigationBarItem(title: "Pick-Up", icon: Icons.camera),

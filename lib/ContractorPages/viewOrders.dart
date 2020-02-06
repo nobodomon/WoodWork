@@ -45,6 +45,7 @@ class ViewOrderState extends State<ViewOrder>{
         if(orderchit.hasData){
           viewingOrder = OrderModel.toObject(widget.orderID, orderchit.data.data);
           return new Scaffold(
+            backgroundColor: widget.accentColor,
             appBar: new AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -113,6 +114,7 @@ class ViewOrderState extends State<ViewOrder>{
       child: new Visibility(
         visible: errorPopped,
         child: new ListTile(
+          leading: new Icon(Icons.date_range, color: widget.accentFontColor),
           title: new Text(errorMsg),
           trailing: new IconButton(
             icon: Icon(Icons.highlight_off),
@@ -137,7 +139,9 @@ class ViewOrderState extends State<ViewOrder>{
   Widget showOrderStatusTile(OrderModel order){
     return new Container(
       child: new ListTile(
-        title: new Text("Order Status: " + OrderModel.convertOrderStatusToReadableString(order.status)),
+        leading: new Icon(Icons.timeline, color: widget.accentFontColor),
+        title: new Text("Order Status: " + OrderModel.convertOrderStatusToReadableString(order.status),
+        style: new TextStyle(color: widget.fontColor),),
         subtitle: new LinearProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(
             widget.accentFontColor
@@ -152,7 +156,9 @@ class ViewOrderState extends State<ViewOrder>{
   Widget showOrderPlaced(OrderModel order){
     return new Container(
       child: new ListTile(
-        title: new Text("Order placed by: "),
+        leading: new Icon(Icons.person, color: widget.accentFontColor),
+        title: new Text("Order placed by: ",
+        style: new TextStyle(color: widget.fontColor),),
         subtitle: new Text(order.orderedBy),
       ),
     );
@@ -169,7 +175,9 @@ class ViewOrderState extends State<ViewOrder>{
     title = OrderModel.convertOrderStatusToReadableString(order.status) + " on " + date.split('@')[0];
     return new Container(
       child: new ListTile(
-        title: new Text(title),
+        leading: new Icon(Icons.date_range, color: widget.accentFontColor),
+        title: new Text(title,
+        style: new TextStyle(color: widget.fontColor),),
         subtitle: new Text("at " + date.split('@')[1]),
       ),
     );
@@ -205,7 +213,7 @@ class ViewOrderState extends State<ViewOrder>{
           padding: EdgeInsets.all(15),
           child: new GradientButton(
             increaseWidthBy: double.infinity,
-            gradient: Gradients.taitanum,
+            gradient: Gradients.backToFuture,
             child: new Text(buttonLabel),
             callback: () async{
               setState(() {

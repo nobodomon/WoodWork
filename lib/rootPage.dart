@@ -33,8 +33,8 @@ class RootPageState extends State<RootPage>{
   void initState() {
     super.initState();
     fontColor = Colors.white;
-    accentColor = Colors.blue[700];
-    accentFontColor = Colors.blueGrey[700];
+    accentColor = Colors.brown[600];
+    accentFontColor = Colors.deepOrange;
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {

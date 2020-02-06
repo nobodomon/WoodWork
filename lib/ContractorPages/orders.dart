@@ -51,6 +51,7 @@ class OrdersState extends State<Orders> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders){
         if(orders.hasData){
           return Scaffold(
+            backgroundColor: widget.accentColor,
             floatingActionButton: new Container(
               child: new IconButton(
                 icon: new Icon(Icons.search, color: Colors.white),

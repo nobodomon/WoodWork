@@ -119,7 +119,7 @@ class CommonWidgets{
         title: new Text("ID: " + order.orderID),
         subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0]),
         trailing: new IconButton(
-          icon: Icon(Icons.chevron_right),
+          icon: Icon(Icons.chevron_right,color: accentFontColor,),
           onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -155,8 +155,78 @@ class CommonWidgets{
     }
   }
 
-  
+  static Widget commonTextFormField(IconData icon, String title, TextEditingController controller,Color inputColor, Color accentFontColor, {TextInputType type}){
+    return new ListTile(
+      leading: new Icon(
+        icon,
+        color: accentFontColor,
+      ),
+      title: new TextFormField(
+        style: new TextStyle(
+          color: inputColor,
+        ),
+        keyboardType: type,
+        controller: controller,
+        decoration: new InputDecoration(
+          labelText: title,
+          labelStyle: new TextStyle(
+            color: inputColor,
+          ),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: accentFontColor, width: 2.0))
+        ),
+      )
+    );
+  }
 
+  static Widget commonPasswordFormField(IconData icon, String title, TextEditingController controller, bool visibility, Icon visibilityIcon,Color inputColor, Color accentFontColor, VoidCallback visibilityImp, {TextInputType type}){
+    return new ListTile(
+      leading: new Icon(
+        Icons.lock,
+        color: accentFontColor,
+      ),
+      title: new TextFormField(
+        style: new TextStyle(
+          color: inputColor,
+        ),
+        controller: controller,
+        decoration: new InputDecoration(
+          labelText: title,
+          labelStyle: new TextStyle(
+            color: inputColor,
+          ),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: accentFontColor, width: 2.0))
+        ),
+        obscureText: !visibility,
+      ),
+      trailing: new IconButton(
+        icon: visibilityIcon,
+        onPressed: visibilityImp,
+      ));
+  }
+
+  
+  static Widget commonPasswordFormFieldNoToggle(IconData icon, String title, TextEditingController controller, bool visibility,Color inputColor, Color accentFontColor, {TextInputType type}){
+    return new ListTile(
+      leading: new Icon(
+        Icons.lock,
+        color: accentFontColor,
+      ),
+      title: new TextFormField(
+        style: new TextStyle(
+          color: inputColor,
+        ),
+        controller: controller,
+        decoration: new InputDecoration(
+          labelText: title,
+          labelStyle: new TextStyle(
+            color: inputColor,
+          ),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: accentFontColor, width: 2.0))
+        ),
+        obscureText: !visibility,
+      )
+    );
+  }
 }
 
 class ParseResult{

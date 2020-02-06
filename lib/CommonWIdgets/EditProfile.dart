@@ -91,6 +91,7 @@ class EditProfileState extends State<EditProfile>{
           return new Stack(
             children: <Widget>[
               Scaffold(
+                backgroundColor: widget.accentColor,
                 appBar: new AppBar(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
@@ -179,7 +180,7 @@ class EditProfileState extends State<EditProfile>{
       color: widget.accentFontColor),
       title: new Text("Your name is: " + name + ". Change?",
       style: new TextStyle(
-        color: widget.accentFontColor
+        color: widget.fontColor
       ),),
       children: <Widget>[
         showNewNameField(context),
@@ -188,26 +189,7 @@ class EditProfileState extends State<EditProfile>{
   }
   
   ListTile showNewNameField(BuildContext context){
-    return new ListTile(
-      leading: new Icon(
-        Icons.person_pin,
-        color: widget.accentFontColor,
-      ),
-      title: new TextFormField(
-        controller: nameController,
-        decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentColor, width: 2.0)),
-          hintText: "Your new name"
-        ),
-        validator: (value){
-          if(value == null|| value.isEmpty){
-            return "New name is empty!";
-          }else{
-            return value;
-          }
-        },
-      ),
-    );
+    return CommonWidgets.commonTextFormField(Icons.person_pin, "New Name", nameController, widget.fontColor, widget.accentFontColor);
   }
 
   ExpansionTile showPasswordEditor(BuildContext context){
@@ -216,7 +198,7 @@ class EditProfileState extends State<EditProfile>{
       color: widget.accentFontColor),
       title: new Text("Change your password?",
       style: new TextStyle(
-        color: widget.accentFontColor
+        color: widget.fontColor
       ),),
       children: <Widget>[
         showCurrentPasswordField(context),
@@ -226,81 +208,16 @@ class EditProfileState extends State<EditProfile>{
     );
   }
   ListTile showCurrentPasswordField(BuildContext context){
-    return new ListTile(
-      leading: new Icon(
-        Icons.lock,
-        color: widget.accentFontColor,
-      ),
-      title: new TextFormField(
-        obscureText: !visible,
-        controller: currentPasswordController,
-        decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentColor, width: 2.0)),
-          hintText: "Current Password"
-        ),
-        validator: (value){
-          if(value == null|| value.isEmpty){
-            return "Current password is empty!";
-          }else{
-            return value;
-          }
-        },
-      ),
-      trailing: new IconButton(
-        icon: visibilityIcon,
-        onPressed: ()=>toggleVisibility(),
-      ),
-    );
+    return CommonWidgets.commonPasswordFormField(Icons.lock, "Current Password", currentPasswordController,visible,visibilityIcon,widget.fontColor, widget.accentFontColor, toggleVisibility);
   }
+  
   ListTile showNewPasswordField(BuildContext context){
-    return new ListTile(
-      leading: new Icon(
-        Icons.lock,
-        color: widget.accentFontColor,
-      ),
-      title: new TextFormField(
-        obscureText: !visible,
-        controller: passwordController,
-        decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentColor, width: 2.0)),
-          hintText: "New Password"
-        ),
-        validator: (value){
-          if(value == null|| value.isEmpty){
-            return "New name is empty!";
-          }else{
-            return value;
-          }
-        },
-      ),
-    );
+    return CommonWidgets.commonPasswordFormFieldNoToggle(Icons.lock, "New Password", passwordController,visible,widget.fontColor, widget.accentFontColor);
   }
    
   ListTile confirmNewPasswordField(BuildContext context){
-    return new ListTile(
-      leading: new Icon(
-        Icons.lock,
-        color: widget.accentFontColor,
-      ),
-      title: new TextFormField(
-        obscureText: !visible,
-        autovalidate: true,
-        controller: confirmPasswordController,
-        decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentColor, width: 2.0)),
-          hintText: "Confirm new password"
-        ),
-        validator: (value){
-          if(value == null|| value.isEmpty){
-            return "Confirm new password is empty!";
-          }else if(newPassword != confirmNewPassword){
-            return "New password and confirm new password must be the same!";
-          }else{
-            return value;
-          }
-        },
-      ),
-    );
+    return CommonWidgets.commonPasswordFormFieldNoToggle(Icons.lock, "Confirm Password", confirmPasswordController,visible,widget.fontColor, widget.accentFontColor);
+    
   }
 
   bool submittable = true;
@@ -310,7 +227,7 @@ class EditProfileState extends State<EditProfile>{
       child: new GradientButton(
         isEnabled: submittable,
         child: new Text("Submit"),
-        gradient: Gradients.taitanum,
+        gradient: Gradients.backToFuture,
         increaseWidthBy: double.infinity,
         callback: ()=> validateAndSubmit(user.fsUser.documentID, user)
       ),
@@ -323,7 +240,7 @@ class EditProfileState extends State<EditProfile>{
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
         child: new Text("Logout"),
-        gradient: Gradients.blush,
+        gradient: Gradients.hersheys,
         increaseWidthBy: double.infinity,
         callback: ()=> showDialog(
               context: context,

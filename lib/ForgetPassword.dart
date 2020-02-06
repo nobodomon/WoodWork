@@ -46,6 +46,7 @@ class ForgetPasswordState extends State<ForgetPassword>{
     return Stack(
       children: <Widget>[
         new Scaffold(
+          backgroundColor: widget.accentColor,
           appBar: new AppBar(
             title: new Text("Forget password?", style: new TextStyle(color: widget.accentFontColor)),
             backgroundColor: Colors.transparent,
@@ -124,7 +125,7 @@ class ForgetPasswordState extends State<ForgetPassword>{
       color: widget.accentFontColor),
       title: new Text("Put in your email tied to your account.",
       style: new TextStyle(
-        color: widget.accentFontColor
+        color: widget.fontColor
       ),),
       children: <Widget>[
         showNewEmailField(context),
@@ -133,26 +134,7 @@ class ForgetPasswordState extends State<ForgetPassword>{
   }
   
   ListTile showNewEmailField(BuildContext context){
-    return new ListTile(
-      leading: new Icon(
-        Icons.person_pin,
-        color: widget.accentFontColor,
-      ),
-      title: new TextFormField(
-        controller: emailController,
-        decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentColor, width: 2.0)),
-          hintText: "Email..."
-        ),
-        validator: (value){
-          if(value == null|| value.isEmpty){
-            return "New Email is empty!";
-          }else{
-            return value;
-          }
-        },
-      ),
-    );
+    return CommonWidgets.commonTextFormField(Icons.email, "Email...", emailController, widget.fontColor, widget.accentFontColor);
   }
   
   Padding showConfirmChanges(BuildContext context){
@@ -160,7 +142,7 @@ class ForgetPasswordState extends State<ForgetPassword>{
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
         child: new Text("Submit"),
-        gradient: Gradients.taitanum,
+        gradient: Gradients.backToFuture,
         increaseWidthBy: double.infinity,
         callback: ()=> validateAndSubmit(email)
       ),
@@ -183,11 +165,14 @@ class ForgetPasswordState extends State<ForgetPassword>{
             emailController.clear();
           });
         }).catchError((e){
-          isLoading = false;
-          successPopped = false;
-          successMsg = "";
-          errorMsg = e.toString();
-          errorPopped = true;
+          
+          setState(() {
+            isLoading = false;
+            successPopped = false;
+            successMsg = "";
+            errorMsg = e.toString();
+            errorPopped = true;
+          });
         });
     }else{
       setState(() {

@@ -42,7 +42,7 @@ class _AdminHomeState extends State<AdminHome>{
       appBar: new AppBar(
         backgroundColor: widget.accentColor,
         elevation: 0,
-        title: new Text("AdminHome", style: new TextStyle(color: widget.fontColor),),
+        title: new Text("AdminHome", style: new TextStyle(color: widget.accentFontColor),),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.settings),

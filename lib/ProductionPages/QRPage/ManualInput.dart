@@ -54,6 +54,7 @@ class ManualInputState extends State<ManualInput> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: widget.accentColor,
       body: Stack(children: <Widget>[
         new ListView(
           children: <Widget>[
@@ -113,25 +114,7 @@ class ManualInputState extends State<ManualInput> {
   Widget showOrderIDInputField() {
     return new ExpansionTile(
       initiallyExpanded: true,
-      leading: new Icon(
-        Icons.search,
-        color: widget.accentFontColor,
-      ),
-      title: new TextFormField(
-        controller: orderIDController,
-        decoration: new InputDecoration(
-            focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: Colors.blueGrey[600], width: 2.0)),
-            hintText: "OrderID..."),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "OrderID...";
-          } else {
-            return value;
-          }
-        },
-      ),
+      title: CommonWidgets.commonTextFormField(Icons.insert_drive_file, "Order ID", orderIDController, widget.fontColor, widget.accentFontColor),
       trailing: new Container(
         width: 0,
         height: 0,
@@ -399,7 +382,7 @@ class ManualInputState extends State<ManualInput> {
       padding: EdgeInsets.all(15),
       child: new GradientButton(
         increaseWidthBy: double.infinity,
-        gradient: Gradients.taitanum,
+        gradient: Gradients.backToFuture,
         child: new Text("Confirm"),
         callback: () async {
           setState(() {

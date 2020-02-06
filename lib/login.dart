@@ -5,6 +5,7 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:woodwork/ForgetPassword.dart';
 import 'Authentication/Authentication.dart';
 import 'Authentication/UserProfile.dart';
+import 'CommonWIdgets/commonWidgets.dart';
 
 class Login extends StatefulWidget{
   Login({this.auth, this.loginCallback, this.accentFontColor, this.accentColor, this.fontColor});
@@ -42,7 +43,19 @@ class LoginState extends State<Login>{
   );
   super.initState();
   }
-
+  bool visible = false;
+  Icon visibilityIcon = new Icon(Icons.visibility);
+  void toggleVisibility(){
+    setState(() {
+      if(visible){
+        visibilityIcon = new Icon(Icons.visibility);
+        visible =false;
+      }else{
+        visibilityIcon = new Icon(Icons.visibility_off);
+        visible = true;
+      }
+    });
+  }
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -95,19 +108,6 @@ class LoginState extends State<Login>{
     }
   }
 
-  bool visible = false;
-  Icon visibilityIcon = new Icon(Icons.visibility);
-  void toggleVisibility(){
-    setState(() {
-      if(visible){
-        visibilityIcon = new Icon(Icons.visibility);
-        visible =false;
-      }else{
-        visibilityIcon = new Icon(Icons.visibility_off);
-        visible = true;
-      }
-    });
-  }
   String emailInput;
   @override
   Widget build(BuildContext context) {
@@ -115,13 +115,8 @@ class LoginState extends State<Login>{
     return new Scaffold(
       body: new Stack(
         children: <Widget>[
-        new Image.asset(
-              'assets/images/WoodGrain.jpeg',
-              height: 400,
-              fit: BoxFit.fill
-            ),
         new Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: widget.accentColor,
           appBar: new AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -132,7 +127,12 @@ class LoginState extends State<Login>{
                 color: Theme.of(context).primaryTextTheme.title.color),
               ),
             ),
-          ),       
+          ),   
+        new Image.asset(
+              'assets/images/WoodGrain.jpeg',
+              height: 400,
+              fit: BoxFit.fill
+            ),    
         new AnimatedContainer(
           curve: Curves.easeInOut,
           duration: Duration(
@@ -141,101 +141,73 @@ class LoginState extends State<Login>{
           padding: EdgeInsets.fromLTRB(20,topPadding,20,20),
           alignment: childAlignment,
           child: new Card(
+            color: Colors.white70,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
             margin: new EdgeInsets.all(12.5),
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Container(
-                  color:widget.accentColor,
-                  child: ListTile(
-                    title: Text(
-                      "Login",
-                      style: new TextStyle(
-                        color: Colors.white,
+            child: SingleChildScrollView(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  new Container(
+                    color:widget.accentColor,
+                    child: ListTile(
+                      title: Text(
+                        "Login",
+                        style: new TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                new Form(
-                  key: _formKey,
-                  child:Column(
-                    children: <Widget>[
-                      new ListTile(
-                        leading: new Icon(
-                          Icons.email,
-                          color: widget.accentFontColor,
-                        ),
-                        title: new TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: emailController,
-                          decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentFontColor, width: 2.0)),
-                            hintText: "E-Mail"
-                          ),
-                        )),
-                      new ListTile(
-                        leading: new Icon(
-                          Icons.lock,
-                          color: widget.accentFontColor,
-                        ),
-                        title: new TextFormField(
-                          controller: passwordController,
-                          decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.accentFontColor, width: 2.0)),
-                            hintText: "Password"
-                            
-                          ),
-                          obscureText: !visible,
-                        ),
-                        trailing: new IconButton(
-                          icon: visibilityIcon,
-                          onPressed: ()=>toggleVisibility(),
-                        )),
-                      new Visibility(
-                        visible: errorPopped,
-                        child: Container(
-                          color: Colors.red[500],
-                          child: new ListTile(
-                            enabled: errorPopped,
-                            title: new Text(
-                              errorMsg,
-                              textAlign: TextAlign.center,
-                              style: new TextStyle(
-                                color: Colors.black
-                              )),
-                            dense: true,
-                            trailing: new IconButton(
-                              icon: Icon(Icons.highlight_off),
-                              onPressed: ()=>setState(() {
-                                errorMsg = "";
-                                errorPopped = false;
-                              }),
+                  new Form(
+                    key: _formKey,
+                    child:Column(
+                      children: <Widget>[
+                        new Visibility(
+                          visible: errorPopped,
+                          child: Container(
+                            color: Colors.red[500],
+                            child: new ListTile(
+                              enabled: errorPopped,
+                              title: new Text(
+                                errorMsg,
+                                textAlign: TextAlign.center,
+                                style: new TextStyle(
+                                  color: Colors.black
+                                )),
+                              dense: true,
+                              trailing: new IconButton(
+                                icon: Icon(Icons.highlight_off),
+                                onPressed: ()=>setState(() {
+                                  errorMsg = "";
+                                  errorPopped = false;
+                                }),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      new Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: new FlatButton(
+                        CommonWidgets.commonTextFormField(Icons.email, "E-Mail", emailController,Colors.black, widget.accentFontColor),
+                        CommonWidgets.commonPasswordFormField(Icons.lock, "Password", passwordController,visible,visibilityIcon,Colors.black, widget.accentFontColor, toggleVisibility),
+                      
+                        new FlatButton(
                           child: new Text("Forgot password?"),
                           onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ForgetPassword(fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor, auth: widget.auth,))),
+                        ),
+                        new Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: new GradientButton(
+                            child: new Text("Submit"),
+                            increaseWidthBy: double.infinity,
+                            callback: (){
+                              validateAndSubmit();
+                            },
+                            gradient: Gradients.backToFuture,),
                         )
-                      ),
-                      new Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: new GradientButton(
-                          child: new Text("Submit"),
-                          increaseWidthBy: double.infinity,
-                          callback: (){
-                            validateAndSubmit();
-                          },
-                          gradient: Gradients.taitanum,),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

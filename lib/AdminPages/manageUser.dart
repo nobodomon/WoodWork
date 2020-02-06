@@ -96,19 +96,8 @@ class _ManageUserState extends State<ManageUser> {
       visible: searchVisible,
       child: Container(
         margin: EdgeInsets.all(4.5),
-        color: Colors.white,
-        child: ListTile(
-          title: new TextFormField(
-            autofocus: true,
-            controller: controller,
-            decoration: new InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.blueGrey[600], width: 2.0)),
-                hintText: "Search..."),
-          ),
-          leading: new Icon(Icons.search),
-        ),
+        color: Colors.white54,
+        child: CommonWidgets.commonTextFormField(Icons.search, "Search...", controller, Colors.black, widget.accentFontColor)
       ),
     );
   }
@@ -178,12 +167,19 @@ class _ManageUserState extends State<ManageUser> {
         });
   }
 
-  Container showUserTile(String name, int userType, String email,
-      String userTypeLong, Color userColor, List<Color> userAvatarColor) {
+  Container showUserTile(String name, int userType, String email, String userTypeLong, Color userColor, List<Color> userAvatarColor) {
+    List<String> nameSplit = name.split(' ');
+    String reFormatname = "";
+    if(nameSplit.length > 1){
+      reFormatname = name.split(' ')[0].substring(0,1).toUpperCase() + name.split(' ')[1].substring(0,1).toUpperCase();
+    }else{
+      reFormatname = name.split(' ')[0].substring(0,1).toUpperCase();
+    }
     return Container(
       margin: EdgeInsets.fromLTRB(4.5, 2.25, 4.5, 2.25),
       decoration: new BoxDecoration(
-          color: Colors.white,
+          color: widget.accentColor,
+          borderRadius: BorderRadius.circular(5),
           border: new Border.all(color: userColor, width: 1.5)),
       child: ListTile(
         dense: true,
@@ -192,21 +188,20 @@ class _ManageUserState extends State<ManageUser> {
           width: 45,
           height: 45,
           decoration: new BoxDecoration(
-              gradient: new LinearGradient(
-                colors: userAvatarColor,
-              ),
+            border: new Border.all(color: userColor, width: 2) ,
+              color:Colors.white,
               shape: BoxShape.circle,
               boxShadow: [
                 new BoxShadow(
                     color: Colors.black87, spreadRadius: 0.75, blurRadius: 1)
               ]),
           child: new Text(
-            userType.toString(),
-            style: new TextStyle(fontStyle: FontStyle.italic, fontSize: 21),
+            reFormatname,
+            style: new TextStyle(fontSize: 21),
           ),
         ),
-        title: new Text(name),
-        subtitle: new Text(userTypeLong),
+        title: new Text(name, style: new TextStyle(color:widget.fontColor),),
+        subtitle: new Text(userTypeLong, style: new TextStyle(color:widget.fontColor),),
         trailing: new IconButton(
             icon: Icon(
               Icons.chevron_right,

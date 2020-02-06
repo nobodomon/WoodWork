@@ -34,11 +34,11 @@ class ViewUserState extends State<ViewUser>{
       builder: (BuildContext context, AsyncSnapshot<UserProfile> user){
         if(user.hasData){
           return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: widget.accentColor,
           appBar: AppBar(
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.keyboard_arrow_down, color: iconColor,),
+              icon: Icon(Icons.keyboard_arrow_down, color: widget.accentFontColor,),
               onPressed: ()=>Navigator.pop(context),
             ),
             backgroundColor: Colors.transparent,
@@ -145,7 +145,7 @@ class ViewUserState extends State<ViewUser>{
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
         child: new Text("Delete User"),
-        gradient: Gradients.taitanum,
+        gradient: Gradients.serve,
         increaseWidthBy: double.infinity,
         callback: ()=> new Auth().deleteUser(context, user).then((DeleteResult result){
           setState(() {
@@ -162,7 +162,7 @@ class ViewUserState extends State<ViewUser>{
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
         child: new Text("Re-enable User"),
-        gradient: Gradients.taitanum,
+        gradient: Gradients.coldLinear,
         increaseWidthBy: double.infinity,
         callback: ()=> new Auth().renableUser(context, user).then((DeleteResult result){
           setState(() {
@@ -181,11 +181,11 @@ class ViewUserState extends State<ViewUser>{
     }
     return new ListTile(
       leading: new Icon(Icons.timeline,
-        color: iconColor
+        color: widget.accentFontColor,
       ),
       title: new Text("Last logged in:",
         style: new TextStyle(
-          color: fontColor,
+          color: widget.fontColor,
         ),
       ),
       subtitle: new Text(timestamp),
@@ -193,12 +193,13 @@ class ViewUserState extends State<ViewUser>{
   }
 
   ChoiceChip showChoiceChip(BuildContext context, String roleName, int roleValue){
-    Color selectedColor = Colors.blueGrey[300];
     return new ChoiceChip(
-      label: new Text(roleName),
-      backgroundColor: selectedColor,
+      shape: RoundedRectangleBorder(side: BorderSide(color: Colors.black),borderRadius: BorderRadius.circular(25)),
+      label: new Text(roleName,
+      style:TextStyle(color: widget.fontColor)),
       selected: userTypeValue == roleValue,
-      selectedColor: Colors.blueGrey[700],
+      backgroundColor: widget.accentColor,
+      selectedColor: widget.accentFontColor,
       onSelected:(bool selected){
         setState(() {
           userTypeInput = roleName  + " role selected";
@@ -250,7 +251,7 @@ class ViewUserState extends State<ViewUser>{
         title: new Text(
           "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
           style: new TextStyle(
-            color: widget.accentFontColor,
+            color: widget.fontColor,
           ),
         ),
       );
@@ -270,14 +271,14 @@ class ViewUserState extends State<ViewUser>{
         title: new Text(
           "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
           style: new TextStyle(
-            color: widget.accentFontColor,
+            color: widget.fontColor,
           ),
         ),
         children: <Widget>[
           new ListTile(
             title: new Text(userTypeInput,
               style: new TextStyle(
-                color: widget.accentFontColor,
+                color: widget.fontColor,
               ),
             ),
             leading: new Icon(
@@ -354,7 +355,7 @@ class ViewUserState extends State<ViewUser>{
       child: new GradientButton(
         isEnabled: enabled,
         child: new Text("Submit"),
-        gradient: Gradients.taitanum,
+        gradient: Gradients.backToFuture,
         increaseWidthBy: double.infinity,
         callback: ()=> validateAndSubmit(user.fsUser.documentID)
       ),

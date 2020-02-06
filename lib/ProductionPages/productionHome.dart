@@ -20,9 +20,6 @@ class ProductionHome extends StatefulWidget{
 }
 
 class _ProductionHomeState extends State<ProductionHome>{
-  Color fontColor;
-  Color accentFontColor;
-  Color accentColor;
   PageController pageController = new PageController(keepPage: true);
   @override
   void initState(){
@@ -40,17 +37,13 @@ class _ProductionHomeState extends State<ProductionHome>{
 
   @override
   Widget build(BuildContext context) {
-    
-    accentFontColor = Colors.blueGrey[700];
-    accentColor = Colors.blueGrey[700];
-    fontColor = Colors.white;
     return Scaffold(
       appBar: new AppBar(
-        backgroundColor: accentColor,
+        backgroundColor: widget.accentColor,
         elevation: 0,
         title: new Text("ProductionHome",
         style: new TextStyle(
-          color: fontColor
+          color: widget.accentFontColor
         ),),
         actions: <Widget>[
           new IconButton(
@@ -72,9 +65,9 @@ class _ProductionHomeState extends State<ProductionHome>{
       body: new PageView(
         controller: pageController,
         children: <Widget>[
-          Scan(fontColor: fontColor, accentFontColor: accentFontColor, accentColor: accentColor,),
+          Scan(fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,),
           PHome(),
-          IncomingOrders(fontColor: fontColor, accentFontColor: accentFontColor, accentColor: accentColor,)
+          IncomingOrders(fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,)
         ],
         onPageChanged: (index) {
           setState(() {
@@ -84,7 +77,7 @@ class _ProductionHomeState extends State<ProductionHome>{
       ),
       bottomNavigationBar: new TitledBottomNavigationBar(
         curve: Curves.easeInOut,
-        activeColor: Colors.blueGrey[700],
+        activeColor: widget.accentColor,
         currentIndex: _currentIndex,
         items: [
           TitledNavigationBarItem(title: "Scan", icon: Icons.camera),

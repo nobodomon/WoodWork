@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
+import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class CreateUser extends StatefulWidget{
   final Color accentFontColor;
@@ -54,23 +55,15 @@ class _CreateUserState extends State<CreateUser>{
       backgroundColor: Colors.transparent,
       body: Stack(
         children: <Widget>[
-          new Container(
-            
-            color: Colors.transparent,
-            padding: EdgeInsets.all(15),
-            child: new Form(
-              key: _formKey,
-              child: new SingleChildScrollView(
-                child: new Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: children
-                  ),
-                ),
+          new Form(
+            key: _formKey,
+            child: Scaffold(
+              backgroundColor: widget.accentColor,
+              body: new ListView(
+                children: children
               ),
             ),
-          ),
+            ),
           showLoading(context),
         ],
       )
@@ -96,11 +89,11 @@ class _CreateUserState extends State<CreateUser>{
   }
   Container showTitleBar(BuildContext context){
     return Container(
-      color: Colors.blueGrey[900],
+      color: widget.accentColor,
       child: new ListTile(
         title: new Text("Create new user",
         style: new TextStyle(
-          color: Colors.white
+          color: widget.accentFontColor
         )),
       ),
     );
@@ -144,62 +137,21 @@ class _CreateUserState extends State<CreateUser>{
   }
 
   ListTile showEmailField(BuildContext context){
-    return new ListTile(
-      leading: new Icon(
-        Icons.email,
-        color: Colors.blueGrey[600],
-      ),
-      title: new TextFormField(
-        keyboardType: TextInputType.emailAddress,
-        controller: emailController,
-        decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
-          hintText: "E-Mail"
-        ),
-        validator: (value){
-          if(value == null|| value.isEmpty){
-            return "E-mail is empty";
-          }else{
-            return value;
-          }
-        },
-      )
-    );
+    return CommonWidgets.commonTextFormField(Icons.email, "E-Mail", emailController,widget.fontColor, widget.accentFontColor);
   }
 
   ListTile showAdminField(BuildContext context){
-    return new ListTile(
-      leading: new Icon(
-        Icons.lock,
-        color: Colors.blueGrey[600],
-      ),
-      title: new TextFormField(
-        obscureText: obscureText,
-        controller: passwordController,
-        decoration: new InputDecoration(
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.blueGrey[600], width: 2.0)),
-          hintText: "Your admin password"
-        ),
-        validator: (value){
-          if(value == null|| value.isEmpty){
-            return "Admin password is empty!";
-          }else{
-            return value;
-          }
-        },
-      ),
-      trailing: new IconButton(
-        icon: visibilityIcon,
-        onPressed: ()=>toggleVisibility(),
-      )
-    );
+    return CommonWidgets.commonPasswordFormField(Icons.lock, "Password", passwordController,obscureText,visibilityIcon,widget.fontColor, widget.accentFontColor, toggleVisibility);
   }
 
   ChoiceChip showChoiceChip(BuildContext context, String roleName, int roleValue){
     return new ChoiceChip(
-      label: new Text(roleName),
-      selected: false,
-      selectedColor: Colors.indigo,
+      shape: RoundedRectangleBorder(side: BorderSide(color: Colors.black),borderRadius: BorderRadius.circular(25)),
+      label: new Text(roleName,
+      style:TextStyle(color: widget.fontColor)),
+      selected: userTypeValue == roleValue,
+      backgroundColor: widget.accentColor,
+      selectedColor: widget.accentFontColor,
       onSelected:(selected){
         setState(() {
           userTypeInput = roleName;
@@ -215,9 +167,9 @@ class _CreateUserState extends State<CreateUser>{
       initiallyExpanded: true,
       leading: new Icon(
         Icons.portrait,
-        color: Colors.blueGrey[600],
+        color: widget.accentFontColor,
       ),
-      title: new Text(userTypeInput),
+      title: new Text(userTypeInput,style: TextStyle(color: widget.fontColor),),
       children: <Widget>[
         new Wrap(
           spacing:15,
@@ -330,7 +282,7 @@ class _CreateUserState extends State<CreateUser>{
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
         child: new Text("Submit"),
-        gradient: Gradients.taitanum,
+        gradient: Gradients.hersheys,
         increaseWidthBy: double.infinity,
         callback: ()=> validateAndSubmit(),
       ),

@@ -26,12 +26,13 @@ class QrScannerState extends State<QrScanner> {
       builder: (BuildContext context, AsyncSnapshot<UserProfile> user) {
         if (user.hasData) {
           return Scaffold(
+            backgroundColor: widget.accentColor,
               body: new Center(
                   child: new Container(
             width: 150,
             height: 150,
             decoration: new BoxDecoration(
-                gradient: Gradients.taitanum,
+                color: widget.accentColor,
                 shape: BoxShape.circle,
                 border: Border.all(color: widget.fontColor, width: 3),
                 boxShadow: [
