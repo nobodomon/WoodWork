@@ -136,44 +136,28 @@ class EditProfileState extends State<EditProfile>{
     );
   }
   
+  void dismissError(){
+    setState(() {
+      errorPopped = false;
+      errorMsg = "";
+    });
+  }
+
+  
+  void dismissSuccess(){
+    setState(() {
+      successPopped = false;
+      successMsg = "";
+    });
+  }
+  
   Container showSuccessMessage(BuildContext context){
-    return Container(
-      color: Colors.greenAccent,
-      child: new Visibility(
-        visible: successPopped,
-        child: new ListTile(
-          title: new Text(successMsg),
-          trailing: new IconButton(
-            icon: Icon(Icons.highlight_off),
-            onPressed:()=> setState(() {
-              successPopped = false;
-              successMsg = "";
-            }),
-          )
-        ),
-      ),
-    );
+    return CommonWidgets.commonSuccessMessage(context, successPopped, successMsg, dismissSuccess);
   }
 
   Container showErrorMessage(BuildContext context){
-    return Container(
-      color: Colors.red,
-      child: new Visibility(
-        visible: errorPopped,
-        child: new ListTile(
-          title: new Text(errorMsg),
-          trailing: new IconButton(
-            icon: Icon(Icons.highlight_off),
-            onPressed:()=> setState(() {
-              errorPopped = false;
-              errorMsg = "";
-            }),
-          )
-        ),
-      ),
-    );
+    return CommonWidgets.commonErrorMessage(context, errorPopped, errorMsg, dismissError);
   }
-
   ExpansionTile showNameEditor(BuildContext context, String name){
     return new ExpansionTile(
       leading: new Icon(Icons.person,

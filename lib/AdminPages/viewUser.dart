@@ -27,6 +27,20 @@ class ViewUserState extends State<ViewUser>{
   String errorMsg = "";
   Color fontColor = Colors.black;
   Color iconColor = Colors.blueGrey[700];
+  void dismissError(){
+    setState(() {
+      errorPopped = false;
+      errorMsg = "";
+    });
+  }
+
+  
+  void dismissSuccess(){
+    setState(() {
+      successPopped = false;
+      successMsg = "";
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -54,6 +68,7 @@ class ViewUserState extends State<ViewUser>{
                 showErrorMessage(context),
                 showSuccessMessage(context),
                 showDeleteOrEnableButtons(context, user.data),
+                showEmail(context,user.data),
                 showLastLogin(context, user.data),
                 showUserRoleSelector(context, user.data.fsUser.data['Usertype']),
                 showConfirmChanges(context, user.data),
@@ -95,41 +110,11 @@ class ViewUserState extends State<ViewUser>{
   }
   
   Container showSuccessMessage(BuildContext context){
-    return Container(
-      color: Colors.greenAccent,
-      child: new Visibility(
-        visible: successPopped,
-        child: new ListTile(
-          title: new Text(successMsg),
-          trailing: new IconButton(
-            icon: Icon(Icons.highlight_off),
-            onPressed:()=> setState(() {
-              successPopped = false;
-              successMsg = "";
-            }),
-          )
-        ),
-      ),
-    );
+    return CommonWidgets.commonSuccessMessage(context, successPopped, successMsg, dismissSuccess);
   }
   
   Container showErrorMessage(BuildContext context){
-    return Container(
-      color: Colors.red,
-      child: new Visibility(
-        visible: errorPopped,
-        child: new ListTile(
-          title: new Text(errorMsg),
-          trailing: new IconButton(
-            icon: Icon(Icons.highlight_off),
-            onPressed:()=> setState(() {
-              errorPopped = false;
-              errorMsg = "";
-            }),
-          )
-        ),
-      ),
-    );
+    return CommonWidgets.commonErrorMessage(context, errorPopped, errorMsg, dismissError);
   }
 
   Widget showDeleteOrEnableButtons(BuildContext context, UserProfile user){
@@ -148,10 +133,14 @@ class ViewUserState extends State<ViewUser>{
         gradient: Gradients.serve,
         increaseWidthBy: double.infinity,
         callback: ()=> new Auth().deleteUser(context, user).then((DeleteResult result){
-          setState(() {
+          if(result == null){
+
+          }else{
+            setState(() {
             successPopped = true;
             successMsg = "User successfully deleted.";
           });
+          }
         }),
       ),
     );
@@ -165,12 +154,32 @@ class ViewUserState extends State<ViewUser>{
         gradient: Gradients.coldLinear,
         increaseWidthBy: double.infinity,
         callback: ()=> new Auth().renableUser(context, user).then((DeleteResult result){
-          setState(() {
+          
+          if(result == null){
+
+          }else{
+            setState(() {
             successPopped = true;
             successMsg = "User successfully re-enabled.";
           });
+          }
         }),
       ),
+    );
+  }
+
+  Widget showEmail(BuildContext context, UserProfile user){
+    String email = user.fsUser.documentID;
+    return new ListTile(
+      leading: new Icon(Icons.email,
+        color: widget.accentFontColor,
+      ),
+      title: new Text("E-mail:",
+        style: new TextStyle(
+          color: widget.fontColor,
+        ),
+      ),
+      subtitle: new Text(email),
     );
   }
 

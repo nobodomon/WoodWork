@@ -37,6 +37,21 @@ class ViewOrderState extends State<ViewOrder>{
   bool errorPopped = false;
   String errorMsg = "";
   OrderModel viewingOrder;
+  
+  void dismissError(){
+    setState(() {
+      errorPopped = false;
+      errorMsg = "";
+    });
+  }
+
+  
+  void dismissSuccess(){
+    setState(() {
+      successPopped = false;
+      successMsg = "";
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -90,42 +105,11 @@ class ViewOrderState extends State<ViewOrder>{
   }
   
   Container showSuccessMessage(BuildContext context){
-    return Container(
-      color: Colors.greenAccent,
-      child: new Visibility(
-        visible: successPopped,
-        child: new ListTile(
-          title: new Text(successMsg),
-          trailing: new IconButton(
-            icon: Icon(Icons.highlight_off),
-            onPressed:()=> setState(() {
-              successPopped = false;
-              successMsg = "";
-            }),
-          )
-        ),
-      ),
-    );
+    return CommonWidgets.commonSuccessMessage(context, successPopped, successMsg, dismissSuccess);
   }
 
   Container showErrorMessage(BuildContext context){
-    return Container(
-      color: Colors.red,
-      child: new Visibility(
-        visible: errorPopped,
-        child: new ListTile(
-          leading: new Icon(Icons.date_range, color: widget.accentFontColor),
-          title: new Text(errorMsg),
-          trailing: new IconButton(
-            icon: Icon(Icons.highlight_off),
-            onPressed:()=> setState(() {
-              errorPopped = false;
-              errorMsg = "";
-            }),
-          )
-        ),
-      ),
-    );
+    return CommonWidgets.commonErrorMessage(context, errorPopped, errorMsg, dismissError);
   }
 
   Widget showLoading(BuildContext context){
