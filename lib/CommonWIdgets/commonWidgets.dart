@@ -6,6 +6,12 @@ import 'package:woodwork/ContractorPages/viewOrders.dart';
 import 'package:woodwork/DataAccessors/OrderModel.dart';
 
 class CommonWidgets extends WidgetsApp{
+  static Color accentFontColor = Colors.lightBlue[300];
+  static Color accentColor = Colors.grey[900];
+  static Color fontColor = Colors.white;
+  static Gradient mainGradient = Gradients.deepSpace;
+  static Gradient subGradient= Gradients.taitanum;
+
   static Scaffold pageLoadingScreen(BuildContext context) {
     return new Scaffold(
         backgroundColor: Colors.black54,

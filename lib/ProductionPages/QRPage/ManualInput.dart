@@ -38,6 +38,22 @@ class ManualInputState extends State<ManualInput> {
     super.dispose();
   }
 
+  
+  void dismissError(){
+    setState(() {
+      errorPopped = false;
+      errorMsg = "";
+    });
+  }
+
+  
+  void dismissSuccess(){
+    setState(() {
+      successPopped = false;
+      successMsg = "";
+    });
+  }
+
   @override
   void initState() {
     orderIDController = new TextEditingController();
@@ -69,39 +85,11 @@ class ManualInputState extends State<ManualInput> {
   }
 
   Container showSuccessMessage(BuildContext context) {
-    return Container(
-      color: Colors.greenAccent,
-      child: new Visibility(
-        visible: successPopped,
-        child: new ListTile(
-            title: new Text(successMsg),
-            trailing: new IconButton(
-              icon: Icon(Icons.highlight_off),
-              onPressed: () => setState(() {
-                successPopped = false;
-                successMsg = "";
-              }),
-            )),
-      ),
-    );
+    return CommonWidgets.commonSuccessMessage(context, successPopped, successMsg, dismissSuccess);
   }
 
   Container showErrorMessage(BuildContext context) {
-    return Container(
-      color: Colors.red,
-      child: new Visibility(
-        visible: errorPopped,
-        child: new ListTile(
-            title: new Text(errorMsg),
-            trailing: new IconButton(
-              icon: Icon(Icons.highlight_off),
-              onPressed: () => setState(() {
-                errorPopped = false;
-                errorMsg = "";
-              }),
-            )),
-      ),
-    );
+    return CommonWidgets.commonErrorMessage(context, errorPopped, errorMsg, dismissError);
   }
 
   Widget showLoading(BuildContext context) {
@@ -382,7 +370,7 @@ class ManualInputState extends State<ManualInput> {
       padding: EdgeInsets.all(15),
       child: new GradientButton(
         increaseWidthBy: double.infinity,
-        gradient: Gradients.backToFuture,
+        gradient: CommonWidgets.subGradient,
         child: new Text("Confirm"),
         callback: () async {
           setState(() {

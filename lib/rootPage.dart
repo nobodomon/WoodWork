@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:woodwork/AdminPages/adminHome.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
+import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 import 'package:woodwork/ContractorPages/contractorHome.dart';
 import 'package:woodwork/DeliveryPages/DeliveryHome.dart';
 import 'package:woodwork/ProductionPages/productionHome.dart';
@@ -29,12 +31,16 @@ class RootPageState extends State<RootPage>{
   Color accentFontColor;
   Color accentColor;
   Color fontColor;
+  Gradient mainGradient;
+  Gradient subGradient;
   @override
   void initState() {
     super.initState();
-    fontColor = Colors.white;
-    accentColor = Colors.brown[600];
-    accentFontColor = Colors.deepOrange;
+    fontColor = CommonWidgets.fontColor;
+    accentColor = CommonWidgets.accentColor;
+    accentFontColor = CommonWidgets.accentFontColor;
+    mainGradient = CommonWidgets.mainGradient;
+    subGradient= CommonWidgets.subGradient;
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {

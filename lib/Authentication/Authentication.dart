@@ -24,6 +24,7 @@ class Auth implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<UserProfile> signIn(String email, String password) async {
+    String timeNow = CommonWidgets.timeStampToString(Timestamp.now());
     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
@@ -32,7 +33,7 @@ class Auth implements BaseAuth {
     Firestore.instance
         .collection("Users")
         .document(email)
-        .setData({'Last-login': DateTime.now()}, merge: true);
+        .setData({'Last-login': timeNow}, merge: true);
     return new UserProfile(fbUser: user, fsUser: fsUser);
   }
 

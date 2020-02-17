@@ -144,7 +144,7 @@ class LoginState extends State<Login> {
         children: <Widget>[
           new Container(
             height: double.maxFinite,
-            decoration: new BoxDecoration(gradient: Gradients.hersheys),
+            decoration: new BoxDecoration(gradient: CommonWidgets.mainGradient),
           ),
           new Scaffold(
             backgroundColor: Colors.transparent,
@@ -154,7 +154,7 @@ class LoginState extends State<Login> {
                 milliseconds:300
               ),
               decoration: BoxDecoration(
-                gradient:Gradients.backToFuture,
+                gradient:CommonWidgets.subGradient,
                 borderRadius: BorderRadius.only(bottomLeft:Radius.circular(100))
               ),
               height: height,
@@ -228,7 +228,7 @@ class LoginState extends State<Login> {
                               callback: () {
                                 validateAndSubmit();
                               },
-                              gradient: Gradients.backToFuture,
+                              gradient: CommonWidgets.subGradient,
                             ),
                           )
                         ],

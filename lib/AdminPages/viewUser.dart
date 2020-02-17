@@ -179,7 +179,11 @@ class ViewUserState extends State<ViewUser>{
           color: widget.fontColor,
         ),
       ),
-      subtitle: new Text(email),
+      subtitle: new Text(email,
+        style: new TextStyle(
+          color: widget.fontColor,
+        ),
+      ),
     );
   }
 
@@ -197,7 +201,11 @@ class ViewUserState extends State<ViewUser>{
           color: widget.fontColor,
         ),
       ),
-      subtitle: new Text(timestamp),
+      subtitle: new Text(timestamp,
+        style: new TextStyle(
+          color: widget.fontColor,
+        ),
+        ),
     );
   }
 
@@ -364,7 +372,7 @@ class ViewUserState extends State<ViewUser>{
       child: new GradientButton(
         isEnabled: enabled,
         child: new Text("Submit"),
-        gradient: Gradients.backToFuture,
+        gradient: CommonWidgets.subGradient,
         increaseWidthBy: double.infinity,
         callback: ()=> validateAndSubmit(user.fsUser.documentID)
       ),

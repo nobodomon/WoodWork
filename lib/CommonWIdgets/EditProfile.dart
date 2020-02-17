@@ -211,7 +211,7 @@ class EditProfileState extends State<EditProfile>{
       child: new GradientButton(
         isEnabled: submittable,
         child: new Text("Submit"),
-        gradient: Gradients.backToFuture,
+        gradient: CommonWidgets.subGradient,
         increaseWidthBy: double.infinity,
         callback: ()=> validateAndSubmit(user.fsUser.documentID, user)
       ),
@@ -224,7 +224,7 @@ class EditProfileState extends State<EditProfile>{
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
         child: new Text("Logout"),
-        gradient: Gradients.hersheys,
+        gradient: CommonWidgets.mainGradient,
         increaseWidthBy: double.infinity,
         callback: ()=> showDialog(
               context: context,

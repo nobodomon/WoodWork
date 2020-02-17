@@ -267,7 +267,7 @@ class _CreateUserState extends State<CreateUser>{
       padding: const EdgeInsets.all(15.0),
       child: new GradientButton(
         child: new Text("Submit"),
-        gradient: Gradients.backToFuture,
+        gradient: CommonWidgets.subGradient,
         increaseWidthBy: double.infinity,
         callback: ()=> validateAndSubmit(),
       ),

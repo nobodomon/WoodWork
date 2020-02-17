@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
+import 'package:woodwork/CommonWIdgets/commonWidgets.dart';
 
 class AHome extends StatefulWidget{
   final Color accentFontColor;
@@ -23,9 +24,15 @@ class AHomeState extends State<AHome>{
           return new Scaffold(
             body: ListView(
               children: <Widget>[
-                new ListTile(
-                  title: new Text(user.data.fsUser.data['Name']),
-                )
+                Container(
+                  color: widget.accentColor,
+                  child: new ListTile(
+                    
+                    title: new Text("Welcome " + user.data.fsUser.data['Name'],
+                    style: TextStyle(color: widget.fontColor),),
+                  ),
+                ),
+                dashBoardContainer(context),
               ],
             ),
           );
@@ -39,4 +46,15 @@ class AHomeState extends State<AHome>{
       }
     );
   }
+
+  Widget dashBoardContainer(BuildContext context){
+    return Container(
+      width: double.maxFinite,
+      height: 250,
+      decoration: BoxDecoration(
+        gradient: CommonWidgets.mainGradient
+      ),
+    );
+  }
+
 }

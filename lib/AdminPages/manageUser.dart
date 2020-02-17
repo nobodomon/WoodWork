@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:woodwork/AdminPages/viewUser.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
@@ -19,10 +20,10 @@ class ManageUser extends StatefulWidget {
 class _ManageUserState extends State<ManageUser> {
   bool searchVisible = false;
   TextEditingController controller = new TextEditingController();
-  List<Color> currSearchGrad;
-  List<List<Color>> searchGradient = [
-    [Colors.blueGrey[700], Colors.blueGrey[400]],
-    [Colors.red[700], Colors.red[400]],
+  Gradient currSearchGrad;
+  List<Gradient> searchGradient = [
+    CommonWidgets.subGradient,
+    CommonWidgets.mainGradient
   ];
   String filter;
   @override
@@ -72,9 +73,7 @@ class _ManageUserState extends State<ManageUser> {
                         spreadRadius: 0.75,
                         blurRadius: 1)
                   ],
-                  gradient: new LinearGradient(
-                    colors: currSearchGrad,
-                  )),
+                  gradient: currSearchGrad),
             ),
             backgroundColor: Colors.transparent,
             body: Column(
