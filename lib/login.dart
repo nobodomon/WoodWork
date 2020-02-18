@@ -29,13 +29,14 @@ class LoginState extends State<Login> {
   String _email;
   String _password;
   bool _isLoading = false;
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool errorPopped = false;
   final emailController = TextEditingController();
-  final passwordController = new TextEditingController();
+  final passwordController = TextEditingController();
   Alignment childAlignment = Alignment.center;
-  double topPadding = 350;
-  double height = 250;
+  double scaffoldHeight;
+  double height;
+  double topPadding;
   @override
   void initState() {
     KeyboardVisibilityNotification().addNewListener(
@@ -43,8 +44,8 @@ class LoginState extends State<Login> {
         // Add state updating code
         setState(() {
           //childAlignment = visible ? Alignment.topCenter : Alignment.center;
-          height = visible ? 150 : 250;
-          topPadding = visible ? 150 : 350;
+          height = visible ? scaffoldHeight/4 : scaffoldHeight/3 ;
+          topPadding = visible ? scaffoldHeight/4  : scaffoldHeight/3 ;
         });
       },
     );
@@ -52,14 +53,14 @@ class LoginState extends State<Login> {
   }
 
   bool visible = false;
-  Icon visibilityIcon = new Icon(Icons.visibility);
+  Icon visibilityIcon = Icon(Icons.visibility);
   void toggleVisibility() {
     setState(() {
       if (visible) {
-        visibilityIcon = new Icon(Icons.visibility);
+        visibilityIcon = Icon(Icons.visibility);
         visible = false;
       } else {
-        visibilityIcon = new Icon(Icons.visibility_off);
+        visibilityIcon = Icon(Icons.visibility_off);
         visible = true;
       }
     });
@@ -139,16 +140,19 @@ class LoginState extends State<Login> {
   String emailInput;
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new Stack(
+    scaffoldHeight = MediaQuery.of(context).size.height;
+    height = height == null ? scaffoldHeight/3 : height;
+    topPadding = topPadding == null ? scaffoldHeight/3 : topPadding;
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
-          new Container(
+         Container(
             height: double.maxFinite,
-            decoration: new BoxDecoration(gradient: CommonWidgets.mainGradient),
+            decoration: BoxDecoration(gradient: CommonWidgets.mainGradient),
           ),
-          new Scaffold(
+         Scaffold(
             backgroundColor: Colors.transparent,
-            body: new AnimatedContainer(
+            body: AnimatedContainer(
             curve: Curves.easeInOut,
               duration: Duration(
                 milliseconds:300
@@ -158,10 +162,10 @@ class LoginState extends State<Login> {
                 borderRadius: BorderRadius.only(bottomLeft:Radius.circular(100))
               ),
               height: height,
-              child: new Center(
-                child: new Text(
+              child: Center(
+                child: Text(
                   "WoodWork",
-                  style: new TextStyle(
+                  style: TextStyle(
                       fontStyle: FontStyle.italic,
                       color: widget.fontColor,
                       fontSize: 42),
@@ -169,24 +173,24 @@ class LoginState extends State<Login> {
               ),
             ),
           ),
-          new AnimatedContainer(
+         AnimatedContainer(
             curve: Curves.easeInOut,
             duration: Duration(
               milliseconds: 300,
             ),
             padding: EdgeInsets.fromLTRB(20, topPadding, 20, 20),
             alignment: Alignment.topCenter,
-            child: new Card(
+            child: Card(
               color: Colors.transparent,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0.0)),
-              margin: new EdgeInsets.all(12.5),
+              margin: EdgeInsets.all(12.5),
               child: SingleChildScrollView(
-                child: new Column(
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    new Form(
+                   Form(
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
@@ -206,8 +210,8 @@ class LoginState extends State<Login> {
                               widget.fontColor,
                               widget.accentFontColor,
                               toggleVisibility),
-                          new FlatButton(
-                            child: new Text("Forgot password?"),
+                         FlatButton(
+                            child: Text("Forgot password?"),
                             onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -220,10 +224,10 @@ class LoginState extends State<Login> {
                                           auth: widget.auth,
                                         ))),
                           ),
-                          new Padding(
+                         Padding(
                             padding: const EdgeInsets.all(15.0),
-                            child: new GradientButton(
-                              child: new Text("Login"),
+                            child: GradientButton(
+                              child: Text("Login"),
                               increaseWidthBy: double.infinity,
                               callback: () {
                                 validateAndSubmit();
@@ -248,15 +252,15 @@ class LoginState extends State<Login> {
   Visibility showLoading(BuildContext context) {
     return Visibility(
       visible: _isLoading,
-      child: new Scaffold(
+      child: Scaffold(
           backgroundColor: Colors.black54,
           body: Center(
-            child: new Container(
+            child: Container(
               padding: EdgeInsets.all(15),
               alignment: Alignment.center,
               width: 175,
               height: 175,
-              child: new CircularProgressIndicator(),
+              child: CircularProgressIndicator(),
             ),
           )),
     );

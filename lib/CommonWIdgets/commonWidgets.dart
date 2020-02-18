@@ -11,6 +11,10 @@ class CommonWidgets extends WidgetsApp{
   static Color fontColor = Colors.white;
   static Gradient mainGradient = Gradients.deepSpace;
   static Gradient subGradient= Gradients.taitanum;
+  
+  static MediaQueryData getDeviceInfo(BuildContext context){
+    return MediaQuery.of(context);
+  }
 
   static Scaffold pageLoadingScreen(BuildContext context) {
     return new Scaffold(

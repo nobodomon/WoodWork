@@ -83,6 +83,7 @@ class RootPageState extends State<RootPage>{
 
   @override
   Widget build(BuildContext context) {
+    
     switch (authStatus) {
       case AuthStatus.NOT_DETERMINED:
         return buildWaitingScreen();
