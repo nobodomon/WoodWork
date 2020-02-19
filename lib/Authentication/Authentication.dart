@@ -177,6 +177,13 @@ class Auth implements BaseAuth {
     });
   }
 
+  Future<Map<String,int>> getAllUserCountsByRoles() async{
+    List<int> usercounts;
+    return Firestore.instance.collection("Users").getDocuments().then((QuerySnapshot users){
+      usercounts.add(users.documents.length);
+    });
+  }
+
   Future<void> signOut() async {
     return _firebaseAuth.signOut();
   }
