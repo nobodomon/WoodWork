@@ -221,6 +221,7 @@ class ViewUserState extends State<ViewUser>{
         setState(() {
           userTypeInput = roleName  + " role selected";
           userTypeValue = roleValue;
+          mapRoleToColor(roleValue);
           print(roleName + " selected, value is " + roleValue.toString());
         });
       }
@@ -255,7 +256,56 @@ class ViewUserState extends State<ViewUser>{
     );
   }
 
+  Color userColor;
+
+  void mapRoleToColor(int currUserType){
+    setState(() {
+      switch (currUserType) {
+        case 1:
+          userColor = Colors.yellow[400];
+          break;
+        case 2:
+          userColor = Colors.red[400];
+          break;
+        case 3:
+          userColor = Colors.blue[400];
+          break;
+        case 99:
+          userColor = Colors.green[400];
+          break;
+        case 999:
+          userColor = Colors.teal[400];
+          break;
+        case -1:
+          userColor = widget.fontColor;
+          break;
+      }
+    });
+  }
+
   Widget showUserRoleSelector(BuildContext context, int currUserType){
+    
+    Color userColor;
+      switch (currUserType) {
+        case 1:
+          userColor = Colors.yellow[400];
+          break;
+        case 2:
+          userColor = Colors.red[400];
+          break;
+        case 3:
+          userColor = Colors.blue[400];
+          break;
+        case 99:
+          userColor = Colors.green[400];
+          break;
+        case 999:
+          userColor = Colors.teal[400];
+          break;
+        case -1:
+          userColor = widget.fontColor;
+          break;
+      }
     // userTypeInput = "User current role is " + CommonWidgets.mapUserRoleToLongName(currUserType);
     bool expanded;
     if(currUserType == -1){
@@ -265,11 +315,21 @@ class ViewUserState extends State<ViewUser>{
           Icons.portrait,
           color: widget.accentFontColor,
         ),
-        title: new Text(
-          "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
-          style: new TextStyle(
-            color: widget.fontColor,
-          ),
+        title: new RichText(
+          text: TextSpan(
+            text:"Current user type is: ",
+            style: new TextStyle(
+              color: widget.fontColor,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                text: CommonWidgets.mapUserRoleToLongName(currUserType),
+                style: new TextStyle(
+                  color: userColor
+                )
+              )
+            ]
+          )
         ),
       );
     }else{
@@ -285,11 +345,21 @@ class ViewUserState extends State<ViewUser>{
           Icons.portrait,
           color: widget.accentFontColor,
         ),
-        title: new Text(
-          "Current user type is: " + CommonWidgets.mapUserRoleToLongName(currUserType),
-          style: new TextStyle(
-            color: widget.fontColor,
-          ),
+        title: new RichText(
+          text: TextSpan(
+            text:"Current user type is: ",
+            style: new TextStyle(
+              color: widget.fontColor,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                text: CommonWidgets.mapUserRoleToLongName(currUserType),
+                style: new TextStyle(
+                  color: userColor
+                )
+              )
+            ]
+          )
         ),
         children: <Widget>[
           new ListTile(

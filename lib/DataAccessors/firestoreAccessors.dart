@@ -111,20 +111,49 @@ class FirestoreAccessors {
     });
   }
 
-  Future<List<int>> getOverViewNumbers() async {
+  Future<OverviewResult> getOverViewNumbers() async {
     int total;
     int complete;
+    List<DocumentSnapshot> completeOrders = [];
+    DocumentSnapshot lastCompleteOrder;
     int incomplete;
+    List<DocumentSnapshot> incompleteOrders = [];
+    DocumentSnapshot lastIncompleteOrder;
     return getAllOrdersForCurrUser().then((QuerySnapshot orders) {
       total = orders.documents.length;
-      orders.documents.retainWhere((items) =>
+      completeOrders.addAll(orders.documents.reversed);
+      completeOrders.retainWhere((items) =>
           items.data['orderStatus'] == statusType.order_Complete.index);
-      complete = orders.documents.length;
-      incomplete = total - complete;
-      List<int> overviewNumbers = [complete, incomplete, total];
-      return overviewNumbers;
+      try{
+        lastCompleteOrder = completeOrders.last;
+      }catch(e){
+        lastCompleteOrder = null;
+      }
+      incompleteOrders.addAll(orders.documents.reversed);
+      incompleteOrders.retainWhere((items) =>
+          items.data['orderStatus'] != statusType.order_Complete.index);
+      try{
+        lastIncompleteOrder = incompleteOrders.last;
+      }catch(e){
+        lastIncompleteOrder = null;
+      }
+      
+      complete = completeOrders.length;
+      incomplete = incompleteOrders.length;
+
+      OverviewResult result = OverviewResult(complete, incomplete, lastCompleteOrder: lastCompleteOrder, lastIncompleteOrder: lastIncompleteOrder);
+      return result;
     });
   }
+}
+
+class OverviewResult{
+  OverviewResult(this.completeOrders, this.incompleteOrders, {this.lastIncompleteOrder, this.lastCompleteOrder});
+  final int completeOrders;
+  final DocumentSnapshot lastCompleteOrder;
+  final int incompleteOrders;
+  final DocumentSnapshot lastIncompleteOrder;
+
 }
 
 class UpdateResult {

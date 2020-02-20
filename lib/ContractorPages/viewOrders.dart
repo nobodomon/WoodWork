@@ -143,7 +143,7 @@ class ViewOrderState extends State<ViewOrder>{
         leading: new Icon(Icons.person, color: widget.accentFontColor),
         title: new Text("Order placed by: ",
         style: new TextStyle(color: widget.fontColor),),
-        subtitle: new Text(order.orderedBy),
+        subtitle: new Text(order.orderedBy, style: TextStyle(color:widget.fontColor)),
       ),
     );
   }
@@ -162,7 +162,7 @@ class ViewOrderState extends State<ViewOrder>{
         leading: new Icon(Icons.date_range, color: widget.accentFontColor),
         title: new Text(title,
         style: new TextStyle(color: widget.fontColor),),
-        subtitle: new Text("at " + date.split('@')[1]),
+        subtitle: new Text("at " + date.split('@')[1], style: TextStyle(color:widget.fontColor)),
       ),
     );
   }

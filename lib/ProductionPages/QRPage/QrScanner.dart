@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:lamp/lamp.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:woodwork/Authentication/Authentication.dart';
 import 'package:woodwork/Authentication/UserProfile.dart';
@@ -19,6 +20,8 @@ class QrScanner extends StatefulWidget {
 class QrScannerState extends State<QrScanner> {
   Auth auth = new Auth();
   String camScanOut = "";
+  
+  bool _isOn = false;
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -72,48 +75,73 @@ class QrScannerState extends State<QrScanner> {
       }
     }
     return Dialog(
-      child: new SizedBox(
-        height: 300,
-        width: 300,
-        child: new QrCamera(
-          qrCodeCallback: ((String output) {
-            if (output.isNotEmpty) {
-              setState(() {
-                camScanOut = output;
-              });
-              print(camScanOut.toString());
-              ParseResult result = CommonWidgets.parseQRinput(camScanOut);
-              print(result.pass.toString());
-              if (result.pass) {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ViewOrder(result.values, true,
-                            operationToDo: opToDo,fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,)));
-              } else {}
-            }
-          }),
-          notStartedBuilder: (BuildContext context) {
-            return Container(
-                decoration: new BoxDecoration(
-                    border: Border.all(color: widget.accentColor, width: 2.5)),
-                child: Icon(
-                  Icons.remove_red_eye,
-                  color: widget.accentFontColor,
-                ));
-          },
-          offscreenBuilder: (BuildContext context) {
-            return Container(
-                decoration: new BoxDecoration(
-                    border: Border.all(color: widget.accentColor, width: 2.5)),
-                child: Icon(
-                  Icons.remove_red_eye,
-                  color: widget.accentFontColor,
-                ));
-          },
-        ),
+      child: Stack(
+        children: <Widget>[
+          new SizedBox(
+            height: 300,
+            width: 300,
+            
+            child: new QrCamera(
+              qrCodeCallback: ((String output) {
+                if (output.isNotEmpty) {
+                  setState(() {
+                    camScanOut = output;
+                  });
+                  print(camScanOut.toString());
+                  ParseResult result = CommonWidgets.parseQRinput(camScanOut);
+                  print(result.pass.toString());
+                  if (result.pass) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewOrder(result.values, true,
+                                operationToDo: opToDo,fontColor: widget.fontColor, accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,)));
+                  } else {}
+                }
+              }),
+              notStartedBuilder: (BuildContext context) {
+                return Container(
+                    decoration: new BoxDecoration(
+                        border: Border.all(color: widget.accentColor, width: 2.5)),
+                    child: Icon(
+                      Icons.remove_red_eye,
+                      color: widget.accentFontColor,
+                    ));
+              },
+              offscreenBuilder: (BuildContext context) {
+                return Container(
+                    decoration: new BoxDecoration(
+                        border: Border.all(color: widget.accentColor, width: 2.5)),
+                    child: Icon(
+                      Icons.remove_red_eye,
+                      color: widget.accentFontColor,
+                    ));
+              },
+            ),
+          ),
+          Container(
+            width:300,
+            height: 300,
+            alignment: Alignment.center,
+            child: IconButton(
+              icon: Icon(Icons.flash_on),
+              onPressed: (() async{
+                await _turnFlash();   
+              }
+            ),
+          )
+          )
+        ],
       ),
     );
+  }
+
+  Future _turnFlash() async {
+    _isOn ? Lamp.turnOff() : Lamp.turnOn();
+    var f = await Lamp.hasLamp;
+    setState((){
+      _isOn = !_isOn;
+    });
   }
 }

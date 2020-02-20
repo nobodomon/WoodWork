@@ -49,6 +49,31 @@ class CommonWidgets extends WidgetsApp{
     return userTypeLong;
   }
 
+  static Color mapUserRoleToColor(int userRole){
+    switch (userRole) {
+        case 1:
+          return Colors.yellow[400];
+          break;
+        case 2:
+          return Colors.red[400];
+          break;
+        case 3:
+          return Colors.blue[400];
+          break;
+        case 99:
+          return Colors.green[400];
+          break;
+        case 999:
+          return Colors.teal[400];
+          break;
+        case -1:
+          return Colors.black;
+          break;
+        default:
+          return Colors.white;
+      }
+  }
+
   static String timeStampToString(Timestamp input) {
     DateTime d = input.toDate();
     String formattedDateTime = d.day.toString() +
@@ -137,8 +162,8 @@ class CommonWidgets extends WidgetsApp{
       dense: true,
       leading:
           OrderModel.convertOrderStatusToIcon(order.status, accentFontColor),
-      title: new Text("ID: " + order.orderID),
-      subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0]),
+      title: new Text("ID: " + order.orderID, style: TextStyle(color:fontColor)),
+      subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0], style: TextStyle(color:fontColor)),
       trailing: new IconButton(
         icon: Icon(
           Icons.chevron_right,
