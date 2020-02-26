@@ -19,6 +19,7 @@ class ViewUser extends StatefulWidget{
 
 class ViewUserState extends State<ViewUser>{
   String userTypeInput = "Please select an option from below.";
+  bool enabled = true;
   int userTypeValue = -1;
   bool isLoading = false;
   bool successPopped = false;
@@ -47,6 +48,7 @@ class ViewUserState extends State<ViewUser>{
       future: Auth().getUserByEmail(widget.email),
       builder: (BuildContext context, AsyncSnapshot<UserProfile> user){
         if(user.hasData){
+          enabled = checkIfSameUser(user.data.fbUser.email, user.data.fsUser.data['Usertype']);
           return Scaffold(
           backgroundColor: widget.accentColor,
           appBar: AppBar(
@@ -118,7 +120,9 @@ class ViewUserState extends State<ViewUser>{
   }
 
   Widget showDeleteOrEnableButtons(BuildContext context, UserProfile user){
-    if(user.fsUser.data['Usertype'] == -1){
+    if(enabled == false){
+      return Container();
+    }else if(user.fsUser.data['Usertype'] == -1){
       return showReEnableUser(context, user);
     }else{
       return showDeleteUser(context, user);
@@ -146,6 +150,14 @@ class ViewUserState extends State<ViewUser>{
     );
   }
 
+  bool checkIfSameUser(String currUserEmail, int viewingUserType){
+    if(currUserEmail == widget.email || viewingUserType == 999){
+      return false;
+    }else{
+      return true;
+    }
+  }
+  
   Widget showReEnableUser(BuildContext context, UserProfile user){
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -283,7 +295,7 @@ class ViewUserState extends State<ViewUser>{
     });
   }
 
-  Widget showUserRoleSelector(BuildContext context, int currUserType){
+  Widget showUserRoleSelector(BuildContext context,int currUserType){
     
     Color userColor;
       switch (currUserType) {
@@ -308,7 +320,8 @@ class ViewUserState extends State<ViewUser>{
       }
     // userTypeInput = "User current role is " + CommonWidgets.mapUserRoleToLongName(currUserType);
     bool expanded;
-    if(currUserType == -1){
+
+    if(currUserType == -1 || enabled == false){
       expanded = false;
       return new ListTile(
         leading: new Icon(

@@ -50,6 +50,7 @@ class OrdersState extends State<Orders> {
       stream: _firestoreAccessors.getAllOrdersForCurrUser().asStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> orders){
         if(orders.hasData){
+          orders.data.documents.reversed;
           return Scaffold(
             backgroundColor: widget.accentColor,
             floatingActionButton: new Container(
@@ -86,8 +87,8 @@ class OrdersState extends State<Orders> {
                       itemCount: orders.data.documents.length,
                       itemBuilder: (context, index) {
                         OrderModel currOrder = OrderModel.toObject(
-                            orders.data.documents[index].documentID,
-                            orders.data.documents[index].data);
+                            orders.data.documents.reversed.toList()[index].documentID,
+                            orders.data.documents.reversed.toList()[index].data);
                         if (filter == null || filter.isEmpty) {
                           return CommonWidgets.showOrderTile(context,currOrder,false,fontColor: widget.fontColor,accentFontColor: widget.accentFontColor, accentColor: widget.accentColor,);
                         } else if (currOrder.orderID

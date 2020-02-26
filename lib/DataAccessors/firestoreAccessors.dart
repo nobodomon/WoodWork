@@ -145,6 +145,18 @@ class FirestoreAccessors {
       return result;
     });
   }
+
+  Future<UpdateResult> cancelOrder(String orderID) {
+    String timeNow = CommonWidgets.timeStampToString(Timestamp.now());
+    return _fStoreInstance.collection("Orders").document(orderID).setData(
+        {'orderStatus': 6, 'lastUpdated': timeNow},
+        merge: true).then((x) {
+      return new UpdateResult(
+          pass: true, remarks: "Status Updated Successfully!");
+    }).catchError((error) {
+      return new UpdateResult(pass: false, remarks: error.toString());
+    });
+  }
 }
 
 class OverviewResult{

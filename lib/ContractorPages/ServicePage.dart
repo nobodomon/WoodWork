@@ -27,6 +27,7 @@ class ServicePageState extends State<ServicePage> with SingleTickerProviderState
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new TabBar(
+        indicatorSize: TabBarIndicatorSize.label,
         labelColor: widget.accentFontColor,
         indicatorColor: widget.accentFontColor,
         controller: _tabController,

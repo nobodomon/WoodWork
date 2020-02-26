@@ -158,10 +158,27 @@ class CommonWidgets extends WidgetsApp{
       op = -1;
     }
     return new Container(
-        child: new ListTile(
+      margin: EdgeInsets.fromLTRB(4.5, 2.25, 4.5, 2.25),
+      decoration: new BoxDecoration(
+          color: accentColor,
+          borderRadius: BorderRadius.circular(5),
+          border: new Border.all(color: accentFontColor, width: 1.5)),
+      child: new ListTile(
       dense: true,
-      leading:
-          OrderModel.convertOrderStatusToIcon(order.status, accentFontColor),
+      leading: new Container(
+        alignment: Alignment.center,
+        width: 45,
+        height: 45,
+        decoration: new BoxDecoration(
+          border: new Border.all(color: accentFontColor,width: 2) ,
+            color:Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              new BoxShadow(
+                  color: Colors.black87, spreadRadius: 0.75, blurRadius: 1)
+            ]),
+        child: OrderModel.convertOrderStatusToIcon(order.status, accentFontColor),
+        ),
       title: new Text("ID: " + order.orderID, style: TextStyle(color:fontColor)),
       subtitle: new Text("Order Placed: " + order.orderPlaced.split('@')[0], style: TextStyle(color:fontColor)),
       trailing: new IconButton(

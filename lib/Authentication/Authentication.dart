@@ -144,9 +144,10 @@ class Auth implements BaseAuth {
   }
 
   Future<UserProfile> getUserByEmail(String email) async {
+    UserProfile fbUser = await getCurrentUser();
     DocumentSnapshot fsUser =
         await Firestore.instance.collection("Users").document(email).get();
-    return new UserProfile(fbUser: null, fsUser: fsUser);
+    return new UserProfile(fbUser: fbUser.fbUser, fsUser: fsUser);
   }
 
   Future<DocumentSnapshot> getFSUserByEmail(String email) async {

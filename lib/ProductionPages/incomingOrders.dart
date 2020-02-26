@@ -29,6 +29,7 @@ class IncomingOrdersState extends State<IncomingOrders>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: widget.accentColor,
       appBar: new TabBar(
         labelColor: widget.accentFontColor,
         indicatorColor: widget.accentFontColor,

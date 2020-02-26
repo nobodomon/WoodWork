@@ -46,7 +46,6 @@ class AHomeState extends State<AHome> with SingleTickerProviderStateMixin{
                     style: TextStyle(color: widget.fontColor),),
                   ),
                 ),
-                dashBoardContainer(context),
                 TabBar(
                   isScrollable: true,
                   controller: controller,
@@ -74,7 +73,8 @@ class AHomeState extends State<AHome> with SingleTickerProviderStateMixin{
                     )
                   ],
                 ),
-                overviewPanels(),
+                
+            dashBoardContainer(context),
               ],
             ),
           );
@@ -92,6 +92,7 @@ class AHomeState extends State<AHome> with SingleTickerProviderStateMixin{
       decoration: BoxDecoration(
         gradient: CommonWidgets.mainGradient
       ),
+      child: overviewPanels(),
     );
   }
 

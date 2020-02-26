@@ -6,7 +6,8 @@ enum statusType{
   order_Picked_Up,
   order_Processing,
   order_Delivering,
-  order_Complete
+  order_Complete,
+  order_Canceled
 }
 class OrderModel{
   OrderModel(this.orderID,this.orderedBy,this.status,this.orderPlaced,this.lastUpdated);
@@ -32,15 +33,17 @@ class OrderModel{
     switch(statusType.values[orderStatus]){
       case statusType.order_Placed :  return 0.0;
                             break;
-      case statusType.order_Recieved:  return 0.2;
+      case statusType.order_Recieved:  return 20;
                             break;
-      case  statusType.order_Picked_Up:  return 0.4;
+      case  statusType.order_Picked_Up:  return 40;
                             break;
-      case statusType.order_Processing:  return 0.6;
+      case statusType.order_Processing:  return 60;
                             break;
-      case statusType.order_Delivering:  return 0.8;
+      case statusType.order_Delivering:  return 80;
                             break;
-      case statusType.order_Complete:  return 1.0;
+      case statusType.order_Complete:  return 100;
+                            break;
+      case statusType.order_Canceled:  return 0;
                             break;
       default:  return null;
                 break;
@@ -60,6 +63,8 @@ class OrderModel{
       case statusType.order_Delivering:  return "Order Delivering";
                             break;
       case statusType.order_Complete:  return "Order Complete";
+                            break;
+      case statusType.order_Canceled:  return "Order Canceled";
                             break;
       default:  return null;
                 break;
@@ -98,6 +103,11 @@ class OrderModel{
       case statusType.order_Complete:  return Icon(
         Icons.check,
         semanticLabel: "Order Complete",
+        color: accentColor,);
+        break;
+      case statusType.order_Canceled:  return Icon(
+        Icons.highlight_off,
+        semanticLabel: "Order Canceled",
         color: accentColor,);
         break;
       default:  return null;

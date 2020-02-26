@@ -29,6 +29,7 @@ dependencies:
   qr_flutter:
   qr_mobile_vision: ^0.3.1
   lamp: ^0.0.6
+  flutter_rounded_progress_bar: 0.1.1
 
   flutter:
     sdk: flutter

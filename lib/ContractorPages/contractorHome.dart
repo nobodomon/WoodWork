@@ -39,6 +39,7 @@ class _ContractorHomeState extends State<ContractorHome>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
+        title: Text("Contractor", style: TextStyle(color: widget.fontColor),),
         backgroundColor: widget.accentColor,
         elevation: 0,
         actions: <Widget>[

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
+import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:woodwork/DataAccessors/OrderModel.dart';
 import 'package:woodwork/DataAccessors/firestoreAccessors.dart';
@@ -88,6 +90,7 @@ class ViewOrderState extends State<ViewOrder>{
                     showDates(viewingOrder),
                     showOrderStatusTile(viewingOrder),
                     orderActionButton(context, viewingOrder),
+                    orderCancelButton(context, viewingOrder),
                   ],
                 ),
                 showLoading(context),
@@ -126,12 +129,17 @@ class ViewOrderState extends State<ViewOrder>{
         leading: new Icon(Icons.timeline, color: widget.accentFontColor),
         title: new Text("Order Status: " + OrderModel.convertOrderStatusToReadableString(order.status),
         style: new TextStyle(color: widget.fontColor),),
-        subtitle: new LinearProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(
-            widget.accentFontColor
+        subtitle: new RoundedProgressBar(
+          
+          borderRadius: BorderRadius.circular(24),
+          style: RoundedProgressBarStyle(
+            backgroundProgress: widget.accentColor,
+            colorProgress: widget.accentFontColor,
+            widthShadow: 5,
+            borderWidth: 1
           ),
-          backgroundColor: Colors.blueGrey[100],
-          value: OrderModel.convertOrderStatusToValue(order.status),
+          height: 7.5,
+          percent: OrderModel.convertOrderStatusToValue(order.status),
         ),
       ),
     );
@@ -167,6 +175,33 @@ class ViewOrderState extends State<ViewOrder>{
     );
   }
   
+  Widget orderCancelButton(BuildContext context, OrderModel order){
+    FirestoreAccessors accessors = FirestoreAccessors();
+    if(order.status == 0 && widget.isProduction == false){
+      return Container(
+        padding: EdgeInsets.all(15),
+        child: new GradientButton(
+          increaseWidthBy: double.infinity,
+          gradient: CommonWidgets.mainGradient,
+          child: new Text("Cancel Order"),
+          callback: () async{
+            setState(() {
+              isLoading = true;
+            });
+            await accessors.cancelOrder(order.orderID).then((UpdateResult result){
+              setState(() {
+                isLoading = false;
+                if(result.pass){successPopped = true; successMsg = result.remarks; }else{errorPopped = true; errorMsg = result.remarks;};
+              });
+            });
+          },
+        )
+      );
+    }else{
+      return Container();
+    }
+  }
+
   Widget orderActionButton(BuildContext context, OrderModel order){
     int operation;
     String buttonLabel;
@@ -197,7 +232,7 @@ class ViewOrderState extends State<ViewOrder>{
           padding: EdgeInsets.all(15),
           child: new GradientButton(
             increaseWidthBy: double.infinity,
-            gradient: Gradients.backToFuture,
+            gradient: CommonWidgets.mainGradient,
             child: new Text(buttonLabel),
             callback: () async{
               setState(() {

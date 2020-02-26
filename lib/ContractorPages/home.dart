@@ -46,12 +46,6 @@ class CHomeState extends State<CHome> with SingleTickerProviderStateMixin {
                       "Welcome " + user.data.fsUser.data['Name'],
                       style: TextStyle(color: widget.fontColor),
                     )),
-                    Container(
-                      height: scaffoldHeight / 3,
-                      decoration: BoxDecoration(
-                        gradient: CommonWidgets.mainGradient,
-                      ),
-                    ),
                     TabBar(
                       controller: controller,
                       isScrollable: true,
@@ -64,7 +58,15 @@ class CHomeState extends State<CHome> with SingleTickerProviderStateMixin {
                         ),
                       ],
                     ),
-                    ordersOverView(),
+                    
+                    Container(
+                      height: scaffoldHeight / 3,
+                      decoration: BoxDecoration(
+                        gradient: CommonWidgets.mainGradient,
+                      ),
+                      child: 
+                        ordersOverView(),
+                    ),
                   ],
                 ));
           }
@@ -197,7 +199,7 @@ class CHomeState extends State<CHome> with SingleTickerProviderStateMixin {
         padding: EdgeInsets.all(15),
         height: scaffoldHeight / 8,
         child: ListTile(
-          subtitle: Text("Status: " + currOrder.status.toString(),
+          subtitle: Text("Status: " + OrderModel.convertOrderStatusToReadableString(currOrder.status),
               style: TextStyle(color: widget.fontColor)),
           title: new Text(lastOrder.documentID,
               style: TextStyle(color: widget.fontColor)),
@@ -213,10 +215,7 @@ class CHomeState extends State<CHome> with SingleTickerProviderStateMixin {
                   new BoxShadow(
                       color: Colors.black87, spreadRadius: 0.75, blurRadius: 1)
                 ]),
-            child: new Text(
-              "PH",
-              style: new TextStyle(fontSize: 21),
-            ),
+            child: OrderModel.convertOrderStatusToIcon(currOrder.status, widget.accentColor)
           ),
           trailing: new IconButton(
               icon: Icon(
